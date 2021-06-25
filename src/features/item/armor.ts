@@ -1,23 +1,35 @@
 import { Item } from "./item";
 import * as e from './enchants';
 import * as d from './damageTypes';
+import { Enchantment, hasEnchantment, getEnchantment } from "./enchants";
+import { stringify } from "querystring";
 
-export const LEATHER = 'leather';
-export const CHAINMAIL = 'chainmail';
-export const IRON = 'iron';
-export const DIAMOND = 'diamond';
-export const GOLDEN = 'golden';
-export const NETHERITE = 'netherite';
-export const TURTLE = 'turtle';
-export const NONE = 'no';
+export const LEATHER = 'Leather';
+export const CHAINMAIL = 'Chainmail';
+export const IRON = 'Iron';
+export const DIAMOND = 'Diamond';
+export const GOLDEN = 'Gold';
+export const NETHERITE = 'Netherite';
+export const TURTLE = 'Turtle';
+export const NONE = 'None';
+export const ELYTRA = 'Elytra';
 
-export const HELMET = 'helmet';
-export const CHESTPLATE = 'chestplate';
-export const LEGGINGS = 'leggings';
-export const BOOTS = 'boots';
+export const HELMET = 'Helmet';
+export const CHESTPLATE = 'Chestplate';
+export const LEGGINGS = 'Leggings';
+export const BOOTS = 'Boots';
 
-export const MATERIAL_ARRAY = [LEATHER, CHAINMAIL, IRON, DIAMOND, GOLDEN, NETHERITE, TURTLE, NONE];
-
+export const MATERIAL_ARRAY = 
+    [
+    [NETHERITE, DIAMOND, IRON, CHAINMAIL, GOLDEN, LEATHER, TURTLE, NONE],
+    [NETHERITE, DIAMOND, IRON, CHAINMAIL, GOLDEN, LEATHER, ELYTRA, NONE],
+    [NETHERITE, DIAMOND, IRON, CHAINMAIL, GOLDEN, LEATHER, NONE],
+    [NETHERITE, DIAMOND, IRON, CHAINMAIL, GOLDEN, LEATHER, NONE]
+];
+export const PIECE_ARRAY =
+    [
+        HELMET, CHESTPLATE, LEGGINGS, BOOTS
+    ];
 export const armor_data = new Map([
     [LEATHER, [1,3,2,1]],
     [CHAINMAIL, [2,5,4,1]],
@@ -26,36 +38,133 @@ export const armor_data = new Map([
     [GOLDEN, [2,5,3,1]],
     [NETHERITE, [3,8,6,3]],
     [TURTLE, [2]],
+    [ELYTRA, [0,0,0,0]],
     [NONE, [0,0,0,0]]
 ]);
-
-export function make(type : string, piece : string, enchants: Map<string,number>) : Armor {
-    if (piece !== BOOTS) {
-        return new Armor(type, piece, enchants);
-    } else {
-        return new Boots(type, piece, enchants);
+export interface Armor extends Item{
+    armor: number,
+    toughness: number,
+    type: string,
+    piece: string,
+    valid: Enchantment[]
+}
+export function make(type : string, piece : string, enchants: Enchantment[]) : Armor {
+    let temp: Armor = {
+        name: "",
+        enchantments: enchants,
+        armor: 0,
+        toughness: 0,
+        type: type,
+        piece: piece,
+        valid: getValid(piece)
     }
+    setType(temp, type);
+    return temp;
+}
+export function getValid(piece : string) {
+    let valids : Enchantment[] = [];
+    if (piece === BOOTS) {
+        valids.push(e.copy(e.FEATHER_FALLING));
+    }
+    valids.push(e.copy(e.PROJECTILE_PROTECTION));
+    valids.push(e.copy(e.PROTECTION));
+    valids.push(e.copy(e.BLAST_PROTECTION));
+    valids.push(e.copy(e.FIRE_PROTECTION));
+    return valids;
+}
+export function preset(a: Armor, type: string, piece: string) {
+    a.name = type + " " + piece;
+    let tough = 0;
+    if (type === DIAMOND) {
+        tough = 2;
+    }
+    if (type === NETHERITE) {
+        tough = 3;
+    }
+    if (piece === HELMET) {
+        a.armor = armor_data.get(type)![0];
+    }
+    if (piece === CHESTPLATE) {
+        a.armor = armor_data.get(type)![1];
+    }
+    if (piece === LEGGINGS) {
+        a.armor = armor_data.get(type)![2];
+    }
+    if (piece === BOOTS) {
+        a.armor = armor_data.get(type)![3];
+    }
+    a.toughness = tough;
+}
+export function setType(a: Armor, type: string) {
+    preset(a, type, a.piece);
 }
 
+export function getEPF(a : Armor, type : string) : number {
+    let val = 0;
+    if (hasEnchantment(a.enchantments,e.FIRE_PROTECTION.key) &&
+        type.includes(d.FIRE)) {
+        val += 2 * getEnchantment(a.enchantments, e.FIRE_PROTECTION.key)!;
+    } 
+    if (hasEnchantment(a.enchantments, e.BLAST_PROTECTION.key) &&
+        type.includes(d.EXPLOSION)) {
+        val += 2 * getEnchantment(a.enchantments, e.BLAST_PROTECTION.key)!;
+    } 
+    if (hasEnchantment(a.enchantments, e.PROJECTILE_PROTECTION.key) &&
+        type.includes(d.PROJECTILE)) {
+        val += 2 * getEnchantment(a.enchantments, e.PROJECTILE_PROTECTION.key)!;
+    }
+    if (hasEnchantment(a.enchantments, e.PROTECTION.key)) {
+        val += getEnchantment(a.enchantments, e.PROTECTION.key)!;
+    }
+    if (hasEnchantment(a.enchantments, e.FEATHER_FALLING.key) &&
+            type.includes(d.FALL)) {
+        val += 3 * getEnchantment(a.enchantments, e.FEATHER_FALLING.key)!;
+    }
+    console.log("EPF: " + val);
+    return val;
+}
+
+export function getSetEPF(set : Armor[], type : string) : number {
+    let epf = 0;
+    set.forEach( (item) => {
+        epf += getEPF(item, type);
+    })
+    return Math.min(epf, 20);
+}
+export function getSetArmor(set : Armor[]) : number {
+    let total = 0;
+    set.forEach( (item) => {
+        total += item.armor;
+    });
+    return total;
+}
+export function getSetToughness(set : Armor[]) : number {
+    let total = 0;
+    set.forEach( (item) => {
+        total += item.toughness;
+    });
+    return total;
+}
+/*
 export class Armor implements Item {
     public valid : Map<string, number>;
     public armor : number;
     public toughness : number;
-    public enchantments: Map<string,number>;
+    public enchantments: Enchantment[];
     public type: string;
     public piece: string;
-    public name: string;
+    public key: string;
     constructor (
         type: string,
         piece: string,
-        enchantments: Map<string, number>
+        enchantments: Enchantment[]
     ) {
         this.enchantments = enchantments;
         this.armor = 0;
         this.toughness = 0;
         this.type = type;
         this.piece = piece;
-        this.name = "None";
+        this.key = "None";
         this.init(type, piece);
 
         this.valid = new Map([
@@ -86,7 +195,7 @@ export class Armor implements Item {
         return val;
     }
     init(type: string, piece: string) {
-        this.name = type + " " + piece;
+        this.key = type + " " + piece;
         let tough = 0;
         if (type === DIAMOND) {
             tough = 2;
@@ -116,6 +225,8 @@ export class Armor implements Item {
     }
 
 }
+*/
+/*
 export class Boots extends Armor {
     constructor (
         type: string,
@@ -127,31 +238,8 @@ export class Boots extends Armor {
     }
     getEPF(type : string) : number {
         let val = super.getEPF(type);
-        if (this.enchantments.has(e.FEATHER_FALLING) &&
-            type.includes(d.FALL)) {
-            val += 3 * this.enchantments.get(e.FEATHER_FALLING)!;
-        }
+        
         return val;
     }
 }
-export function getSetEPF(set : Armor[], type : string) : number {
-    let epf = 0;
-    set.forEach( (item) => {
-        epf += item.getEPF(type);
-    })
-    return Math.min(epf, 20);
-}
-export function getSetArmor(set : Armor[]) : number {
-    let total = 0;
-    set.forEach( (item) => {
-        total += item.armor;
-    });
-    return total;
-}
-export function getSetToughness(set : Armor[]) : number {
-    let total = 0;
-    set.forEach( (item) => {
-        total += item.toughness;
-    });
-    return total;
-}
+*/

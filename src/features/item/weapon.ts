@@ -9,6 +9,7 @@ export interface Weapon extends Item {
     getDamage: () => number,
     getEnchantDamage: () => number
 }
+/*
 export class MeleeWeapon implements Weapon {
     constructor (
         public name: string,
@@ -44,3 +45,4 @@ export class MeleeWeapon implements Weapon {
         return val;
     }
 }
+*/

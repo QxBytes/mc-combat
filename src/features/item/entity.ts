@@ -1,6 +1,26 @@
 import { Armor } from "./armor";
+import { Effect } from "./effects";
 
 
+export interface Entity {
+    armor: Armor[],
+    effects: Effect[],
+    family: string
+}
+export function getHelmet(e : Entity) : Armor {
+    return e.armor[0];
+}
+export function getChestplate(e : Entity) : Armor {
+    return e.armor[1];
+}
+export function getLeggings(e : Entity) : Armor {
+    return e.armor[2];
+}
+export function getBoots(e : Entity) : Armor {
+    return e.armor[3];
+}
+
+/*
 export class Entity {
     constructor (
         public armor : Armor[],
@@ -22,3 +42,4 @@ export class Entity {
         return this.armor[3];
     }
 }
+*/

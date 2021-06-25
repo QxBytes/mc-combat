@@ -2,59 +2,40 @@ import React from 'react';
 import logo from './logo.svg';
 import { Counter } from './features/counter/Counter';
 import './App.css';
+import './cc.scss';
 import { Active } from './features/item/Active';
 import { ArmorSlot } from './features/item/ArmorSlot';
+import { Col, Container, Nav, Navbar, Row } from 'react-bootstrap';
+import { DamageCalculator } from './features/item/DamageCalculator';
 
 function App() {
   return (
     <div className="App">
+      <Container fluid className="main-container">
+        <Navbar bg="danger" expand="lg">
+          <Nav className="mr-auto">
+            Ok
+          </Nav>
+        </Navbar>
+        <Row>
+        <Col sm={12} md={12} lg={12} xl={5}>
+          <ArmorSlot slot={0}/>
+          <ArmorSlot slot={1}/>
+          <ArmorSlot slot={2}/>
+          <ArmorSlot slot={3}/>
+        </Col>
+        <Col sm={12} md={12} lg={12} xl={7}>
+          <DamageCalculator />
+        </Col>
+        </Row>
+      </Container>
+      {/*
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        
         <Counter />
         <Active />
-        <ArmorSlot />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
       </header>
+      */}
     </div>
   );
 }

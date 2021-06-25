@@ -2,11 +2,11 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { selectCount, incrementByAmount } from "../counter/counterSlice";
-import { SimpleDamage } from "./damage";
 import { Entity } from "./entity";
 import * as a from "./armor";
 import { takeDamage } from "./maths";
 import * as d from "./damageTypes";
+import * as e from "./enchants";
 
 export function Active() {
   const count = useAppSelector(selectCount);
@@ -16,15 +16,21 @@ export function Active() {
   const incrementValue = Number(incrementAmount) || 0;
 
   useEffect( () => {
-    let player = new Entity(
-      [
-        a.make(a.NETHERITE, a.HELMET, new Map([["fire protection",3]])),
-        a.make(a.NETHERITE, a.CHESTPLATE, new Map()),
-        a.make(a.NETHERITE, a.LEGGINGS, new Map()),
-        a.make(a.NETHERITE, a.BOOTS, new Map([["protection",4],["feather falling",4]])),
-      ], new Map(), 'player' );
-    let dmg = new SimpleDamage(25, d.FALL);
+    /*
+    let player : Entity = {
+      armor: [
+        a.make(a.NETHERITE, a.HELMET, [e.makeEnchant(e.FIRE_PROTECTION.key, 4)]),
+        a.make(a.NETHERITE, a.CHESTPLATE, []),
+        a.make(a.NETHERITE, a.LEGGINGS, []),
+        a.make(a.NETHERITE, a.BOOTS, [e.copy(e.PROTECTION), e.copy(e.FEATHER_FALLING),
+          e.copy(e.BLAST_PROTECTION), e.copy(e.PROJECTILE_PROTECTION), e.copy(e.FIRE_PROTECTION)])
+      ], 
+      effects: [], 
+      family: 'player' 
+    };
+    let dmg = {amount: 25, type: d.FALL};
     console.log("Taken: " + takeDamage(dmg, player));
+    */
   })
   return (
     <div>

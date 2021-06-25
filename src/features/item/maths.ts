@@ -3,6 +3,7 @@ import { Damage } from "./damage";
 import { Entity } from "./entity";
 import * as d from "./damageTypes";
 import * as e from "./effects";
+import { getEffect, getEffectLevel } from "./effects";
 
 export function bound(value : number, min : number, max: number) {
     if (value < min) {
@@ -43,14 +44,15 @@ export function getStrengthBonus(level: number, kind: string) {
  * @returns Damage taken after all effects, armor, enchants, etc. applied
  */
 export function takeDamage(dmg : Damage, target : Entity) {
-    let atk = dmg.getDamage();
+    let atk = dmg.amount;
     let type = dmg.type;
+    console.log("Damage type: " + type);
     console.log("Raw damage: " + atk);
     let afterArmor = atk * armorFactor(atk, type, target.armor);
     console.log("After armor: " + afterArmor);
     let afterEPF = afterArmor * EPFFactor(type, target.armor);
     console.log("After EPF: " + afterEPF);
-    let afterResistance = afterEPF * resistanceFactor(target.effects.get(e.RESISTANCE)! || 0);
+    let afterResistance = afterEPF * resistanceFactor(getEffectLevel(target.effects, e.RESISTANCE) || 0);
     return afterResistance;
 }
 

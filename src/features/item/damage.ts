@@ -3,10 +3,11 @@ import { Weapon } from "./weapon";
 import * as d from './damageTypes';
 import * as e from './effects';
 
-export interface DamageType {
-    getDamage : () => number,
-    type : string
+export interface Damage {
+    amount: number,
+    type: string
 }
+/*
 export class Damage implements DamageType {
     //Required (How you implement an interface)
     constructor (public type : string) {
@@ -15,6 +16,8 @@ export class Damage implements DamageType {
         return -404;
     }
 }
+*/
+/*
 export class SimpleDamage extends Damage {
     public amount : number;
     constructor( 
@@ -28,6 +31,8 @@ export class SimpleDamage extends Damage {
         return this.amount;
     }
 }
+*/
+/*
 export class MeleeDamage extends Damage {
     constructor (
         public weapon : Weapon,
@@ -55,3 +60,4 @@ export class MagicDamage extends Damage {
         return 3 * this.level;
     }
 }
+*/
