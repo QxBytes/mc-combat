@@ -4,7 +4,7 @@ import { Counter } from './features/counter/Counter';
 import './App.css';
 import './cc.scss';
 import { Active } from './features/item/Active';
-import { ArmorSlot } from './features/item/ArmorSlot';
+import { ArmorContainer, ArmorSlot } from './features/item/ArmorSlot';
 import { Col, Container, Nav, Navbar, Row } from 'react-bootstrap';
 import { DamageCalculator } from './features/item/DamageCalculator';
 
@@ -19,10 +19,7 @@ function App() {
         </Navbar>
         <Row>
         <Col sm={12} md={12} lg={12} xl={5}>
-          <ArmorSlot slot={0}/>
-          <ArmorSlot slot={1}/>
-          <ArmorSlot slot={2}/>
-          <ArmorSlot slot={3}/>
+          <ArmorContainer />
         </Col>
         <Col sm={12} md={12} lg={12} xl={7}>
           <DamageCalculator />

@@ -48,6 +48,7 @@ export function takeDamage(dmg : Damage, target : Entity) {
     let type = dmg.type;
     console.log("Damage type: " + type);
     console.log("Raw damage: " + atk);
+    //HEY ATK IS AT THE FRONT!
     let afterArmor = atk * armorFactor(atk, type, target.armor);
     console.log("After armor: " + afterArmor);
     let afterEPF = afterArmor * EPFFactor(type, target.armor);
@@ -55,4 +56,11 @@ export function takeDamage(dmg : Damage, target : Entity) {
     let afterResistance = afterEPF * resistanceFactor(getEffectLevel(target.effects, e.RESISTANCE) || 0);
     return afterResistance;
 }
-
+export function damageEquation(dmg: Damage, target : Entity) : string {
+    let EPF = EPFFactor(dmg.type, target.armor);
+    let res = resistanceFactor(getEffectLevel(target.effects, e.RESISTANCE) || 0);
+    let def = getSetArmor(target.armor);
+    let tough = getSetToughness(target.armor);
+    return "x * (1 - min(20, max( " + def + "/5, " + def + "- (4*x / (" + tough + "+8)) ))/25) * " 
+    + EPF + " * " + res;
+}

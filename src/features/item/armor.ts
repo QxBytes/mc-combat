@@ -74,13 +74,8 @@ export function getValid(piece : string) {
 }
 export function preset(a: Armor, type: string, piece: string) {
     a.name = type + " " + piece;
-    let tough = 0;
-    if (type === DIAMOND) {
-        tough = 2;
-    }
-    if (type === NETHERITE) {
-        tough = 3;
-    }
+    let tough = getTough(type);
+    
     if (piece === HELMET) {
         a.armor = armor_data.get(type)![0];
     }
@@ -97,6 +92,15 @@ export function preset(a: Armor, type: string, piece: string) {
 }
 export function setType(a: Armor, type: string) {
     preset(a, type, a.piece);
+}
+export function getTough(type: string) {
+    if (type === DIAMOND) {
+        return 2;
+    }
+    if (type === NETHERITE) {
+        return 3;
+    }
+    return 0;
 }
 
 export function getEPF(a : Armor, type : string) : number {

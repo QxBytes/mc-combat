@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { selectEntity, setType } from "../item/activeSlice";
-import { MATERIAL_ARRAY, PIECE_ARRAY } from "./armor";
+import { armor_data, getTough, MATERIAL_ARRAY, PIECE_ARRAY } from "./armor";
 import { EnchantContainer } from "./EnchantContainer";
 import { Entity } from "./entity";
 
@@ -13,23 +13,24 @@ export function ArmorSlot(props : ArmorSlotType) {
     const entity : Entity = useAppSelector(selectEntity);
     const dispatch = useAppDispatch();
     const onMaterialChange = (e : React.ChangeEvent<HTMLInputElement>) => {
-        dispatch(setType({type: e.target.value, slot: props.slot}));
+        dispatch(setType({type: e.target.value.split(" ")[2], slot: props.slot}));
     }
     return (
         <React.Fragment>
-        <Row noGutters className="armor-container-top">
+        <Row noGutters className="">
             <Col>
                 <h3 className="text-left bottom-border p-1">{PIECE_ARRAY[props.slot]}</h3>
             </Col>
         </Row>
-        <Row className="armor-container-bottom">
-            <Col sm={3}>
-            
+        <Row className="container-bottom">
+            <Col sm={3} className="min-width-1">
             <Form>
             <Form.Group as={Row} controlId="armorSelect.ControlSelect1">
                 <Form.Control as="select" onChange={(e : React.ChangeEvent<HTMLInputElement>) => onMaterialChange(e)}> {
                     MATERIAL_ARRAY[props.slot].map( (item) => {
-                        return (<option>{item}</option>);
+                        return (
+                        <option>{armor_data.get(item)![props.slot]} {getTough(item)} {item}
+                        </option>);
                     } )
                 }
                 </Form.Control>
@@ -54,4 +55,14 @@ export function ArmorSlot(props : ArmorSlotType) {
         </Row>
         </React.Fragment>
     )
+}
+export function ArmorContainer() {
+    return (
+        <div className="container-top">
+          <ArmorSlot slot={0}/>
+          <ArmorSlot slot={1}/>
+          <ArmorSlot slot={2}/>
+          <ArmorSlot slot={3}/>
+        </div>
+    );
 }

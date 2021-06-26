@@ -1,19 +1,62 @@
+$fg-1: rgb(28,28,28);
 
+button.btn-primary {
+    margin: 10px;
+}
+.btn-group {
+    margin: 5px;
+    border-color: $fg-1;
+    border: 1px solid $fg-1;
+    border-radius: 5px;
+    button {
+        padding: 5px;
+        color: $fg-1;
+        background-color: transparent;
+        border-color: transparent;
+        margin: 0px;
+    }
+}
 
-
+.container-fluid.main-container {
+    padding: 0px;
+    overflow-x: hidden;
+}
+.min-width-1 {
+    min-width: 5em;
+}
 .bottom-border {
     border-bottom: 1px solid rgb(128,128,128)
 }
-.armor-container-top {
+.container-top {
     margin-top: 20px;
     margin-left: 20px;
     margin-right: 20px;
 }
-.armor-container-bottom {
+.container-bottom {
+    margin-top: 10px;
     margin-bottom: 20px;
     margin-left: 20px;
     margin-right: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 .text-left {
     text-align: left;
+}
+
+.damage-display-container {
+    margin: 20px;
+}
+
+.collapse-btn.btn {
+    @extend .vc, .text-left;
+    width: 100%;
+}
+.graph {
+    width: 100%;
+}
+
+
+.vc {
+    vertical-align: middle;
 }
