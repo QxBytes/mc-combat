@@ -1,7 +1,9 @@
 $fg-1: rgb(28,28,28);
 
 button.btn-primary {
-    margin: 10px;
+    color: $fg-1;
+    background-color: transparent;
+    border-color: $fg-1;
 }
 .btn-group {
     margin: 5px;
@@ -46,6 +48,12 @@ button.btn-primary {
 
 .damage-display-container {
     margin: 20px;
+    background-color: rgb(240,240,240);
+}
+.highlighted {
+    
+    transition: ease-in all .2s;
+    background-color: rgb(200,200,200);
 }
 
 .collapse-btn.btn {
