@@ -1,5 +1,5 @@
 import React from "react";
-import { Dropdown, DropdownButton } from "react-bootstrap";
+import { Button, ButtonGroup, Dropdown, DropdownButton } from "react-bootstrap";
 
 export interface DropInputType {
     selected: string,
@@ -10,7 +10,6 @@ export function DropInput(props: DropInputType) {
 
     return (
         <DropdownButton title={props.selected}>
-            
         {
             props.inputs.map( (item) => 
                 <Dropdown.Item onClick={(e : any) => {

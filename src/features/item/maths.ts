@@ -15,9 +15,7 @@ export function bound(value : number, min : number, max: number) {
     return value;
 }
 export function armorFactor(dmg: number, type: string, set: Armor[]) {
-    if (type === d.MAGIC ||
-        type === d.FALL ||
-        type === d.FIRE) {
+    if (!affectedByArmor(type)) {
         return 1;
     }
     let def = getSetArmor(set);
@@ -36,6 +34,14 @@ export function getStrengthBonus(level: number, kind: string) {
         return 0;
     }
     return 3 * level;
+}
+export function affectedByArmor(type : string) {
+    if (type === d.MAGIC ||
+        type === d.FALL ||
+        type === d.FIRE) {
+        return false;
+    }
+    return true;
 }
 /**
  * 
@@ -61,6 +67,10 @@ export function damageEquation(dmg: Damage, target : Entity) : string {
     let res = resistanceFactor(getEffectLevel(target.effects, e.RESISTANCE) || 0);
     let def = getSetArmor(target.armor);
     let tough = getSetToughness(target.armor);
-    return "x * (1 - min(20, max( " + def + "/5, " + def + "- (4*x / (" + tough + "+8)) ))/25) * " 
-    + EPF + " * " + res;
+    if (affectedByArmor(dmg.type)) {
+        return "x * (1 - min(20, max( " + def + "/5, " + def + "- (4*x / (" + tough + "+8)) ))/25) * " 
+        + EPF + " * " + res;
+    } else {
+        return "x * " + EPF + " * " + res;
+    }
 }

@@ -29,5 +29,7 @@ export const FEATHER_FALLING = {key: 'feather falling', value: 4};
 
 export const SHARPNESS = {key: 'sharpness', value: 5};
 
-export const ENCHANT_ARRAY = [PROTECTION, PROJECTILE_PROTECTION, BLAST_PROTECTION, 
+export const NONE = {key: "None", value: 5};
+
+export const ENCHANT_ARRAY = [NONE, PROTECTION, PROJECTILE_PROTECTION, BLAST_PROTECTION, 
     FIRE_PROTECTION, FEATHER_FALLING, SHARPNESS];

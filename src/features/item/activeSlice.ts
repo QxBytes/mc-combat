@@ -40,6 +40,7 @@ export const activeSlice = createSlice( {
             console.log(state.entity.armor[action.payload.slot].toughness);
         },
         setEnchant: (state, action: PayloadAction<{name: string, level: number, slot: number}>) => {
+            if (action.payload.name === e.NONE.key) return;
             e.setEnchantment(state.entity.armor[action.payload.slot].enchantments, 
                 action.payload.name, 
                 action.payload.level);

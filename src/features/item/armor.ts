@@ -18,7 +18,6 @@ export const HELMET = 'Helmet';
 export const CHESTPLATE = 'Chestplate';
 export const LEGGINGS = 'Leggings';
 export const BOOTS = 'Boots';
-
 export const MATERIAL_ARRAY = 
     [
     [NETHERITE, DIAMOND, IRON, CHAINMAIL, GOLDEN, LEATHER, TURTLE, NONE],
@@ -71,6 +70,16 @@ export function getValid(piece : string) {
     valids.push(e.copy(e.BLAST_PROTECTION));
     valids.push(e.copy(e.FIRE_PROTECTION));
     return valids;
+}
+export function getLeft(piece: string, alreadyApplied: Enchantment[] ) {
+    let left : string[] = [e.NONE.key];
+    let applied = alreadyApplied.map((ench) => ench.key);
+    for (let str of getValid(piece).map((ench) => ench.key)) {
+        if (!applied.includes(str)) {
+            left.push(str);
+        }
+    }
+    return left;
 }
 export function preset(a: Armor, type: string, piece: string) {
     a.name = type + " " + piece;

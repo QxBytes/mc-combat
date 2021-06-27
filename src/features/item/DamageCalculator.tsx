@@ -1,6 +1,6 @@
-import { Col, Row } from "react-bootstrap";
+import { Col, Row, Image } from "react-bootstrap";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { selectDamage, selectEntity, setDamageType } from "./activeSlice";
+import { selectDamage, selectEntity, setDamage, setDamageType } from "./activeSlice";
 import { getSetEPF, setType } from "./armor";
 import { Entity } from "./entity";
 import { takeDamage } from "./maths";
@@ -13,6 +13,9 @@ import 'bootstrap/dist/css/bootstrap.css'; // or include from a CDN
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 import RangeSlider from 'react-bootstrap-range-slider';
 import { DamageGraph } from "./DamageGraph";
+import NumericInput from 'react-numeric-input';
+
+import heart from './images/half_heart_lg.png';
 
 
 interface DamageInputType {
@@ -34,13 +37,29 @@ interface DamageCalculatorType {
 export function DamageCalculator(props : DamageCalculatorType) {
     const entity : Entity = useAppSelector(selectEntity);
     const damage : Damage = useAppSelector(selectDamage);
-    
+    const dispatch = useAppDispatch();
     return (
         <div className="container-top">
-            <Row noGutters className="">
+            <Row noGutters>
             <Col>
             <h3 className="text-left bottom-border p-1">Damage Calculations</h3>
             </Col>
+            </Row>
+            <Row>
+                <Col>
+                <Image className="m-1" src={heart} width={18} height={18}></Image>
+                <div className="vc d-inline-block">
+                    <NumericInput  min={1} max={10000} step={1} 
+                    precision={2} value={damage.amount}
+                    onChange={(valueAsNumber:(number|null), stringValue:string, el: HTMLInputElement) => {
+                    //Poor documentation
+                        if (valueAsNumber) {
+                            dispatch(setDamage(valueAsNumber));
+                        }
+                    }}
+                />
+                </div>
+                </Col>
             </Row>
             <Row className="damage-display-container">
                 <DamageDisplay dmg={{amount: damage.amount, type: d.MELEE}}></DamageDisplay>
@@ -50,7 +69,7 @@ export function DamageCalculator(props : DamageCalculatorType) {
                 <DamageDisplay dmg={{amount: damage.amount, type: d.PROJECTILE}}></DamageDisplay>
                 <DamageDisplay dmg={{amount: damage.amount, type: d.MAGIC}}></DamageDisplay>
             </Row>
-            <Row>
+            <Row >
                 <DamageGraph />
             </Row>
         </div>
@@ -66,7 +85,7 @@ export function DamageDisplay(props: DamageDisplayType) {
     const [hover, setHover] = useState(false);
     return (
         <Col onMouseOver={() => setHover(true)} onMouseOut={() => setHover(false)}
-        className={hover || props.dmg.type === damage.type ? "highlighted" : ""}
+        className={hover || props.dmg.type === damage.type ? "highlighted fade-transition" : "fade-transition"}
         onClick={ () => dispatch(setDamageType(props.dmg.type))}
         >
                 
