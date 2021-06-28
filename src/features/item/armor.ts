@@ -11,7 +11,7 @@ export const DIAMOND = 'Diamond';
 export const GOLDEN = 'Gold';
 export const NETHERITE = 'Netherite';
 export const TURTLE = 'Turtle';
-export const NONE = 'None';
+export const NONE = 'Unequipped';
 export const ELYTRA = 'Elytra';
 
 export const HELMET = 'Helmet';
@@ -100,6 +100,7 @@ export function preset(a: Armor, type: string, piece: string) {
     a.toughness = tough;
 }
 export function setType(a: Armor, type: string) {
+    a.type = type;
     preset(a, type, a.piece);
 }
 export function getTough(type: string) {

@@ -1,4 +1,4 @@
-import { stringify } from "querystring";
+
 import { Entry, get, getValue, set } from "./map";
 
 export const RESISTANCE = 'resistance';

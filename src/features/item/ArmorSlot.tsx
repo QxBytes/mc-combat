@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
+import { propTypes } from "react-bootstrap/esm/Image";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { selectEntity, setType } from "../item/activeSlice";
 import { armor_data, getTough, MATERIAL_ARRAY, PIECE_ARRAY } from "./armor";
@@ -7,29 +8,36 @@ import { EnchantContainer } from "./EnchantContainer";
 import { Entity } from "./entity";
 
 interface ArmorSlotType {
+    entity: number
     slot: number
 }
 export function ArmorSlot(props : ArmorSlotType) {
-    const entity : Entity = useAppSelector(selectEntity);
+    const entity : Entity = useAppSelector(selectEntity)[props.entity];
     const dispatch = useAppDispatch();
     const onMaterialChange = (e : React.ChangeEvent<HTMLInputElement>) => {
-        dispatch(setType({type: e.target.value.split(" ")[2], slot: props.slot}));
+        dispatch(setType({entity: props.entity, type: e.target.value.split(" ")[2], slot: props.slot}));
+    }
+    const getFormatted = (type : string) => {
+        return armor_data.get(type)![props.slot] + " " + getTough(type) + " " + type;
     }
     return (
         <React.Fragment>
         <Row noGutters className="">
             <Col>
-                <h3 className="text-left bottom-border p-1">{PIECE_ARRAY[props.slot]}</h3>
+                <h4 className="text-left bottom-border p-1">{PIECE_ARRAY[props.slot]}</h4>
             </Col>
         </Row>
         <Row className="container-bottom">
             <Col sm={3} className="min-width-1">
             <Form>
             <Form.Group as={Row} controlId="armorSelect.ControlSelect1">
-                <Form.Control as="select" onChange={(e : React.ChangeEvent<HTMLInputElement>) => onMaterialChange(e)}> {
+                <Form.Control as="select" 
+                defaultValue={getFormatted(entity.armor[props.slot].type)}
+                onChange={(e : React.ChangeEvent<HTMLInputElement>) => onMaterialChange(e)}> {
                     MATERIAL_ARRAY[props.slot].map( (item) => {
                         return (
-                        <option>{armor_data.get(item)![props.slot]} {getTough(item)} {item}
+                        <option>
+                            {getFormatted(item)}
                         </option>);
                     } )
                 }
@@ -49,20 +57,10 @@ export function ArmorSlot(props : ArmorSlotType) {
             </Col>
             <Col sm={9}>
                 <div className="text-left">
-                    <EnchantContainer slot={props.slot} />
+                    <EnchantContainer entity={props.entity} slot={props.slot} />
                 </div>
             </Col>
         </Row>
         </React.Fragment>
     )
-}
-export function ArmorContainer() {
-    return (
-        <div className="container-top">
-          <ArmorSlot slot={0}/>
-          <ArmorSlot slot={1}/>
-          <ArmorSlot slot={2}/>
-          <ArmorSlot slot={3}/>
-        </div>
-    );
 }

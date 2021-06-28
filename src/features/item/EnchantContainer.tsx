@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Form, Button, ButtonGroup } from "react-bootstrap";
+import { Button, ButtonGroup } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { selectEntity, setType, setEnchant, removeEnchant } from "./activeSlice";
+import { selectEntity, setEnchant, removeEnchant } from "./activeSlice";
 import { getLeft, PIECE_ARRAY } from "./armor";
 import { Enchantment, ENCHANT_ARRAY, getEnchantment, NONE } from "./enchants";
 import { Entity } from "./entity";
@@ -11,26 +11,24 @@ import { range } from "./Utils";
 const nomar = require('nomar');
 
 interface EnchantContainerType {
+    entity: number,
     slot: number
 }
 export function EnchantContainer(props : EnchantContainerType) {
-    const entity : Entity = useAppSelector(selectEntity);
-    const dispatch = useAppDispatch();
-    const onMaterialChange = (e : React.ChangeEvent<HTMLInputElement>) => {
-        dispatch(setType({type: e.target.value, slot: props.slot}));
-    };
+    const entity : Entity = useAppSelector(selectEntity)[props.entity];
     return (
         <div>
             {
                 entity.armor[props.slot].enchantments.map( (item) => 
-                    (<EnchantBadge slot={props.slot} enchant={item}></EnchantBadge>)
+                    (<EnchantBadge entity={props.entity} slot={props.slot} enchant={item}></EnchantBadge>)
                 )
             }
-            <AddEnchant slot={props.slot}/>
+            <AddEnchant entity={props.entity} slot={props.slot}/>
         </div>
     );
 }
 interface EnchantBadgeType {
+    entity: number,
     slot: number,
     enchant: Enchantment
 }
@@ -44,13 +42,16 @@ export function EnchantBadge(props : EnchantBadgeType) {
             <DropInput 
                 selected={nomar(props.enchant.value)} 
                 onDropClicked={(val) => 
-                    dispatch(setEnchant({name: props.enchant.key, level: nomar(val), slot: props.slot}))
+                    dispatch(
+                        setEnchant(
+                            {entity: props.entity, name: props.enchant.key, level: nomar(val), slot: props.slot}))
                 } 
                 inputs={
                     nomar(range(1,getEnchantment(ENCHANT_ARRAY, props.enchant.key)+1))
                 }
             />
-            <Button onClick={(e) => dispatch(removeEnchant({name:props.enchant.key, slot: props.slot}))}>
+            <Button onClick={(e) => dispatch(
+                removeEnchant({entity: props.entity, name:props.enchant.key, slot: props.slot}))}>
                 {/*&#10006;*/}
                 <Icon val="close" />
             </Button>
@@ -58,16 +59,16 @@ export function EnchantBadge(props : EnchantBadgeType) {
     );
 }
 interface AddEnchantType {
+    entity: number,
     slot: number
 }
 
 export function AddEnchant(props : AddEnchantType) {
-    const entity : Entity = useAppSelector(selectEntity);
+    const entity : Entity = useAppSelector(selectEntity)[props.entity];
     const dispatch = useAppDispatch();
     const [editing, setEditing] = useState(false);
     const [enchant, setName] = useState("None");
     const [level, setLevel] = useState(1);
-    const left : Enchantment[] = [];
     const focusInCurrentTarget = ({ relatedTarget, currentTarget } : any) => {
         if (relatedTarget === null) return false;
         
@@ -93,7 +94,7 @@ export function AddEnchant(props : AddEnchantType) {
         (!editing ) ? 
             (getLeft(PIECE_ARRAY[props.slot], entity.armor[props.slot].enchantments).length > 1)
             ? 
-            (<Button onClick={() => setEditing(true)}>
+            (<Button onClick={() => {reset(); setEditing(true);} }>
                 <Icon val="add" />
             </Button>) 
             : (<React.Fragment></React.Fragment>)
@@ -126,7 +127,7 @@ export function AddEnchant(props : AddEnchantType) {
                 />
                 <Button autoFocus onClick={(e) => {
                         dispatch(setEnchant(
-                        {name: enchant, level: level, slot: props.slot}));
+                        {entity: props.entity, name: enchant, level: level, slot: props.slot}));
                         setEditing(false);
                     }}>
                     <Icon val="done" />

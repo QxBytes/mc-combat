@@ -52,13 +52,13 @@ export function affectedByArmor(type : string) {
 export function takeDamage(dmg : Damage, target : Entity) {
     let atk = dmg.amount;
     let type = dmg.type;
-    console.log("Damage type: " + type);
-    console.log("Raw damage: " + atk);
+    //console.log("Damage type: " + type);
+    //console.log("Raw damage: " + atk);
     //HEY ATK IS AT THE FRONT!
     let afterArmor = atk * armorFactor(atk, type, target.armor);
-    console.log("After armor: " + afterArmor);
+    //console.log("After armor: " + afterArmor);
     let afterEPF = afterArmor * EPFFactor(type, target.armor);
-    console.log("After EPF: " + afterEPF);
+    //console.log("After EPF: " + afterEPF);
     let afterResistance = afterEPF * resistanceFactor(getEffectLevel(target.effects, e.RESISTANCE) || 0);
     return afterResistance;
 }
