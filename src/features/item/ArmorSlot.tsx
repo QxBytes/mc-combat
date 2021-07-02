@@ -22,13 +22,16 @@ export function ArmorSlot(props : ArmorSlotType) {
     }
     return (
         <React.Fragment>
+        {/*
         <Row noGutters className="">
             <Col>
-                <h4 className="text-left bottom-border p-1">{PIECE_ARRAY[props.slot]}</h4>
             </Col>
         </Row>
+        */}
         <Row className="container-bottom">
             <Col sm={3} className="min-width-1">
+            <h5 className="text-center bottom-border p-1">{PIECE_ARRAY[props.slot]}</h5>
+            
             <Form>
             <Form.Group as={Row} controlId="armorSelect.ControlSelect1">
                 <Form.Control as="select" 
@@ -45,6 +48,7 @@ export function ArmorSlot(props : ArmorSlotType) {
             </Form.Group>
             
             </Form>
+            {/*
             <div className="text-left">
             <li>
                     +{entity.armor[props.slot].armor} Armor
@@ -53,7 +57,7 @@ export function ArmorSlot(props : ArmorSlotType) {
                     +{entity.armor[props.slot].toughness} Tough
             </li>
             </div>
-            
+            */}
             </Col>
             <Col sm={9}>
                 <div className="text-left">

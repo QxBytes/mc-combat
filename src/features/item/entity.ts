@@ -1,4 +1,4 @@
-import { Armor, getSetArmor, getSetToughness } from "./armor";
+import { Armor, BOOTS, CHESTPLATE, getSetArmor, getSetToughness, HELMET, LEGGINGS, make, NONE } from "./armor";
 import { Effect } from "./effects";
 export const MAX_SETUPS = 8;
 
@@ -32,7 +32,8 @@ export function removeSetup(setups : Entity[], i : number) {
 }
 export function getDefaultSetup() {
     return {
-        armor: [],
+        armor: [make(NONE, HELMET, []),make(NONE, CHESTPLATE, []),
+                make(NONE, LEGGINGS, []),make(NONE, BOOTS, [])],
         effects: [],
         family: "player"
     };

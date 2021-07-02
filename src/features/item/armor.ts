@@ -134,7 +134,7 @@ export function getEPF(a : Armor, type : string) : number {
             type.includes(d.FALL)) {
         val += 3 * getEnchantment(a.enchantments, e.FEATHER_FALLING.key)!;
     }
-    console.log("EPF: " + val);
+    //console.log("EPF: " + val);
     return val;
 }
 

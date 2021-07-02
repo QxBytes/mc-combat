@@ -4,6 +4,7 @@ import { Entity } from "./entity";
 import * as d from "./damageTypes";
 import * as e from "./effects";
 import { getEffect, getEffectLevel } from "./effects";
+import functionPlot from "function-plot";
 
 export function bound(value : number, min : number, max: number) {
     if (value < min) {
@@ -29,12 +30,7 @@ export function EPFFactor(type: string, set: Armor[]) {
 export function resistanceFactor(level: number) {
     return (1 - Math.min(level, 5)/5);
 }
-export function getStrengthBonus(level: number, kind: string) {
-    if (kind !== d.MELEE) {
-        return 0;
-    }
-    return 3 * level;
-}
+
 export function affectedByArmor(type : string) {
     if (type === d.MAGIC ||
         type === d.FALL ||
@@ -49,7 +45,8 @@ export function affectedByArmor(type : string) {
  * @param target 
  * @returns Damage taken after all effects, armor, enchants, etc. applied
  */
-export function takeDamage(dmg : Damage, target : Entity) {
+export function takeDamage(dmg : Damage, target : Entity, legacy? : boolean) {
+    /*
     let atk = dmg.amount;
     let type = dmg.type;
     //console.log("Damage type: " + type);
@@ -60,15 +57,33 @@ export function takeDamage(dmg : Damage, target : Entity) {
     let afterEPF = afterArmor * EPFFactor(type, target.armor);
     //console.log("After EPF: " + afterEPF);
     let afterResistance = afterEPF * resistanceFactor(getEffectLevel(target.effects, e.RESISTANCE) || 0);
-    return afterResistance;
+    */
+    return functionPlot.$eval.builtIn(
+        {fn: damageEquation(dmg, target, legacy)}, 'fn', {x:dmg.amount});
+    
+    //return afterResistance;
 }
-export function damageEquation(dmg: Damage, target : Entity) : string {
+export function damageEquation(dmg: Damage, target : Entity, legacy? : boolean) : string {
+    if (legacy) {
+        return damageEquationLegacy(dmg, target);
+    }
     let EPF = EPFFactor(dmg.type, target.armor);
     let res = resistanceFactor(getEffectLevel(target.effects, e.RESISTANCE) || 0);
     let def = getSetArmor(target.armor);
     let tough = getSetToughness(target.armor);
     if (affectedByArmor(dmg.type)) {
         return "x * (1 - min(20, max( " + def + "/5, " + def + "- (4*x / (" + tough + "+8)) ))/25) * " 
+        + EPF + " * " + res;
+    } else {
+        return "x * " + EPF + " * " + res;
+    }
+}
+function damageEquationLegacy(dmg: Damage, target: Entity) : string {
+    let EPF = EPFFactor(dmg.type, target.armor);
+    let res = resistanceFactor(getEffectLevel(target.effects, e.RESISTANCE) || 0);
+    let def = getSetArmor(target.armor);
+    if (affectedByArmor(dmg.type)) {
+        return "x * (1 -  (" + (def * 4)  + ") *"
         + EPF + " * " + res;
     } else {
         return "x * " + EPF + " * " + res;

@@ -65,7 +65,7 @@ export function CollapsableGraph(props: CollapsableGraphType) {
         options.xAxis = { domain: props.xAxis.domain, label: props.xAxis.label };
 
         options.data = props.data.map( (item) => {
-            return {fn: item, range:[0,200]}
+            return {fn: item, range:[0,200], graphType:'polyline'}
         });
         for (let i = props.data.length ; i <= MAX_SETUPS ; i++) {
             options.data.push({fn: "-999999",  range:[0,0]});

@@ -1,5 +1,5 @@
-import { getStrengthBonus } from "./maths";
-import { Weapon } from "./weapon";
+
+import { Weapon } from "../weapon/weapon";
 import * as d from './damageTypes';
 import * as e from './effects';
 

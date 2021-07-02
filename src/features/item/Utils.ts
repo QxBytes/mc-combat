@@ -10,5 +10,5 @@ export function round(num : number) {
     return Math.round((num + Number.EPSILON) * 100) / 100;
 }
 export function getColor(max: number, value: number) {
-    return Color.hsl(180*(value/max),50,70);
+    return Color.hsl(180*(value/max),70,70);
 }

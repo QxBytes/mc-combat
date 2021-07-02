@@ -4,7 +4,7 @@ import { Row, Col, ButtonGroup, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../app/hooks";
 import { addSetup, removeSetup, selectEntity } from "./activeSlice";
-import { Entity, maxSetups, summary } from "./entity";
+import { Entity, getDefaultSetup, maxSetups, summary } from "./entity";
 import { EntityContainer } from "./EntityContainer";
 import Icon from "./Icons";
 import { Collapseable } from "./Parts";
@@ -25,8 +25,6 @@ export function SetupContainer() {
             <Row>
                 <Col>
                 {
-                    
-                    
                 entities.map( (item, index) => {
                     return (
                     <Row noGutters>
@@ -64,10 +62,20 @@ export function SetupContainer() {
                             
                         </Col>
                     </Row>
+                    
                     );
                 })
-                    
                 }
+                    <Row noGutters>
+                        <Col>
+                        {
+                        !maxSetups(entities) ?
+                        <Button onClick={() => dispatch(addSetup(getDefaultSetup()))}>
+                            <Icon val="add" />
+                        </Button> : ""
+                        }
+                        </Col>
+                    </Row>
                 </Col>
             </Row>
         </div>
