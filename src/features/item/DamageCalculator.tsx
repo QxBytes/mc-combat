@@ -12,6 +12,10 @@ import NumericInput from 'react-numeric-input';
 
 import heart from './images/half_heart_lg.png';
 import { DamageSummaryTable } from "./DamageSummary";
+import { WeaponGraph } from "../weapon/WeaponGraph";
+import { makeWeapon } from "../weapon/weapon";
+import { WeaponDamageGraph } from "../weapon/WeaponDamageGraph";
+import { WeaponEditor } from "../weapon/WeaponEditor";
 
 
 interface DamageInputType {
@@ -52,13 +56,15 @@ export function DamageCalculator(props : DamageCalculatorType) {
                             dispatch(setDamage(valueAsNumber));
                         }
                     }}
-                />
+                    />
                 </div>
                 </Col>
             </Row>
             <Row className="damage-display-container" noGutters>
                 <DamageSummaryTable />
             </Row>
+            <WeaponEditor />
+
             <Row >
                 <DamageGraph />
             </Row>

@@ -15,7 +15,6 @@ export function DropInput(props: DropInputType) {
             props.inputs.map( (item) => 
                 <Dropdown.Item onClick={(e : any) => {
                     props.onDropClicked(e.target.text);
-                    console.log(e.target.text);
                 }}>
                     {item}
                 </Dropdown.Item>

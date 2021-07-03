@@ -6,10 +6,10 @@ import * as e from "./enchants";
 import * as d from "./damageTypes";
 import { Entity, MAX_SETUPS, removeSetup as removeEntity } from "./entity";
 import { Damage } from "./damage";
+import { defaultWeapon, Weapon } from "../weapon/weapon";
 
 export interface matchState {
     setups: Entity[],
-    activeSetup: number,
     damage: Damage
 }
 const initialState : matchState = {
@@ -40,8 +40,7 @@ const initialState : matchState = {
     damage: {
         amount: 18,
         type: d.MELEE
-    },
-    activeSetup: 0
+    }
 }
 export const activeSlice = createSlice( {
     name: 'active',

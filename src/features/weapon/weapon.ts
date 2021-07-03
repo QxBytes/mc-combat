@@ -1,7 +1,9 @@
 import { Item } from "../item/item";
 import { bound } from "../item/maths";
 import * as e from "../item/enchants";
-import { DIAMOND, IRON, GOLDEN, NETHERITE } from "../item/armor";
+import { DIAMOND, IRON, GOLDEN, NETHERITE, NONE } from "../item/armor";
+import { Effect, getEffectLevel, makeEffect, setEffect, STRENGTH, WEAKNESS } from "../item/effects";
+import functionPlot from "function-plot";
 //cooldown T = 20 / attackSpeed
 export interface Weapon {
     damage: number,
@@ -9,7 +11,7 @@ export interface Weapon {
     ticksSinceLast: number,
     critical: boolean,
     sharpness: number,
-    strength: number,
+    effects: Effect[],
     material: string,
     type: string
 }
@@ -36,6 +38,20 @@ export const WEAPON_DATA = new Map([
     [FIST,[1,1,1,1,1,1]]
 
 ]);
+export const WEAPONS = [SWORD, TRIDENT, SHOVEL, PICKAXE, AXE, HOE, FIST];
+export const MATERIALS = [NETHERITE, DIAMOND, IRON, GOLDEN, STONE, WOODEN];
+
+export const WEAPON_MATERIALS = new Map([
+    [SWORD, MATERIALS],
+    [TRIDENT, [NONE]],
+    [SHOVEL, MATERIALS],
+    [PICKAXE, MATERIALS],
+    [AXE, MATERIALS],
+    [HOE, MATERIALS],
+    [FIST, [NONE]]
+
+]);
+
 export const WEAPON_SPEEDS = new Map([
     [SWORD, [1.6,1.6,1.6,1.6,1.6,1.6]],
     [TRIDENT, [1.1,1.1,1.1,1.1,1.1,1.1]],
@@ -47,8 +63,8 @@ export const WEAPON_SPEEDS = new Map([
 
 ]);
 export function makeWeapon(type: string, material: string, ticksSinceLast: number, 
-    critical: boolean, sharpness: number, strength: number) : Weapon {
-    let temp = {
+    critical: boolean, sharpness: number, strength: number, weakness: number) : Weapon {
+    let temp : Weapon = {
         type: type,
         material: material,
         damage: 0,
@@ -56,11 +72,25 @@ export function makeWeapon(type: string, material: string, ticksSinceLast: numbe
         ticksSinceLast: ticksSinceLast,
         critical: critical,
         sharpness: sharpness,
-        strength: strength,
+        effects: []
     }
-    temp.damage = weaponPreset(type, material);
-    temp.attackSpeed = weaponSpeedPreset(type, material);
+    if (strength) {
+        setEffect(temp.effects, STRENGTH, strength);
+    }
+    if (weakness) {
+        setEffect(temp.effects, WEAKNESS, weakness);
+    }
+    preset(temp, type, material);
     return temp;
+}
+export function defaultWeapon() : Weapon{
+    return makeWeapon("Sword", "Netherite", 100, true, 5, 2, 0);
+}
+export function preset(w: Weapon, type: string, material: string) {
+    w.damage = weaponPreset(type, material);
+    w.attackSpeed = weaponSpeedPreset(type, material);
+    w.type = type;
+    w.material = material;
 }
 export function weaponPreset(type: string, material: string) {
     return indexInto(WEAPON_DATA, type, material);
@@ -85,35 +115,93 @@ function indexInto(map: Map<string, number[]>, key: string, material: string) {
     return map.get(key)![0];
 }
 export function getEnchantModifier(w: Weapon) : number {
-    let val = w.sharpness || 0;
-    if(val) {
-        if (val === 1) {
-            val = 1;
-        } else {
-            val = (val - 1) * 0.5 + 1;
+    /*
+    if (w.type === AXE || w.type === SWORD) {
+        let val = w.sharpness || 0;
+        if(val) {
+            if (val === 1) {
+                val = 1;
+            } else {
+                val = (val - 1) * 0.5 + 1;
+            }
         }
+        //enchantment penalty
+        let T = 20 / w.attackSpeed;
+        let multiplier = bound((w.ticksSinceLast+0.5) / T, 0, 1);
+        return val * multiplier;
     }
-    //enchantment penalty
-    let T = 20 / w.attackSpeed;
-    let multiplier = bound((w.ticksSinceLast+0.5) / T, 0, 1);
-    return val * multiplier;
+    return 0;
+    */
+    return functionPlot.$eval.builtIn(
+        {fn: getEnchantEquation(w)}, 'fn', {x:w.ticksSinceLast});
 }
-export function getStrengthBonus(w: Weapon) {
-    return 3 * w.strength;
+export function getEnchantEquation(w: Weapon) : string {
+    if (w.type === AXE || w.type === SWORD) {
+        let val = w.sharpness || 0;
+        if(val) {
+            if (val === 1) {
+                val = 1;
+            } else {
+                val = (val - 1) * 0.5 + 1;
+            }
+        }
+        //enchantment penalty
+        let T = 20 / w.attackSpeed;
+        let eq = "(" + val + " * min( (x +0.5) / " + T + ", 1) )";
+        return eq;
+    }
+    return '0';
 }
+
 export function getDamageMultiplier(w : Weapon) : number {
+    /*
     let T = 20 / w.attackSpeed;
     let multiplier = 0.2 + ((w.ticksSinceLast + 0.5) / T)**2 * 0.8;
     multiplier = bound(multiplier, .2, 1);
+    */
+    return functionPlot.$eval.builtIn(
+        {fn: getDamageMultiplierEquation(w)}, 'fn', {x:w.ticksSinceLast});
+}
+export function getDamageMultiplierEquation(w : Weapon) : string {
+    let T = 20 / w.attackSpeed;
+    let multiplier = "min(0.2 + ((x + 0.5) /" +  T + ")^2 * 0.8, 1)";
     return multiplier;
 }
-export function getDamage(w : Weapon): number {
-    let multiplier = getDamageMultiplier(w);
-    if (multiplier < .848 || w.critical === false) {
-        return w.damage * multiplier + getStrengthBonus(w) + getEnchantModifier(w);
-    } else {
-        return (w.damage * multiplier + getStrengthBonus(w)) * 1.5 + getEnchantModifier(w);
+
+export function getStrengthBonus(w: Weapon) {
+    return 3 * (getEffectLevel(w.effects, STRENGTH) || 0);
+}
+export function getWeaknessBonus(w: Weapon) {
+    return -(4 * (getEffectLevel(w.effects, WEAKNESS) || 0));
+}
+
+export function getCriticalMultiplier(w : Weapon) : number {
+    return functionPlot.$eval.builtIn(
+        {fn: getCriticalEquation(w)}, 'fn', {x:w.ticksSinceLast});
+}
+export function getCriticalEquation(w : Weapon) : string {
+    //Positive = Critical OK
+    //Negative = No critical allowed
+    // 0 or +1 /2 --> [0,.5] --> [1, 1.5]
+    if (w.critical) {
+        return "(max(0, sign(" + getDamageMultiplierEquation(w) + "- .848))/2 + 1)";
     }
+    return "1";
+}
+export function getDamage(w : Weapon): number {
+    
+    /*let multiplier = getDamageMultiplier(w);
+    return (w.damage * multiplier + getStrengthBonus(w) + getWeaknessBonus(w)) 
+    * getCriticalMultiplier(w) + getEnchantModifier(w); */
+    return functionPlot.$eval.builtIn(
+        {fn: getDamageEquation(w)}, 'fn', {x:w.ticksSinceLast});
+}
+export function getDamageEquation(w : Weapon): string {
+    let multiplier = getDamageMultiplierEquation(w);
+    let eq =  "(" + w.damage + "*(" + multiplier + ")+" + getStrengthBonus(w) + "+" + getWeaknessBonus(w)+
+     ") *" + getCriticalEquation(w) + "+" + getEnchantEquation(w);
+    //console.log("Damage vs time: " + eq);
+     return eq;
 }
 export function getTicks(seconds: number) {
     return seconds * 20;

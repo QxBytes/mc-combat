@@ -72,7 +72,7 @@ export function damageEquation(dmg: Damage, target : Entity, legacy? : boolean) 
     let def = getSetArmor(target.armor);
     let tough = getSetToughness(target.armor);
     if (affectedByArmor(dmg.type)) {
-        return "x * (1 - min(20, max( " + def + "/5, " + def + "- (4*x / (" + tough + "+8)) ))/25) * " 
+        return "x * (1 - min(20, max( " + def + "/5, " + def + "- (4* x / (" + tough + "+8)) ))/25) * " 
         + EPF + " * " + res;
     } else {
         return "x * " + EPF + " * " + res;

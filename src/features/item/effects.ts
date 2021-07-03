@@ -3,6 +3,7 @@ import { Entry, get, getValue, set } from "./map";
 
 export const RESISTANCE = 'resistance';
 export const STRENGTH = 'strength';
+export const WEAKNESS = 'weakness';
 export interface Effect extends Entry<string, number> {
     
 }

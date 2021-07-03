@@ -70,7 +70,7 @@ export function CollapsableGraph(props: CollapsableGraphType) {
         for (let i = props.data.length ; i <= MAX_SETUPS ; i++) {
             options.data.push({fn: "-999999",  range:[0,0]});
         }
-        console.log("Data: " + options.data.length);
+        //console.log("Data: " + options.data.length);
         functionPlot(options)
     }
     useEffect(refresh);
@@ -106,7 +106,7 @@ export function DamageGraph() {
     const getPercents = () => {
         let data = [];
         for (let item of entity) {
-            console.log( "(100 - 100* ((" + damageEquation(damage, item) + ")))/x");
+            //console.log( "(100 - 100* ((" + damageEquation(damage, item) + ")))/x");
             data.push( "(100 - 100* ((" + damageEquation(damage, item) + "))/x)");
         }
         return data;
