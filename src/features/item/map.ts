@@ -38,3 +38,16 @@ export function remove<K,V>(e: Entry<K,V>[], type: K) {
     })
     e.splice(index, 1);
 }
+export function exclusion<K,V>(e: Entry<K,V>[], exclude: Entry<K,V>[]): K[] {
+    let temp: K[] = [];
+    for (let item of e) {
+        let flag = true;
+        for (let excluded of exclude) {
+            flag = (excluded.key !== item.key) && flag;
+        }
+        if (flag) {
+            temp.push(item.key);
+        }
+    }
+    return temp;
+}

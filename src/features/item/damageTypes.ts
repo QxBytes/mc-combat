@@ -6,3 +6,12 @@ export const PROJECTILE = 'Projectile';
 export const MAGIC = 'Magic';
 
 export const DAMAGE_ARRAY = [FIRE, MELEE, FALL, EXPLOSION, PROJECTILE, MAGIC];
+
+export function baseDamageType(val: string) {
+    for (let item of DAMAGE_ARRAY) {
+        if (val.includes(item)) {
+            return item;
+        }
+    }
+    return "Standard Damage";
+}

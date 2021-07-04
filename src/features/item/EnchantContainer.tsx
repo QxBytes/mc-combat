@@ -26,7 +26,7 @@ export function EnchantContainer(props : EnchantContainerType) {
                         name={item.key}
                         value={item.value}
                         getValidValues={ () => {
-                            return nomar(range(1,getEnchantment(ENCHANT_ARRAY, item.key)+1));
+                            return (range(1,getEnchantment(ENCHANT_ARRAY, item.key)+1));
                         }}
                         onValueChange={ (val) => {
                             dispatch(
@@ -70,7 +70,7 @@ interface ItemBadgeType {
     value: number,
     onDelete: () => void,
     onValueChange: (value: number) => void,
-    getValidValues: () => string[]
+    getValidValues: () => number[]
 }
 export function ItemBadge(props : ItemBadgeType) {
     return (
@@ -89,7 +89,7 @@ export function ItemBadge(props : ItemBadgeType) {
                             */
                 }}
                 inputs={
-                    props.getValidValues()
+                    nomar(props.getValidValues())
                     //nomar(range(1,getEnchantment(ENCHANT_ARRAY, props.enchant.key)+1))
                 }
             />

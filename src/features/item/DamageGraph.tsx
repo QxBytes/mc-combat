@@ -8,6 +8,7 @@ import { propTypes } from "react-bootstrap/esm/Image";
 import { useAppSelector } from "../../app/hooks";
 import { selectDamage, selectEntity } from "./activeSlice";
 import { Damage } from "./damage";
+import { baseDamageType } from "./damageTypes";
 import { Entity, MAX_SETUPS } from "./entity";
 import Icon from "./Icons";
 import { damageEquation } from "./maths";
@@ -35,7 +36,9 @@ interface CollapsableGraphType {
     title: string,
 
     xAxis: {domain: number[], label: string},
-    yAxis: {domain: number[], label: string}
+    yAxis: {domain: number[], label: string},
+
+    hidden?: boolean
 }
 export function CollapsableGraph(props: CollapsableGraphType) {
     const [width, height] = useWindowSize();
@@ -76,8 +79,9 @@ export function CollapsableGraph(props: CollapsableGraphType) {
     useEffect(refresh);
     return (
         <Row noGutters>
+            { props.hidden ? "" :
                 <Button 
-                    className="collapse-btn"
+                    className="collapse-btn pr-2"
                     onClick={ () => {setToggle(!toggle); refresh()} }
                 >
                     {
@@ -87,6 +91,7 @@ export function CollapsableGraph(props: CollapsableGraphType) {
                     }
                     { props.title }
                 </Button>
+            }
                 <Collapse in={toggle}>
                     <div id={props.target} className="graph"></div>
                 </Collapse>
@@ -113,6 +118,7 @@ export function DamageGraph() {
     }
     return (
         <React.Fragment>
+            <Row>
         <Col xs={12} lg={6} id="wrapper">
         {/*damageEquation(damage,entity)*/}
             <CollapsableGraph 
@@ -120,9 +126,10 @@ export function DamageGraph() {
                 annotations={[{text:"Damage", x: damage.amount}]}
                 widthReference="wrapper"
                 target="graphPane"
-                title={damage.type + " Damage Curve"}
+                title={baseDamageType(damage.type) + " Damage Curve"}
                 xAxis={ { domain: [0, Math.max(25, damage.amount+10)], label: "Damage before reduction"} }
                 yAxis={ {domain: [0, Math.max(25, damage.amount+10)], label: "Damage after reduction"} }
+                hidden
             />
         </Col>
         <Col xs={12} lg={6} id="wrapper2">
@@ -131,11 +138,13 @@ export function DamageGraph() {
                 annotations={[{text:"Damage", x: damage.amount}]}
                 widthReference="wrapper2"
                 target="percentGraphPane"
-                title={damage.type + " % Damage Curve"}
+                title={baseDamageType(damage.type) + " % Damage Curve"}
                 xAxis={ { domain: [0, Math.max(25, damage.amount+10)], label: "Damage"} }
                 yAxis={ {domain: [0, 100], label: "% Damage Mitigated"} }
+                hidden
             />
         </Col>
+        </Row>
         </React.Fragment>
     );
 }

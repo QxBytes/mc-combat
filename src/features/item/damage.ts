@@ -7,6 +7,10 @@ export interface Damage {
     amount: number,
     type: string
 }
+export interface DamageItem {
+    dmg: Damage,
+    id: number
+}
 /*
 export class Damage implements DamageType {
     //Required (How you implement an interface)

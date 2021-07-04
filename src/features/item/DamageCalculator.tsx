@@ -1,6 +1,6 @@
-import { Col, Row, Image } from "react-bootstrap";
+import { Col, Row, Image, Button } from "react-bootstrap";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { selectDamage, setDamage } from "./activeSlice";
+import { saveDamage, selectDamage, setDamage, setDamageType } from "./activeSlice";
 import { Damage } from "./damage";
 import React, { useState } from "react";
 
@@ -12,10 +12,11 @@ import NumericInput from 'react-numeric-input';
 
 import heart from './images/half_heart_lg.png';
 import { DamageSummaryTable } from "./DamageSummary";
-import { WeaponGraph } from "../weapon/WeaponGraph";
-import { makeWeapon } from "../weapon/weapon";
-import { WeaponDamageGraph } from "../weapon/WeaponDamageGraph";
 import { WeaponEditor } from "../weapon/WeaponEditor";
+import { Collapseable } from "./Parts";
+import EditInPlace from "./EditInPlace";
+import { baseDamageType } from "./damageTypes";
+import Icon from "./Icons";
 
 
 interface DamageInputType {
@@ -38,7 +39,7 @@ export function DamageCalculator(props : DamageCalculatorType) {
     const damage : Damage = useAppSelector(selectDamage);
     const dispatch = useAppDispatch();
     return (
-        <div className="container-top">
+        <div className="container-top text-left">
             <Row noGutters>
             <Col>
             <h3 className="text-left bottom-border p-1">Damage Calculations</h3>
@@ -54,20 +55,39 @@ export function DamageCalculator(props : DamageCalculatorType) {
                     //Poor documentation
                         if (valueAsNumber) {
                             dispatch(setDamage(valueAsNumber));
+                            dispatch(setDamageType(baseDamageType(damage.type)));
                         }
                     }}
                     />
                 </div>
+                <EditInPlace
+                    display={damage.type}
+                    save={(val: string) => {
+                        dispatch(setDamageType(val));
+                    }}
+                />
+                <Button onClick={() => dispatch(saveDamage({type: damage.type, amount: damage.amount}))}>
+                    <Icon val="done" />
+                </Button>
                 </Col>
             </Row>
             <Row className="damage-display-container" noGutters>
                 <DamageSummaryTable />
             </Row>
-            <WeaponEditor />
-
-            <Row >
+            <Collapseable 
+            title={"Melee damage calculator"}
+            inner={(
+                <WeaponEditor />
+            )}
+            className={"w-100"}
+            />
+            <Collapseable
+            title={damage.type + " Damage Graphs"}
+            inner={(
                 <DamageGraph />
-            </Row>
+            )}
+            className={"w-100"}
+            />
         </div>
     );
 }

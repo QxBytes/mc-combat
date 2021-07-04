@@ -28,7 +28,8 @@ export interface CollapseableType {
     handleCollapse?: (open?: boolean) => void,
     inner?: React.ReactNode,
     title?: string,
-    options?: React.ReactNode
+    options?: React.ReactNode,
+    className?: string
 }
 
 export function Collapseable(props: CollapseableType) {
@@ -37,7 +38,7 @@ export function Collapseable(props: CollapseableType) {
     return (
         <React.Fragment>
             <Button 
-                className="collapse-btn text-left w-80"
+                className={"collapse-btn text-left " + (props.className||"")} 
                 onClick={ () => {
                     let newState = !toggle;
                     setToggle(newState); 

@@ -58,6 +58,7 @@ export function SetupContainer() {
                                     </ButtonGroup>
                                     </React.Fragment>
                                 }
+                                className="w-80"
                             />
                             
                         </Col>

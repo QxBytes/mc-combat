@@ -4,6 +4,8 @@ import * as e from "../item/enchants";
 import { DIAMOND, IRON, GOLDEN, NETHERITE, NONE } from "../item/armor";
 import { Effect, getEffectLevel, makeEffect, setEffect, STRENGTH, WEAKNESS } from "../item/effects";
 import functionPlot from "function-plot";
+const _ = require('lodash');
+const nomar = require('nomar');
 //cooldown T = 20 / attackSpeed
 export interface Weapon {
     damage: number,
@@ -75,16 +77,16 @@ export function makeWeapon(type: string, material: string, ticksSinceLast: numbe
         effects: []
     }
     if (strength) {
-        setEffect(temp.effects, STRENGTH, strength);
+        setEffect(temp.effects, STRENGTH.key, strength);
     }
     if (weakness) {
-        setEffect(temp.effects, WEAKNESS, weakness);
+        setEffect(temp.effects, WEAKNESS.key, weakness);
     }
     preset(temp, type, material);
     return temp;
 }
 export function defaultWeapon() : Weapon{
-    return makeWeapon("Sword", "Netherite", 100, true, 5, 2, 0);
+    return makeWeapon("Sword", "Netherite", 14, true, 5, 2, 0);
 }
 export function preset(w: Weapon, type: string, material: string) {
     w.damage = weaponPreset(type, material);
@@ -97,6 +99,11 @@ export function weaponPreset(type: string, material: string) {
 }
 export function weaponSpeedPreset(type: string, material: string) {
     return indexInto(WEAPON_SPEEDS, type, material);
+}
+export function fullChargeDamage(w: Weapon) {
+    const x: Weapon = _.cloneDeep(w);
+    x.ticksSinceLast = 100; //5 seconds should be long enough for any weapon to recharge
+    return getDamage(x);
 }
 function indexInto(map: Map<string, number[]>, key: string, material: string) {
     if (material === WOODEN) {
@@ -169,10 +176,10 @@ export function getDamageMultiplierEquation(w : Weapon) : string {
 }
 
 export function getStrengthBonus(w: Weapon) {
-    return 3 * (getEffectLevel(w.effects, STRENGTH) || 0);
+    return 3 * (getEffectLevel(w.effects, STRENGTH.key) || 0);
 }
 export function getWeaknessBonus(w: Weapon) {
-    return -(4 * (getEffectLevel(w.effects, WEAKNESS) || 0));
+    return -(4 * (getEffectLevel(w.effects, WEAKNESS.key) || 0));
 }
 
 export function getCriticalMultiplier(w : Weapon) : number {
@@ -209,7 +216,28 @@ export function getTicks(seconds: number) {
 export function getSeconds(ticks: number) {
     return ticks / 20;
 }
-
+export function toString(w: Weapon) {
+    let temp = "";
+    if (w.type === TRIDENT || w.type === FIST) {
+        temp += w.type + " · ";
+    } else {
+        temp += w.material + " " + w.type + " · ";
+    }
+    temp += w.ticksSinceLast + " · ";
+    if (w.critical) {
+        temp += "Critical · ";
+    }
+    if (w.sharpness) {
+        temp += "Sharpness " + nomar(w.sharpness) + " · ";
+    }
+    if (getEffectLevel(w.effects, STRENGTH.key)) {
+        temp += "Strength " + nomar(getEffectLevel(w.effects, STRENGTH.key)) + " · ";
+    }  
+    if (getEffectLevel(w.effects, WEAKNESS.key)) {
+        temp += "Weakness " + nomar(getEffectLevel(w.effects, WEAKNESS.key)) + " · ";
+    }
+    return temp + " Melee"
+}
 
 /*
 export class MeleeWeapon implements Weapon {

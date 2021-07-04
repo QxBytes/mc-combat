@@ -1,4 +1,4 @@
-import { Entry, getValue, remove, set, shallowCopy } from "./map";
+import { Entry, exclusion, getValue, remove, set, shallowCopy } from "./map";
 
 export interface Enchantment extends Entry<string, number> {
 
@@ -20,6 +20,9 @@ export function setEnchantment(e: Enchantment[], name: string, level: number) {
 }
 export function removeEnchant(e: Enchantment[], name: string) {
     remove(e, name);
+}
+export function excludeEnchant(e: Enchantment[], exclude: Enchantment[]) {
+    return exclusion(e, exclude);
 }
 export const PROTECTION = {key:'protection', value: 4};
 export const PROJECTILE_PROTECTION = {key:'projectile protection', value: 4};

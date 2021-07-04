@@ -66,7 +66,7 @@ export function DamageHeader(props: DamageHeaderType)  {
     const dispatch = useAppDispatch();
     return (
         <th onMouseOver={() => setHover(true)} onMouseOut={() => setHover(false)}
-        className={hover || props.type === damage.type ? "highlighted fade-transition" : "fade-transition"}
+        className={hover || damage.type.includes(props.type) ? "highlighted fade-transition" : "fade-transition"}
         onClick={ () => dispatch(setDamageType(props.type))}
         >
             {props.type}

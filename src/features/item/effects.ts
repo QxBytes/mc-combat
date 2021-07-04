@@ -1,9 +1,18 @@
 
-import { Entry, get, getValue, set } from "./map";
+import { NONE } from "./enchants";
+import { Entry, exclusion, get, getValue, remove, set } from "./map";
 
-export const RESISTANCE = 'resistance';
-export const STRENGTH = 'strength';
-export const WEAKNESS = 'weakness';
+export const RESISTANCE = {key: 'resistance', value: 4};
+export const HEALTH_BOOST = {key: 'health boost', value: 4};
+export const ABSORPTION = {key: 'absorption', value: 4};
+export const STRENGTH = {key: 'strength', value: 2};
+export const WEAKNESS = {key: 'weakness', value: 1};
+
+export const EFFECTS = [RESISTANCE, HEALTH_BOOST, ABSORPTION, STRENGTH, WEAKNESS, NONE];
+export const ENTITY_EFFECTS = [RESISTANCE, HEALTH_BOOST, ABSORPTION, NONE];
+
+export const WEAPON_EFFECTS = [STRENGTH, WEAKNESS, NONE];
+
 export interface Effect extends Entry<string, number> {
     
 }
@@ -18,4 +27,10 @@ export function getEffect(e: Effect[], type: string ) {
 }
 export function getEffectLevel(e: Effect[], type: string) {
     return getValue(e, type, 0);
+}
+export function removeEffect(e: Effect[], type: string) {
+    remove(e, type);
+}
+export function excludeEffect(e: Effect[], other: Effect[]) {
+    return exclusion(e, other);
 }

@@ -68,7 +68,7 @@ export function damageEquation(dmg: Damage, target : Entity, legacy? : boolean) 
         return damageEquationLegacy(dmg, target);
     }
     let EPF = EPFFactor(dmg.type, target.armor);
-    let res = resistanceFactor(getEffectLevel(target.effects, e.RESISTANCE) || 0);
+    let res = resistanceFactor(getEffectLevel(target.effects, e.RESISTANCE.key) || 0);
     let def = getSetArmor(target.armor);
     let tough = getSetToughness(target.armor);
     if (affectedByArmor(dmg.type)) {
@@ -80,7 +80,7 @@ export function damageEquation(dmg: Damage, target : Entity, legacy? : boolean) 
 }
 function damageEquationLegacy(dmg: Damage, target: Entity) : string {
     let EPF = EPFFactor(dmg.type, target.armor);
-    let res = resistanceFactor(getEffectLevel(target.effects, e.RESISTANCE) || 0);
+    let res = resistanceFactor(getEffectLevel(target.effects, e.RESISTANCE.key) || 0);
     let def = getSetArmor(target.armor);
     if (affectedByArmor(dmg.type)) {
         return "x * (1 -  (" + (def * 4)  + ") *"

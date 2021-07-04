@@ -9,6 +9,9 @@ import { Col, Container, Nav, Navbar, Row } from 'react-bootstrap';
 import { DamageCalculator } from './features/item/DamageCalculator';
 import { EntityContainer } from './features/item/EntityContainer';
 import { SetupContainer } from './features/item/SetupContainer';
+import { DragContainer } from './features/simulator/DragContainer';
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 
 function App() {
   return (
@@ -26,6 +29,13 @@ function App() {
         <Col sm={12} md={12} lg={12} xl={7}>
           <DamageCalculator />
         </Col>
+        </Row>
+        <Row>
+          <Col>
+          <DndProvider backend={HTML5Backend}>
+            <DragContainer />
+          </DndProvider>
+          </Col>
         </Row>
       </Container>
       {/*
