@@ -17,18 +17,18 @@ describe('counter reducer', () => {
     }
     it('should return the correct damage dealt with feather falling', () => {
         //epf: 16
-      expect(takeDamage({amount: 25, type: d.FALL}, player)).toBeCloseTo(9);
+      expect(takeDamage({amount: 25, type: d.FALL, ticks: 10}, player)).toBeCloseTo(9);
     });
     it('should return the correct damage dealt with melee', () => {
         //epf: 4
-      expect(takeDamage({amount: 25, type: d.MELEE}, player)).toBeCloseTo(8.4);
+      expect(takeDamage({amount: 25, type: d.MELEE, ticks: 10}, player)).toBeCloseTo(8.4);
     });
     it('should return the correct damage dealt with fire', () => {
         //epf: 10
-        expect(takeDamage({amount: 25, type: d.FIRE}, player)).toBeCloseTo(7);
+        expect(takeDamage({amount: 25, type: d.FIRE, ticks: 10}, player)).toBeCloseTo(7);
       });
     it('should return the correct damage dealt with explosions', () => {
         //epf: 16
-        expect(takeDamage({amount: 25, type: d.EXPLOSION}, player)).toBeCloseTo(3.6);
+        expect(takeDamage({amount: 25, type: d.EXPLOSION, ticks: 10}, player)).toBeCloseTo(3.6);
     });
 });

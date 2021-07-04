@@ -2,10 +2,17 @@ import { FC, useRef } from 'react'
 import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd'
 
 import { XYCoord } from 'dnd-core'
+import { Button, ButtonGroup, Col, Form, Row } from 'react-bootstrap'
+import { useAppDispatch } from '../../app/hooks'
+import { Damage } from '../item/damage'
+import { removeSetup } from '../item/entity'
+import Icon from '../item/Icons'
+import { removeDamage, saveDamage, toggleDamage } from '../item/activeSlice'
+const _ = require('lodash');
 
 const style = {
   border: '1px dashed gray',
-  padding: '0.5rem 1rem',
+  padding: '0rem .51rem',
   marginBottom: '.5rem',
   backgroundColor: 'white',
   cursor: 'move',
@@ -13,7 +20,8 @@ const style = {
 
 export interface CardProps {
   id: any
-  text: string
+  visible: boolean
+  damage: Damage
   index: number
   moveCard: (dragIndex: number, hoverIndex: number) => void
 }
@@ -24,7 +32,9 @@ interface DragItem {
   type: string
 }
 
-export const Card: FC<CardProps> = ({ id, text, index, moveCard }) => {
+export const Card: FC<CardProps> = ({ id, visible, damage, index, moveCard }) => {
+  const dispatch = useAppDispatch();
+
   const ref = useRef<HTMLDivElement>(null)
   const [{ handlerId }, drop] = useDrop({
     accept: 'card',
@@ -96,8 +106,34 @@ export const Card: FC<CardProps> = ({ id, text, index, moveCard }) => {
   const opacity = isDragging ? 0 : 1
   drag(drop(ref))
   return (
-    <div className="text-left" ref={ref} style={{ ...style, opacity }} data-handler-id={handlerId}>
-      {text}
+    <div className="text-left vc" ref={ref} style={{ ...style, opacity }} data-handler-id={handlerId}>
+      <Row className="align-items-center">
+      <Col>
+      <Form.Check inline 
+            className="vc" 
+            label="" 
+            type={'checkbox'}
+            onChange={(e) => dispatch(toggleDamage(id))} 
+            defaultChecked
+            />
+        <span className="vc m-0">{damage.type}</span>
+      </Col>
+      <Col className="text-right">
+        
+        <ButtonGroup className="text-right">
+          <Button onClick={() => 
+              dispatch(saveDamage(
+                  _.cloneDeep(damage)
+              ))}
+          >
+              <Icon val="content_copy" />
+          </Button>
+          <Button onClick={() => dispatch(removeDamage(id))}>
+              <Icon val="close" />
+          </Button>
+        </ButtonGroup>
+      </Col>
+      </Row>
     </div>
   )
 }

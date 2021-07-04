@@ -66,7 +66,7 @@ export function DamageCalculator(props : DamageCalculatorType) {
                         dispatch(setDamageType(val));
                     }}
                 />
-                <Button onClick={() => dispatch(saveDamage({type: damage.type, amount: damage.amount}))}>
+                <Button onClick={() => dispatch(saveDamage({type: damage.type, amount: damage.amount, ticks: damage.ticks}))}>
                     <Icon val="done" />
                 </Button>
                 </Col>

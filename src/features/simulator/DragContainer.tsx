@@ -42,8 +42,9 @@ export const DragContainer: FC = () => {
         <Card
           key={card.id}
           index={index}
+          visible={card.visible}
           id={card.id}
-          text={index + ": " + card.dmg.amount + " (" + card.dmg.type + ")"}
+          damage={card.dmg}
           moveCard={moveCard}
         />
       )
@@ -51,7 +52,7 @@ export const DragContainer: FC = () => {
 
     return (
       <>
-        <div style={style}>{damages.map((card, i) => renderCard(card, i))}</div>
+        <div className="container-top overflow-scroll">{damages.map((card, i) => renderCard(card, i))}</div>
       </>
     )
   

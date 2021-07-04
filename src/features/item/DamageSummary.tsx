@@ -5,7 +5,7 @@ import { getSetEPF } from "./armor";
 import { Damage } from "./damage";
 import { Entity } from "./entity";
 import { takeDamage } from "./maths";
-import { getColor, round } from "./Utils";
+import { getColor, getPresetColor, round } from "./Utils";
 import * as d from './damageTypes';
 import { Col, Form, Table } from "react-bootstrap";
 import functionPlot from "function-plot";
@@ -82,15 +82,15 @@ export function DamageSummary(props: DamageSummaryType) {
     
     return (
     <tr style={
-        {   borderLeftColor:functionPlot.globals.COLORS[props.entity], 
-            borderLeftWidth:3, 
-            borderLeftStyle:"solid"}}>
-        <DamageDisplay show={props.show} entity={props.entity} dmg={{amount: damage.amount, type: d.MELEE}}></DamageDisplay>
-        <DamageDisplay show={props.show} entity={props.entity} dmg={{amount: damage.amount, type: d.FALL}}></DamageDisplay>
-        <DamageDisplay show={props.show} entity={props.entity} dmg={{amount: damage.amount, type: d.EXPLOSION}}></DamageDisplay>
-        <DamageDisplay show={props.show} entity={props.entity} dmg={{amount: damage.amount, type: d.FIRE}}></DamageDisplay>
-        <DamageDisplay show={props.show} entity={props.entity} dmg={{amount: damage.amount, type: d.PROJECTILE}}></DamageDisplay>
-        <DamageDisplay show={props.show} entity={props.entity} dmg={{amount: damage.amount, type: d.MAGIC}}></DamageDisplay>
+        {   borderLeftColor: getPresetColor(props.entity), 
+            borderLeftWidth: 3, 
+            borderLeftStyle: "solid"}}>
+        <DamageDisplay show={props.show} entity={props.entity} dmg={{amount: damage.amount, type: d.MELEE, ticks: 10}}></DamageDisplay>
+        <DamageDisplay show={props.show} entity={props.entity} dmg={{amount: damage.amount, type: d.FALL, ticks: 10}}></DamageDisplay>
+        <DamageDisplay show={props.show} entity={props.entity} dmg={{amount: damage.amount, type: d.EXPLOSION, ticks: 10}}></DamageDisplay>
+        <DamageDisplay show={props.show} entity={props.entity} dmg={{amount: damage.amount, type: d.FIRE, ticks: 10}}></DamageDisplay>
+        <DamageDisplay show={props.show} entity={props.entity} dmg={{amount: damage.amount, type: d.PROJECTILE, ticks: 10}}></DamageDisplay>
+        <DamageDisplay show={props.show} entity={props.entity} dmg={{amount: damage.amount, type: d.MAGIC, ticks: 10}}></DamageDisplay>
     </tr>);
 }
 interface DamageDisplayType {

@@ -1,3 +1,5 @@
+import functionPlot from "function-plot";
+
 var Color = require('color');
 export function range(from: number, to: number) {
     let arr : number[] = [];
@@ -11,4 +13,14 @@ export function round(num : number) {
 }
 export function getColor(max: number, value: number) {
     return Color.hsl(180*(value/max),70,70);
+}
+export function getPresetColor(index: number) {
+    return functionPlot.globals.COLORS[index];
+}
+export function elementwiseAdd(origin: number[], addThis: number[]) {
+    let temp = [];
+    for (let i = 0 ; i < addThis.length ; i++) {
+        temp.push(origin[i] + addThis[i]);
+    }
+    return temp;
 }

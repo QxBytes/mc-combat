@@ -5,11 +5,13 @@ import * as e from './effects';
 
 export interface Damage {
     amount: number,
-    type: string
+    type: string,
+    ticks: number
 }
 export interface DamageItem {
     dmg: Damage,
-    id: number
+    id: number,
+    visible: boolean
 }
 /*
 export class Damage implements DamageType {

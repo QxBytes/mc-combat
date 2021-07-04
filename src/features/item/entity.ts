@@ -1,5 +1,6 @@
 import { Armor, BOOTS, CHESTPLATE, getSetArmor, getSetToughness, HELMET, LEGGINGS, make, NONE } from "./armor";
-import { Effect } from "./effects";
+import { ABSORPTION, Effect, getEffect, getEffectLevel, HEALTH_BOOST, RESISTANCE } from "./effects";
+const nomar = require('nomar');
 export const MAX_SETUPS = 8;
 
 export interface Entity {
@@ -19,12 +20,20 @@ export function getLeggings(e : Entity) : Armor {
 export function getBoots(e : Entity) : Armor {
     return e.armor[3];
 }
+export function maxHealth(e: Entity) {
+    return 20 + (getEffectLevel(e.effects, HEALTH_BOOST.key) * 4) +
+        (getEffectLevel(e.effects, ABSORPTION.key) * 4);
+}
 export function summary(e : Entity) {
     let str = "";
     str += e.armor[0].type.charAt(0) + "/" + e.armor[1].type.charAt(0) +  "/" + 
     e.armor[2].type.charAt(0) + "/" + e.armor[3].type.charAt(0);
-    str += " Armor: " + getSetArmor(e.armor);
-    str += " Tough: " + getSetToughness(e.armor);
+    str += " A: " + getSetArmor(e.armor);
+    str += " T: " + getSetToughness(e.armor);
+    if (getEffect(e.effects, RESISTANCE.key)) {
+        str += " R: " + nomar(getEffect(e.effects, RESISTANCE.key)!.value);
+    }
+    str += " HP: " + maxHealth(e);
     return str;
 }
 export function removeSetup(setups : Entity[], i : number) {

@@ -15,7 +15,7 @@ export function WeaponGraph(props: WeaponGraphType) {
     const getFunctions = () => {
         let data = [];
         for (let item of entity) {
-            let eq = damageEquation({amount: 1, type: MELEE}, item);
+            let eq = damageEquation({amount: 1, type: MELEE, ticks: 10}, item);
             let attackDamageEquation = getDamageEquation(props.weapon);
             //console.log("Substituted in: " + (eq.replaceAll("x ", "[" + attackDamageEquation + "]")));
             data.push( (eq.replaceAll("x ","("+ attackDamageEquation + ")")) );

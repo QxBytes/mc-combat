@@ -1,4 +1,6 @@
 import * as a from '../item/armor';
+import { Entity } from '../item/entity';
+import { takeDamage } from '../item/maths';
 import * as w from './weapon';
 
 describe('weapon damage calculator', () => {
@@ -7,6 +9,15 @@ describe('weapon damage calculator', () => {
     const weapon3 = w.makeWeapon(w.TRIDENT, a.DIAMOND, w.getTicks(.05), false, 5, 0, 0);
     const weapon4 = w.makeWeapon(w.SWORD, w.WOODEN, 30, false, 0, 0, 0);
     
+    const entity1: Entity = {
+        armor: [
+            a.make(a.NONE, a.HELMET, []), 
+            a.make(a.LEATHER, a.CHESTPLATE, []), 
+            a.make(a.LEATHER, a.LEGGINGS, []), 
+            a.make(a.LEATHER, a.BOOTS, [])],
+        effects: [],
+        family: 'player'
+    }
     it('should return the correct damage as a critical fully charged axe', () => {
       expect(w.getDamage(weapon1)).toBeCloseTo(13.5);
     });
@@ -18,7 +29,7 @@ describe('weapon damage calculator', () => {
         expect(w.getStrengthBonus(weapon2)).toBeCloseTo(6);
         expect(w.getDamage(weapon2)).toBeCloseTo(11.5792);
 
-        expect(w.getDamage(weapon4)).toBeCloseTo(3.36);
+        expect(takeDamage({amount: w.getDamage(weapon4), type: "melee", ticks: 10}, entity1)).toBeCloseTo(3.36);
     });
     it('should return the correct damage with a non-sharpness compatible weapon', () => {
         expect(w.getDamageMultiplier(weapon3)).toBeCloseTo(.2054);

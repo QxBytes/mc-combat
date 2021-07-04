@@ -42,29 +42,36 @@ const initialState : matchState = {
     ],
     damage: {
         amount: 18,
-        type: d.MELEE
+        type: d.MELEE,
+        ticks: 10
     },
     damages: [
         {
             dmg: {
                 type: "Melee",
-                amount: 7
+                amount: 7,
+                ticks: 10
             },
-            id: 0
+            id: 0,
+            visible: true
         },
         {
             dmg: {
                 type: "Melee 2",
-                amount: 3
+                amount: 3,
+                ticks: 10
             },
-            id: 1
+            id: 1,
+            visible: true
         },
         {
             dmg: {
                 type: "Melee 3",
-                amount: 9
+                amount: 9,
+                ticks: 10
             },
-            id: 2
+            id: 2,
+            visible: true
         },
     ],
     id: 99
@@ -107,6 +114,16 @@ export const activeSlice = createSlice( {
         setDamage: (state, action: PayloadAction<number>) => {
             state.damage.amount = action.payload;
         },
+        setDamageTicks: (state, action: PayloadAction<number>) => {
+            state.damage.ticks = action.payload;
+        },
+        toggleDamage: (state, action: PayloadAction<number>) => {
+            for (let i = 0 ; i < state.damages.length ; i++) {
+                if (state.damages[i].id === action.payload) {
+                    state.damages[i].visible = !state.damages[i].visible;
+                }
+            }
+        },
         removeSetup: (state, action: PayloadAction<number>) => {
             removeEntity(state.setups, action.payload);
         },
@@ -115,8 +132,9 @@ export const activeSlice = createSlice( {
         },
         saveDamage: (state, action: PayloadAction<Damage>) => {
             state.id = state.id + 1;
-            state.damages.push({dmg:action.payload, id:state.id+1});
+            state.damages.push({dmg:action.payload, id:state.id+1, visible: true});
         },
+        //number is ID value!
         removeDamage: (state, action: PayloadAction<number>) => {
             for (let i = 0 ; i < state.damages.length ; i++) {
                 if (state.damages[i].id === action.payload) {
@@ -134,7 +152,7 @@ export const activeSlice = createSlice( {
 });
 
 export const {setType, setEnchant, removeEnchant, removeEffect, setEffect, setDamageType, setDamage,
-    removeSetup, addSetup, saveDamage, removeDamage, moveDamage} = activeSlice.actions;
+    setDamageTicks, toggleDamage, removeSetup, addSetup, saveDamage, removeDamage, moveDamage} = activeSlice.actions;
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`

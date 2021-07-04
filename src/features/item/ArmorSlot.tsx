@@ -48,7 +48,7 @@ export function ArmorSlot(props : ArmorSlotType) {
             </Form.Group>
             
             </Form>
-            {/*
+            {/* 
             <div className="text-left">
             <li>
                     +{entity.armor[props.slot].armor} Armor

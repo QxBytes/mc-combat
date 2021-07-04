@@ -14,7 +14,7 @@ import { range, round } from "../item/Utils";
 
 import heart from '../item/images/half_heart_lg.png';
 import { useAppDispatch } from "../../app/hooks";
-import { setDamage, setDamageType } from "../item/activeSlice";
+import { setDamage, setDamageTicks, setDamageType } from "../item/activeSlice";
 
 const _ = require('lodash');
 const nomar = require('nomar');
@@ -25,6 +25,7 @@ export function WeaponEditor() {
         setActualWeapon(w);
         dispatch(setDamageType(toString(w)));
         dispatch(setDamage(getDamage(w)));
+        dispatch(setDamageTicks(w.ticksSinceLast))
     }
     const c = () => {
         return _.cloneDeep(weapon);

@@ -12,6 +12,8 @@ import { SetupContainer } from './features/item/SetupContainer';
 import { DragContainer } from './features/simulator/DragContainer';
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
+import { Simulator } from './features/simulator/Simulator';
+import { SimulatorHeader } from './features/simulator/SimulatorHeader';
 
 function App() {
   return (
@@ -32,9 +34,17 @@ function App() {
         </Row>
         <Row>
           <Col>
+            <SimulatorHeader/>
+          </Col>
+        </Row>
+        <Row className="">
+          <Col sm={12} md={12} lg={4} className="overflow-scroll h-100vh">
           <DndProvider backend={HTML5Backend}>
             <DragContainer />
           </DndProvider>
+          </Col>
+          <Col sm={12} md={12} lg={8} className="overflow-scroll h-100vh">
+            <Simulator />
           </Col>
         </Row>
       </Container>

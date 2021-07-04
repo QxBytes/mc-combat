@@ -8,6 +8,7 @@ import { Entity, getDefaultSetup, maxSetups, summary } from "./entity";
 import { EntityContainer } from "./EntityContainer";
 import Icon from "./Icons";
 import { Collapseable } from "./Parts";
+import { getPresetColor } from "./Utils";
 
 const _ = require('lodash');
 
@@ -30,9 +31,9 @@ export function SetupContainer() {
                     <Row noGutters>
                         <Col xs={12} className="text-left pl-2"
                             style={
-                                {   borderLeftColor:functionPlot.globals.COLORS[index], 
-                                    borderLeftWidth:3, 
-                                    borderLeftStyle:"solid"}
+                                {   borderLeftColor: getPresetColor(index), 
+                                    borderLeftWidth: 3, 
+                                    borderLeftStyle: "solid"}
                                 }
                         >
                             <Collapseable inner={<EntityContainer entity={index}/>}
