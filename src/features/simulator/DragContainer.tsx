@@ -43,6 +43,7 @@ export const DragContainer: FC = () => {
           key={card.id}
           index={index}
           visible={card.visible}
+          times={card.times}
           id={card.id}
           damage={card.dmg}
           moveCard={moveCard}

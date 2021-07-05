@@ -38,12 +38,12 @@ function App() {
           </Col>
         </Row>
         <Row className="">
-          <Col sm={12} md={12} lg={4} className="overflow-scroll h-100vh">
+          <Col sm={12} md={12} lg={4} className="overflow-scroll h-95vh">
           <DndProvider backend={HTML5Backend}>
             <DragContainer />
           </DndProvider>
           </Col>
-          <Col sm={12} md={12} lg={8} className="overflow-scroll h-100vh">
+          <Col sm={12} md={12} lg={8} className="overflow-scroll h-95vh">
             <Simulator />
           </Col>
         </Row>

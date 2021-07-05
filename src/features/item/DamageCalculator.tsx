@@ -10,10 +10,9 @@ import RangeSlider from 'react-bootstrap-range-slider';
 import { DamageGraph } from "./DamageGraph";
 import NumericInput from 'react-numeric-input';
 
-import heart from './images/half_heart_lg.png';
 import { DamageSummaryTable } from "./DamageSummary";
 import { WeaponEditor } from "../weapon/WeaponEditor";
-import { Collapseable } from "./Parts";
+import { Collapseable, HalfHeart } from "./Parts";
 import EditInPlace from "./EditInPlace";
 import { baseDamageType } from "./damageTypes";
 import Icon from "./Icons";
@@ -47,7 +46,7 @@ export function DamageCalculator(props : DamageCalculatorType) {
             </Row>
             <Row>
                 <Col>
-                <Image className="m-1" src={heart} width={18} height={18}></Image>
+                <HalfHeart />
                 <div className="vc d-inline-block">
                     <NumericInput  min={1} max={10000} step={1} 
                     precision={2} value={damage.amount}

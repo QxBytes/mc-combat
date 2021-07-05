@@ -4,10 +4,11 @@ import { Row, Col, ButtonGroup, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../app/hooks";
 import { addSetup, removeSetup, selectEntity } from "./activeSlice";
-import { Entity, getDefaultSetup, maxSetups, summary } from "./entity";
+import { getSetArmor, getSetToughness } from "./armor";
+import { Entity, getDefaultSetup, maxHealth, maxSetups, summary } from "./entity";
 import { EntityContainer } from "./EntityContainer";
 import Icon from "./Icons";
-import { Collapseable } from "./Parts";
+import { ArmorBar, Collapseable, HealthBar, ToughnessBar } from "./Parts";
 import { getPresetColor } from "./Utils";
 
 const _ = require('lodash');
@@ -37,9 +38,19 @@ export function SetupContainer() {
                                 }
                         >
                             <Collapseable inner={<EntityContainer entity={index}/>}
-                                title={summary(item)}
+                                title={
+                                    <>
+                                    <span>{" " + summary(item) + " "}</span>
+                                    <ArmorBar armor={getSetArmor(item.armor)} />
+                                    <span> | </span>
+                                    <ToughnessBar toughness={getSetToughness(item.armor)} />
+                                    <span> | </span>
+                                    <HealthBar health={maxHealth(item)} />
+                                    </>
+                                }
                                 options={
                                     <React.Fragment>
+                                    
                                     <ButtonGroup>
                                             {!maxSetups(entities) ?
                                         <Button onClick={() => 
@@ -52,7 +63,7 @@ export function SetupContainer() {
                                         }
                                         {entities.length > 1 ?
                                         <Button onClick={() => dispatch(removeSetup(index))}>
-                                            <Icon val="close" />
+                                            <Icon val="delete_outline" />
                                         </Button> : ""
                                         }
                                         

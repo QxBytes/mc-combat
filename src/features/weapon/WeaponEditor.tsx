@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, ButtonGroup, Col, Form, Row, Image } from "react-bootstrap";
 import NumericInput from "react-numeric-input";
-import { getDamage, getDamageEquation, getSeconds, getTicks, preset, toString } from "./weapon";
+import { getDamage, getDamageEquation, getSeconds, getTicks, percentCharge, preset, toString } from "./weapon";
 import { DropInput } from "../item/Parts";
 import { defaultWeapon, FIST, makeWeapon, TRIDENT, Weapon, WEAPONS, WEAPON_MATERIALS } from "./weapon";
 import { WeaponDamageGraph } from "./WeaponDamageGraph";
@@ -67,7 +67,7 @@ export function WeaponEditor() {
                 </Col>
             </Row>
             <span>Wait 
-            <NumericInput  min={0} max={20} step={.05} precision={2} 
+            <NumericInput  min={0.05} max={20} step={.05} precision={2} 
                     value={getSeconds(weapon.ticksSinceLast)}
                     onChange={(valueAsNumber:(number|null), stringValue:string, el: HTMLInputElement) => {
                     //Poor documentation
@@ -75,7 +75,8 @@ export function WeaponEditor() {
                             const x = c(); x.ticksSinceLast = valueAsNumber*20; setWeapon(x);
                         }
                     }}
-                    format={(num) => num + " sec (" + (getTicks(num||0)) + " ticks)"}
+                    format={(num) => num + " sec (" + (getTicks(num||0)) + " ticks, " + 
+                    percentCharge(weapon) + "%)"}
             />
              before attack
             </span>

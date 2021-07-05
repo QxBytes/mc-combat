@@ -7,7 +7,9 @@ import { useAppDispatch } from '../../app/hooks'
 import { Damage } from '../item/damage'
 import { removeSetup } from '../item/entity'
 import Icon from '../item/Icons'
-import { removeDamage, saveDamage, toggleDamage } from '../item/activeSlice'
+import { addDamageTimes, removeDamage, saveDamage, toggleDamage } from '../item/activeSlice'
+import { HalfHeart } from '../item/Parts'
+import { round } from '../item/Utils'
 const _ = require('lodash');
 
 const style = {
@@ -21,6 +23,7 @@ const style = {
 export interface CardProps {
   id: any
   visible: boolean
+  times: number
   damage: Damage
   index: number
   moveCard: (dragIndex: number, hoverIndex: number) => void
@@ -32,7 +35,7 @@ interface DragItem {
   type: string
 }
 
-export const Card: FC<CardProps> = ({ id, visible, damage, index, moveCard }) => {
+export const Card: FC<CardProps> = ({ id, visible, times, damage, index, moveCard }) => {
   const dispatch = useAppDispatch();
 
   const ref = useRef<HTMLDivElement>(null)
@@ -109,18 +112,29 @@ export const Card: FC<CardProps> = ({ id, visible, damage, index, moveCard }) =>
     <div className="text-left vc" ref={ref} style={{ ...style, opacity }} data-handler-id={handlerId}>
       <Row className="align-items-center">
       <Col>
-      <Form.Check inline 
+        
+        <Form.Check inline 
             className="vc" 
             label="" 
             type={'checkbox'}
             onChange={(e) => dispatch(toggleDamage(id))} 
             defaultChecked
-            />
-        <span className="vc m-0">{damage.type}</span>
+        />
+        <ButtonGroup>
+          <Button onClick={ () => dispatch(addDamageTimes({id: id, change: 1}))}>
+            <Icon val="add" />
+          </Button>
+          <Button onClick={ () => dispatch(addDamageTimes({id: id, change: -1}))}>
+            <Icon val="remove" />
+          </Button>
+        </ButtonGroup>
+        <span className="vc">{times} x </span>
+        <HalfHeart />
+        <span className="vc m-0">{ " " + round(damage.amount) + " · " + damage.type}</span>
       </Col>
       <Col className="text-right">
         
-        <ButtonGroup className="text-right">
+        <ButtonGroup >
           <Button onClick={() => 
               dispatch(saveDamage(
                   _.cloneDeep(damage)
@@ -129,7 +143,7 @@ export const Card: FC<CardProps> = ({ id, visible, damage, index, moveCard }) =>
               <Icon val="content_copy" />
           </Button>
           <Button onClick={() => dispatch(removeDamage(id))}>
-              <Icon val="close" />
+              <Icon val="delete_outline" />
           </Button>
         </ButtonGroup>
       </Col>

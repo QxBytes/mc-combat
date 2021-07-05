@@ -4,6 +4,7 @@ import * as e from "../item/enchants";
 import { DIAMOND, IRON, GOLDEN, NETHERITE, NONE } from "../item/armor";
 import { Effect, getEffectLevel, makeEffect, setEffect, STRENGTH, WEAKNESS } from "../item/effects";
 import functionPlot from "function-plot";
+import { round } from "../item/Utils";
 const _ = require('lodash');
 const nomar = require('nomar');
 //cooldown T = 20 / attackSpeed
@@ -223,7 +224,7 @@ export function toString(w: Weapon) {
     } else {
         temp += w.material + " " + w.type + " · ";
     }
-    temp += w.ticksSinceLast + " · ";
+    temp += percentCharge(w) + "% · ";
     if (w.critical) {
         temp += "Critical · ";
     }
@@ -238,7 +239,12 @@ export function toString(w: Weapon) {
     }
     return temp + " Melee"
 }
-
+export function ticksToFullCharge(w: Weapon) {
+    return 20 / w.attackSpeed;
+}
+export function percentCharge(w: Weapon) {
+    return round(Math.min(100, w.ticksSinceLast*100/ticksToFullCharge(w)));
+}
 /*
 export class MeleeWeapon implements Weapon {
     constructor (

@@ -6,7 +6,7 @@ import * as e from "./enchants";
 import * as d from "./damageTypes";
 import * as f from "./effects";
 import { Entity, MAX_SETUPS, removeSetup as removeEntity } from "./entity";
-import { Damage, DamageItem } from "./damage";
+import { Damage, DamageItem, find } from "./damage";
 import { defaultWeapon, Weapon } from "../weapon/weapon";
 
 export interface matchState {
@@ -53,7 +53,8 @@ const initialState : matchState = {
                 ticks: 10
             },
             id: 0,
-            visible: true
+            visible: true,
+            times: 1
         },
         {
             dmg: {
@@ -62,7 +63,8 @@ const initialState : matchState = {
                 ticks: 10
             },
             id: 1,
-            visible: true
+            visible: true,
+            times: 1
         },
         {
             dmg: {
@@ -71,7 +73,8 @@ const initialState : matchState = {
                 ticks: 10
             },
             id: 2,
-            visible: true
+            visible: true,
+            times: 1
         },
     ],
     id: 99
@@ -118,10 +121,13 @@ export const activeSlice = createSlice( {
             state.damage.ticks = action.payload;
         },
         toggleDamage: (state, action: PayloadAction<number>) => {
-            for (let i = 0 ; i < state.damages.length ; i++) {
-                if (state.damages[i].id === action.payload) {
-                    state.damages[i].visible = !state.damages[i].visible;
-                }
+            find(state.damages, action.payload).visible = !find(state.damages, action.payload).visible;
+        },
+        addDamageTimes: (state, action: PayloadAction<{id: number, change: number}>) => {
+            let p = action.payload;
+            find(state.damages, p.id).times += p.change;
+            if (find(state.damages, p.id).times < 0) {
+                find(state.damages, p.id).times = 0;
             }
         },
         removeSetup: (state, action: PayloadAction<number>) => {
@@ -132,7 +138,7 @@ export const activeSlice = createSlice( {
         },
         saveDamage: (state, action: PayloadAction<Damage>) => {
             state.id = state.id + 1;
-            state.damages.push({dmg:action.payload, id:state.id+1, visible: true});
+            state.damages.push({dmg:action.payload, id:state.id+1, visible: true, times: 1});
         },
         //number is ID value!
         removeDamage: (state, action: PayloadAction<number>) => {
@@ -152,7 +158,7 @@ export const activeSlice = createSlice( {
 });
 
 export const {setType, setEnchant, removeEnchant, removeEffect, setEffect, setDamageType, setDamage,
-    setDamageTicks, toggleDamage, removeSetup, addSetup, saveDamage, removeDamage, moveDamage} = activeSlice.actions;
+    setDamageTicks, toggleDamage, addDamageTimes, removeSetup, addSetup, saveDamage, removeDamage, moveDamage} = activeSlice.actions;
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`

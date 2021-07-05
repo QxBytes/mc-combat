@@ -11,7 +11,16 @@ export interface Damage {
 export interface DamageItem {
     dmg: Damage,
     id: number,
-    visible: boolean
+    visible: boolean,
+    times: number
+}
+export function find(items: DamageItem[], id: number) {
+    for (let i = 0 ; i < items.length ; i++) {
+        if (items[i].id === id) {
+            return items[i];
+        }
+    }
+    return items[0];
 }
 /*
 export class Damage implements DamageType {

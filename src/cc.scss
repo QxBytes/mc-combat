@@ -76,6 +76,10 @@ button.btn-primary {
     text-align: center;
 }
 
+.type-display {
+    max-width: 10rem;
+}
+
 .damage-display-container {
     margin: 20px;
     background-color: rgb(240,240,240);
@@ -112,8 +116,8 @@ button.btn-primary {
 }
 
 
-.h-100vh {
-    height: 100vh;
+.h-95vh {
+    height: 95vh;
 }
 .overflow-scroll {
     overflow-x: hidden;

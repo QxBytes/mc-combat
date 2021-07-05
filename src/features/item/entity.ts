@@ -28,12 +28,12 @@ export function summary(e : Entity) {
     let str = "";
     str += e.armor[0].type.charAt(0) + "/" + e.armor[1].type.charAt(0) +  "/" + 
     e.armor[2].type.charAt(0) + "/" + e.armor[3].type.charAt(0);
-    str += " A: " + getSetArmor(e.armor);
-    str += " T: " + getSetToughness(e.armor);
+    //str += " A: " + getSetArmor(e.armor);
+    //str += " T: " + getSetToughness(e.armor);
     if (getEffect(e.effects, RESISTANCE.key)) {
         str += " R: " + nomar(getEffect(e.effects, RESISTANCE.key)!.value);
     }
-    str += " HP: " + maxHealth(e);
+    //str += " HP: " + maxHealth(e);
     return str;
 }
 export function removeSetup(setups : Entity[], i : number) {
