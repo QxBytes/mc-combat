@@ -41,18 +41,25 @@ export interface CollapseableType {
     inner?: React.ReactNode,
     title?: React.ReactNode,
     options?: React.ReactNode,
-    className?: string
+    className?: string,
+    defaultOpen?: boolean,
+    override?: string
 }
 
 export function Collapseable(props: CollapseableType) {
-    let [toggle, setToggle] = useState(true);
+    let [toggle, setToggle] = useState(props.defaultOpen || false);
     const {inner} = props;
+    const isOpen = () => {
+        return props.override ? 
+                        props.override === "open" ? true : false
+                    : toggle
+    }
     return (
         <React.Fragment>
             <Button 
                 className={"collapse-btn text-left " + (props.className||"")} 
                 onClick={ () => {
-                    let newState = !toggle;
+                    let newState = !isOpen();
                     setToggle(newState); 
                     if (props.handleCollapse) {
                         props.handleCollapse(newState);
@@ -61,9 +68,9 @@ export function Collapseable(props: CollapseableType) {
                 
             >
             {
-                toggle ? 
-                <Icon val="expand_less"/> :
-                <Icon val="expand_more"/>
+                isOpen() ? 
+                <Icon val="expand_more"/> :
+                <Icon val="chevron_right"/>
             }
             {
                 props.title ?
@@ -73,7 +80,9 @@ export function Collapseable(props: CollapseableType) {
             {
                 props.options ? props.options : ""
             }
-            <Collapse in={toggle}>
+            <Collapse in={
+                    isOpen()
+                }>
                 <div>{inner!}</div>
             </Collapse>
         </React.Fragment>

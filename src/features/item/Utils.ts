@@ -10,7 +10,7 @@ export function range(from: number, to: number) {
     return arr;
 }
 export function round(num : number) {
-    return Math.round((num + Number.EPSILON) * 100) / 100;
+    return Math.round((num + Number.EPSILON) * 1000) / 1000;
 }
 export function getColor(max: number, value: number) {
     return Color.hsl(180*(bound(value/max,0,1)),70,70);

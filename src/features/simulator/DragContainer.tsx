@@ -5,6 +5,7 @@ import { useAppDispatch } from '../../app/hooks'
 import { moveDamage, selectDamages } from '../item/activeSlice'
 import { useSelector } from 'react-redux'
 import { DamageItem } from '../item/damage'
+import { Row, Col } from 'react-bootstrap'
 
 const style = {
   width: 400,
@@ -53,7 +54,14 @@ export const DragContainer: FC = () => {
 
     return (
       <>
-        <div className="container-top overflow-scroll">{damages.map((card, i) => renderCard(card, i))}</div>
+        <div className="container-bottom overflow-scroll">
+            <Row noGutters>
+                <Col>
+                    <h5 className="text-left bottom-border p-1">Drag to reorder</h5>
+                </Col>
+            </Row>
+          {damages.map((card, i) => renderCard(card, i))}
+        </div>
       </>
     )
   

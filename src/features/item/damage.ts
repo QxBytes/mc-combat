@@ -22,6 +22,14 @@ export function find(items: DamageItem[], id: number) {
     }
     return items[0];
 }
+export function equals(dmg1: Damage, dmg2: Damage) {
+    if (dmg1.amount === dmg2.amount &&
+        dmg1.ticks === dmg2.ticks &&
+        dmg1.type === dmg2.type) {
+            return true;
+    }
+    return false;
+}
 /*
 export class Damage implements DamageType {
     //Required (How you implement an interface)

@@ -110,8 +110,8 @@ export const Card: FC<CardProps> = ({ id, visible, times, damage, index, moveCar
   drag(drop(ref))
   return (
     <div className="text-left vc" ref={ref} style={{ ...style, opacity }} data-handler-id={handlerId}>
-      <Row className="align-items-center">
-      <Col>
+      <Row className="align-items-center" noGutters>
+      <Col xs={9}>
         
         <Form.Check inline 
             className="vc" 
@@ -128,11 +128,11 @@ export const Card: FC<CardProps> = ({ id, visible, times, damage, index, moveCar
             <Icon val="remove" />
           </Button>
         </ButtonGroup>
-        <span className="vc">{times} x </span>
+        <span className="vc no-wrap">{times} x </span>
         <HalfHeart />
         <span className="vc m-0">{ " " + round(damage.amount) + " · " + damage.type}</span>
       </Col>
-      <Col className="text-right">
+      <Col xs={3} className="text-right">
         
         <ButtonGroup >
           <Button onClick={() => 

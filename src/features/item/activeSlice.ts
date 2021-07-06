@@ -19,15 +19,15 @@ const initialState : matchState = {
     setups: [
         {
         armor: [
-            a.make(a.NETHERITE, a.HELMET, [{key: "fire protection", value: 3}]),
-            a.make(a.NETHERITE, a.CHESTPLATE, [{key: "blast protection", value: 2}, e.copy(e.PROJECTILE_PROTECTION)]),
-            a.make(a.NETHERITE, a.LEGGINGS, [{key: "projectile protection", value: 1}]),
-            a.make(a.NETHERITE, a.BOOTS, [e.copy(e.PROTECTION), e.copy(e.FEATHER_FALLING),
-              e.copy(e.BLAST_PROTECTION), e.copy(e.PROJECTILE_PROTECTION), e.copy(e.FIRE_PROTECTION)])
+            a.make(a.NETHERITE, a.HELMET, [e.copy(e.PROTECTION)]),
+            a.make(a.NETHERITE, a.CHESTPLATE, [e.copy(e.PROTECTION)]),
+            a.make(a.NETHERITE, a.LEGGINGS, [e.copy(e.PROTECTION)]),
+            a.make(a.NETHERITE, a.BOOTS, [e.copy(e.PROTECTION), e.copy(e.FEATHER_FALLING)])
           ], 
         effects: [], 
         family: 'player' 
         },
+        /*
         {
             armor: [
                 a.make(a.GOLDEN, a.HELMET, [{key: "fire protection", value: 3}]),
@@ -39,9 +39,10 @@ const initialState : matchState = {
             effects: [], 
             family: 'player' 
         }
+        */
     ],
     damage: {
-        amount: 18,
+        amount: 1,
         type: d.MELEE,
         ticks: 10
     },
@@ -112,6 +113,9 @@ export const activeSlice = createSlice( {
             f.setEffect(state.setups[p.entity].effects, p.name, p.level);
         },  
         setDamageType: (state, action: PayloadAction<string>) => {
+            if (d.baseDamageType(action.payload) !== d.MELEE) {
+                state.damage.ticks = 10;
+            }
             state.damage.type = action.payload;
         },
         setDamage: (state, action: PayloadAction<number>) => {

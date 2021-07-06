@@ -1,4 +1,4 @@
-import { Col, Row, Image, Button } from "react-bootstrap";
+import { Col, Row, Image, Button, ButtonGroup } from "react-bootstrap";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { saveDamage, selectDamage, setDamage, setDamageType } from "./activeSlice";
 import { Damage } from "./damage";
@@ -16,6 +16,10 @@ import { Collapseable, HalfHeart } from "./Parts";
 import EditInPlace from "./EditInPlace";
 import { baseDamageType } from "./damageTypes";
 import Icon from "./Icons";
+
+const Scroll   = require('react-scroll');
+const Element  = Scroll.Element;
+const scroller = Scroll.scroller;
 
 
 interface DamageInputType {
@@ -41,6 +45,7 @@ export function DamageCalculator(props : DamageCalculatorType) {
         <div className="container-top text-left">
             <Row noGutters>
             <Col>
+            <Element name="damage-link"></Element>
             <h3 className="text-left bottom-border p-1">Damage Calculations</h3>
             </Col>
             </Row>
@@ -48,11 +53,11 @@ export function DamageCalculator(props : DamageCalculatorType) {
                 <Col>
                 <HalfHeart />
                 <div className="vc d-inline-block">
-                    <NumericInput  min={1} max={10000} step={1} 
+                    <NumericInput  min={0} max={10000} step={1} 
                     precision={2} value={damage.amount}
                     onChange={(valueAsNumber:(number|null), stringValue:string, el: HTMLInputElement) => {
                     //Poor documentation
-                        if (valueAsNumber) {
+                        if (valueAsNumber || valueAsNumber === 0) {
                             dispatch(setDamage(valueAsNumber));
                             dispatch(setDamageType(baseDamageType(damage.type)));
                         }
@@ -65,16 +70,27 @@ export function DamageCalculator(props : DamageCalculatorType) {
                         dispatch(setDamageType(val));
                     }}
                 />
+                <div className="no-wrap d-inline-block">
                 <Button onClick={() => dispatch(saveDamage({type: damage.type, amount: damage.amount, ticks: damage.ticks}))}>
-                    <Icon val="done" />
+                    Save to Simulator 
                 </Button>
+                <Button onClick={() => {
+                    scroller.scrollTo('simulator-link', {
+                        duration: 1000,
+                        smooth: true
+                    })
+                }}>
+                    Jump to Simulator
+                </Button>
+                </div>
                 </Col>
             </Row>
             <Row className="damage-display-container" noGutters>
                 <DamageSummaryTable />
             </Row>
             <Collapseable 
-            title={"Melee damage calculator"}
+            defaultOpen
+            title={"Weapon damage calculator"}
             inner={(
                 <WeaponEditor />
             )}

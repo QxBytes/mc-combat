@@ -6,6 +6,7 @@ import { selectEntity, setType } from "../item/activeSlice";
 import { armor_data, getTough, MATERIAL_ARRAY, PIECE_ARRAY } from "./armor";
 import { EnchantContainer } from "./EnchantContainer";
 import { Entity } from "./entity";
+import { DropInput } from "./Parts";
 
 interface ArmorSlotType {
     entity: number
@@ -14,8 +15,8 @@ interface ArmorSlotType {
 export function ArmorSlot(props : ArmorSlotType) {
     const entity : Entity = useAppSelector(selectEntity)[props.entity];
     const dispatch = useAppDispatch();
-    const onMaterialChange = (e : React.ChangeEvent<HTMLInputElement>) => {
-        dispatch(setType({entity: props.entity, type: e.target.value.split(" ")[2], slot: props.slot}));
+    const onMaterialChange = (value: string) => {
+        dispatch(setType({entity: props.entity, type: value.split(" ")[2], slot: props.slot}));
     }
     const getFormatted = (type : string) => {
         return armor_data.get(type)![props.slot] + " " + getTough(type) + " " + type;
@@ -30,13 +31,14 @@ export function ArmorSlot(props : ArmorSlotType) {
         */}
         <Row className="container-bottom">
             <Col sm={3} className="min-width-1">
-            <h5 className="text-center bottom-border p-1">{PIECE_ARRAY[props.slot]}</h5>
-            
+            <strong className="border-bottom">{PIECE_ARRAY[props.slot]}</strong>
+            {/*
             <Form>
             <Form.Group as={Row} controlId="armorSelect.ControlSelect1">
                 <Form.Control as="select" 
                 defaultValue={getFormatted(entity.armor[props.slot].type)}
-                onChange={(e : React.ChangeEvent<HTMLInputElement>) => onMaterialChange(e)}> {
+                onChange={(e : React.ChangeEvent<HTMLInputElement>) => onMaterialChange(e)}> 
+                {
                     MATERIAL_ARRAY[props.slot].map( (item) => {
                         return (
                         <option>
@@ -48,6 +50,12 @@ export function ArmorSlot(props : ArmorSlotType) {
             </Form.Group>
             
             </Form>
+            */}
+            <DropInput 
+                selected={getFormatted(entity.armor[props.slot].type)}
+                inputs={MATERIAL_ARRAY[props.slot].map( (item) => getFormatted(item))}
+                onDropClicked={(value) => onMaterialChange(value)}
+            />
             {/* 
             <div className="text-left">
             <li>

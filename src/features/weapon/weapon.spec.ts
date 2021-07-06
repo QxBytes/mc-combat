@@ -8,6 +8,7 @@ describe('weapon damage calculator', () => {
     const weapon2 = w.makeWeapon(w.SWORD, a.NETHERITE, w.getTicks(.40), true, 2, 2, 0);
     const weapon3 = w.makeWeapon(w.TRIDENT, a.DIAMOND, w.getTicks(.05), false, 5, 0, 0);
     const weapon4 = w.makeWeapon(w.SWORD, w.WOODEN, 30, false, 0, 0, 0);
+    const weapon5 = w.makeWeapon(w.SWORD, a.NETHERITE, 10, false, 5, 0, 0);
     
     const entity1: Entity = {
         armor: [
@@ -31,6 +32,9 @@ describe('weapon damage calculator', () => {
 
         expect(takeDamage({amount: w.getDamage(weapon4), type: "melee", ticks: 10}, entity1)).toBeCloseTo(3.36);
     });
+    it('should return the correct damage for a partial hit', () => {
+        expect(w.getDamage(weapon5)).toBeCloseTo(8.64);
+    })
     it('should return the correct damage with a non-sharpness compatible weapon', () => {
         expect(w.getDamageMultiplier(weapon3)).toBeCloseTo(.2054);
         expect(w.getEnchantModifier(weapon3)).toBeCloseTo(0);

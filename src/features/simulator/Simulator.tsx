@@ -58,7 +58,8 @@ export function Simulator() {
                     <th style={{
                         borderBottomColor: getPresetColor(index),
                         borderBottomWidth: 3,
-                        borderBottomStyle: "solid"
+                        borderBottomStyle: "solid",
+                        color: getPresetColor(index)
                     }}>
                         {summary(item)}
                     </th>
@@ -137,8 +138,12 @@ export function Simulator() {
         );
     }
     return (
-        <div className="container-bottom h-90 overflow-scroll">
+        <>
+        <div className="container-bottom">
             {renderSettings()}
+        </div>
+        <div className="container-bottom overflow-scroll h-simulator">
+            
         <Table className="simulator-table text-left">
             <thead>
                 <tr>
@@ -151,6 +156,7 @@ export function Simulator() {
             </tbody>
         </Table>
         </div>
+        </>
     );
 }
 interface SimulatorRowType {

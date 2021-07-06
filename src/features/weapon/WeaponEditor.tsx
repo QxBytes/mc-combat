@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, ButtonGroup, Col, Form, Row, Image } from "react-bootstrap";
 import NumericInput from "react-numeric-input";
 import { getDamage, getDamageEquation, getSeconds, getTicks, percentCharge, preset, toString } from "./weapon";
-import { DropInput } from "../item/Parts";
+import { Collapseable, DropInput } from "../item/Parts";
 import { defaultWeapon, FIST, makeWeapon, TRIDENT, Weapon, WEAPONS, WEAPON_MATERIALS } from "./weapon";
 import { WeaponDamageGraph } from "./WeaponDamageGraph";
 import { WeaponGraph } from "./WeaponGraph";
@@ -14,18 +14,25 @@ import { range, round } from "../item/Utils";
 
 import heart from '../item/images/half_heart_lg.png';
 import { useAppDispatch } from "../../app/hooks";
-import { setDamage, setDamageTicks, setDamageType } from "../item/activeSlice";
+import { selectDamage, setDamage, setDamageTicks, setDamageType } from "../item/activeSlice";
+import { Damage, equals } from "../item/damage";
+import { useSelector } from "react-redux";
+import Icon from "../item/Icons";
 
 const _ = require('lodash');
 const nomar = require('nomar');
 export function WeaponEditor() {
     const dispatch = useAppDispatch();
+    const globalDamage = useSelector(selectDamage);
     const [weapon, setActualWeapon] = useState(defaultWeapon());
     const setWeapon = (w: Weapon) => {
         setActualWeapon(w);
         dispatch(setDamageType(toString(w)));
         dispatch(setDamage(getDamage(w)));
         dispatch(setDamageTicks(w.ticksSinceLast))
+    }
+    const getDamageObj = (w: Weapon): Damage => {
+        return {amount: getDamage(w), ticks: w.ticksSinceLast, type: toString(w)}
     }
     const c = () => {
         return _.cloneDeep(weapon);
@@ -37,6 +44,11 @@ export function WeaponEditor() {
         <Col xs={12} lg={6} className="text-left">
             <Row className="text-left">
                 <Col>
+                <Button className="text-right" disabled={equals(getDamageObj(weapon), globalDamage)} 
+                onClick={ () => setWeapon(weapon)}
+                >
+                    <Icon val="done" />
+                </Button>
                 <ButtonGroup>
                 <DropInput 
                 selected={weapon.type}
@@ -118,12 +130,22 @@ export function WeaponEditor() {
         <Row>
         </Row>
         <Row>
-        <WeaponGraph 
+            <Col>
+        <Collapseable
+            title={"Weapon Damage Graphs"}
+            inner={(
+                <Row>
+                <WeaponGraph 
                 weapon={weapon}
                 />
-        <WeaponDamageGraph 
-        weapon={weapon}
+                <WeaponDamageGraph 
+                weapon={weapon}
+                />
+                </Row>
+            )}
+            className={"w-100"}
         />
+        </Col>
         </Row>
         </React.Fragment>
     )

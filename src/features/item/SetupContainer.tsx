@@ -1,5 +1,5 @@
 import functionPlot from "function-plot";
-import React from "react";
+import React, { useState } from "react";
 import { Row, Col, ButtonGroup, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../app/hooks";
@@ -10,17 +10,20 @@ import { EntityContainer } from "./EntityContainer";
 import Icon from "./Icons";
 import { ArmorBar, Collapseable, HealthBar, ToughnessBar } from "./Parts";
 import { getPresetColor } from "./Utils";
-
+const Scroll   = require('react-scroll');
+const Element  = Scroll.Element;
 const _ = require('lodash');
 
 export function SetupContainer() {
     const entities : Entity[] = useSelector(selectEntity);
     const dispatch = useAppDispatch();
+    const [active, setActive] = useState(0);
     
     return (
         <div className="container-top">
             <Row noGutters>
                 <Col>
+                    <Element name="setup-link"></Element>
                     <h3 className="text-left bottom-border p-1">Setups</h3>
                 </Col>
             </Row>
@@ -71,6 +74,14 @@ export function SetupContainer() {
                                     </React.Fragment>
                                 }
                                 className="w-80"
+                                override={active === index ? "open" : "closed"}
+                                handleCollapse={(open) => {
+                                    if (open) {
+                                        setActive(index);
+                                    } else {
+                                        setActive(-1);
+                                    }
+                                }}
                             />
                             
                         </Col>
