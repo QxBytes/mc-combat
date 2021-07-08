@@ -1,7 +1,7 @@
 import * as a from './armor';
 import * as e from './enchants';
 import * as d from './damageTypes'
-import { takeDamage } from './maths';
+import { takeDamage } from '../utility/maths';
 
 describe('counter reducer', () => {
     const player = {

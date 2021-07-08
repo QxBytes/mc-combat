@@ -2,18 +2,28 @@ import React, { useState } from "react";
 import { Button, Col, Collapse, Dropdown, DropdownButton, Image } from "react-bootstrap";
 import Icon from "./Icons";
 
-import no_heart from './images/no_heart.png';
-import half_heart from './images/half_heart.png';
-import full_heart from './images/full_heart.png';
+import no_heart from '../images/no_heart.png';
+import half_heart from '../images/half_heart.png';
+import full_heart from '../images/full_heart.png';
 
-import half_heart_lg from './images/half_heart_lg.png';
+import half_heart_lg from '../images/half_heart_lg.png';
 
-import no_armor from './images/no_armor.png';
-import half_armor from './images/half_armor.png';
-import full_armor from './images/full_armor.png';
+import no_armor from '../images/no_armor.png';
+import half_armor from '../images/half_armor.png';
+import full_armor from '../images/full_armor.png';
 import { Tooltip } from "reactstrap";
 import { Placement } from "react-bootstrap/esm/Overlay";
+import { useAppDispatch } from "../../../app/hooks";
+import { setDamage, setDamageTicks, setDamageType } from "../activeSlice";
+import { Damage } from "../calculations/damage";
 
+
+export function sync(dispatch: any, dmg: Damage, setter: (d: Damage) => void) {
+    dispatch(setDamageTicks(dmg.ticks));
+    dispatch(setDamage(dmg.amount));
+    dispatch(setDamageType(dmg.type));
+    setter(dmg);
+}
 export interface DropInputType {
     selected: string,
     inputs: string[],

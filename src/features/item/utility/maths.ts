@@ -1,9 +1,9 @@
-import { Armor, getSetArmor, getSetEPF, getSetToughness } from "./armor";
-import { Damage } from "./damage";
-import { Entity } from "./entity";
-import * as d from "./damageTypes";
-import * as e from "./effects";
-import { getEffect, getEffectLevel } from "./effects";
+import { Armor, getSetArmor, getSetEPF, getSetToughness } from "../calculations/armor";
+import { Damage } from "../calculations/damage";
+import { Entity } from "../calculations/entity";
+import * as d from "../calculations/damageTypes";
+import * as e from "../calculations/effects";
+import { getEffect, getEffectLevel } from "../calculations/effects";
 import functionPlot from "function-plot";
 
 export function bound(value : number, min : number, max: number) {

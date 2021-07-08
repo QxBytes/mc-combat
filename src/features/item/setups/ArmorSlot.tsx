@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { propTypes } from "react-bootstrap/esm/Image";
-import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { selectEntity, setType } from "../item/activeSlice";
-import { armor_data, getTough, MATERIAL_ARRAY, PIECE_ARRAY } from "./armor";
+import { useAppSelector, useAppDispatch } from "../../../app/hooks";
+import { selectEntity, setType } from "../activeSlice";
+import { armor_data, getTough, MATERIAL_ARRAY, PIECE_ARRAY } from "../calculations/armor";
 import { EnchantContainer } from "./EnchantContainer";
-import { Entity } from "./entity";
-import { DropInput } from "./Parts";
+import { Entity } from "../calculations/entity";
+import { DropInput } from "../utility/Parts";
 
 interface ArmorSlotType {
     entity: number

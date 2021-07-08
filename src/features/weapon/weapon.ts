@@ -1,10 +1,10 @@
-import { Item } from "../item/item";
-import { bound } from "../item/maths";
-import * as e from "../item/enchants";
-import { DIAMOND, IRON, GOLDEN, NETHERITE, NONE } from "../item/armor";
-import { Effect, getEffectLevel, makeEffect, setEffect, STRENGTH, WEAKNESS } from "../item/effects";
+import { Item } from "../item/calculations/item";
+import { bound } from "../item/utility/maths";
+import * as e from "../item/calculations/enchants";
+import { DIAMOND, IRON, GOLDEN, NETHERITE, NONE } from "../item/calculations/armor";
+import { Effect, getEffectLevel, makeEffect, setEffect, STRENGTH, WEAKNESS } from "../item/calculations/effects";
 import functionPlot from "function-plot";
-import { round } from "../item/Utils";
+import { round } from "../item/utility/Utils";
 const _ = require('lodash');
 const nomar = require('nomar');
 //cooldown T = 20 / attackSpeed
@@ -100,6 +100,9 @@ export function weaponPreset(type: string, material: string) {
 }
 export function weaponSpeedPreset(type: string, material: string) {
     return indexInto(WEAPON_SPEEDS, type, material);
+}
+export function fullCharge(w: Weapon) {
+    return 20 / w.attackSpeed;
 }
 export function fullChargeDamage(w: Weapon) {
     const x: Weapon = _.cloneDeep(w);

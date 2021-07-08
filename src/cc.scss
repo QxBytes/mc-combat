@@ -83,6 +83,11 @@ tr {
     padding-left: 10px;
     padding-right: 10px;
 }
+.active-calculator {
+    border-left: 3px solid $accent;
+}
+
+
 .text-left {
     text-align: left;
 }
@@ -94,10 +99,6 @@ tr {
     max-width: 10rem;
 }
 
-.damage-display-container {
-    margin: 20px;
-    background-color: rgb(240,240,240);
-}
 .fade-transition {
     transition: ease-in all .2s;
 }
@@ -134,7 +135,7 @@ tr {
 
 
 .h-simulator {
-    height: 90vh;
+    height: 87vh;
 }
 .overflow-scroll {
     overflow-x: auto;

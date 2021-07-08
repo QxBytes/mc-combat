@@ -7,12 +7,12 @@ import { Button, ButtonGroup, Col, Collapse, Row } from "react-bootstrap";
 import { propTypes } from "react-bootstrap/esm/Image";
 import { useAppSelector } from "../../app/hooks";
 import { selectDamage, selectEntity } from "./activeSlice";
-import { Damage } from "./damage";
-import { baseDamageType } from "./damageTypes";
-import { Entity, MAX_SETUPS } from "./entity";
-import Icon from "./Icons";
-import { damageEquation } from "./maths";
-import { range } from "./Utils";
+import { Damage } from "./calculations/damage";
+import { baseDamageType } from "./calculations/damageTypes";
+import { Entity, MAX_SETUPS } from "./calculations/entity";
+import Icon from "./utility/Icons";
+import { damageEquation } from "./utility/maths";
+import { range } from "./utility/Utils";
 
 
 //https://stackoverflow.com/questions/19014250/rerender-view-on-browser-resize-with-react

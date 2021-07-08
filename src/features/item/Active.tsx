@@ -2,11 +2,11 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { selectCount, incrementByAmount } from "../counter/counterSlice";
-import { Entity } from "./entity";
-import * as a from "./armor";
-import { takeDamage } from "./maths";
-import * as d from "./damageTypes";
-import * as e from "./enchants";
+import { Entity } from "./calculations/entity";
+import * as a from "./calculations/armor";
+import { takeDamage } from "./utility/maths";
+import * as d from "./calculations/damageTypes";
+import * as e from "./calculations/enchants";
 
 export function Active() {
   const count = useAppSelector(selectCount);

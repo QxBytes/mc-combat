@@ -1,14 +1,17 @@
 import { useState } from "react";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { selectEntity, selectDamage, setDamageType } from "./activeSlice";
-import { getSetEPF } from "./armor";
-import { Damage } from "./damage";
-import { Entity } from "./entity";
-import { takeDamage } from "./maths";
-import { getColor, getPresetColor, round } from "./Utils";
-import * as d from './damageTypes';
-import { Col, Form, Table } from "react-bootstrap";
+import { getSetEPF } from "./calculations/armor";
+import { Damage } from "./calculations/damage";
+import { Entity } from "./calculations/entity";
+import { takeDamage } from "./utility/maths";
+import { getColor, getPresetColor, round } from "./utility/Utils";
+import * as d from './calculations/damageTypes';
+import { Col, Form, Row, Table } from "react-bootstrap";
 import functionPlot from "function-plot";
+import { DAMAGE_ARRAY } from "./calculations/damageTypes";
+import { HalfHeart } from "./utility/Parts";
+import { useSelector } from "react-redux";
 
 const TAKEN = "Damage Taken";
 const RESISTANCE = "% Resistance";
@@ -16,20 +19,27 @@ const EPF = "EPF (Enchantment Protection Factor)";
 const SETTINGS = [TAKEN, RESISTANCE, EPF];
 
 export function DamageSummaryTable() {
+    const globalDamage = useSelector(selectDamage);
     const entities: Entity[] = useAppSelector(selectEntity);
     const [show, setShow] = useState(TAKEN);
     return (
+        <div>
+        <Row>
+            <Col>
+            <HalfHeart/>
+            <span>{round(globalDamage.amount)}</span>
+            </Col>
+        </Row>
+        <Row>
         <Col>
             
             <Table className="damage-summary-table">
                 <thead>
                     <tr>
-                        <DamageHeader type={d.MELEE} />
-                        <DamageHeader type={d.FALL} />
-                        <DamageHeader type={d.EXPLOSION} />
-                        <DamageHeader type={d.FIRE} />
-                        <DamageHeader type={d.PROJECTILE} />
-                        <DamageHeader type={d.MAGIC} />
+                        {
+                        DAMAGE_ARRAY.map( (item) => 
+                            <DamageHeader type={item} />)
+                        }
                     </tr>
                 </thead>
                 <tbody>
@@ -55,6 +65,8 @@ export function DamageSummaryTable() {
                 </div>
             </Form>
         </Col>
+        </Row>
+        </div>
     );
 }
 interface DamageHeaderType {
@@ -65,9 +77,18 @@ export function DamageHeader(props: DamageHeaderType)  {
     const damage : Damage = useAppSelector(selectDamage);
     const dispatch = useAppDispatch();
     return (
-        <th onMouseOver={() => setHover(true)} onMouseOut={() => setHover(false)}
+        
+        <th 
+        
+            /* onMouseOver={() => setHover(true)} onMouseOut={() => setHover(false)}
+            onClick={ () => dispatch(setDamageType(props.type))}
+            You can't have a dangling { comment } inside of an element tag. 
+            Just remove the {} and you should be fine
+            In between tags, however, you need {}
+            */
+        
         className={hover || damage.type.includes(props.type) ? "highlighted fade-transition" : "fade-transition"}
-        onClick={ () => dispatch(setDamageType(props.type))}
+        
         >
             {props.type}
         </th>

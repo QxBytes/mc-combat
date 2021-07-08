@@ -1,6 +1,6 @@
-import * as a from '../item/armor';
-import { Entity } from '../item/entity';
-import { takeDamage } from '../item/maths';
+import * as a from '../item/calculations/armor';
+import { Entity } from '../item/calculations/entity';
+import { takeDamage } from '../item/utility/maths';
 import * as w from './weapon';
 
 describe('weapon damage calculator', () => {

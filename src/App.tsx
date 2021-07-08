@@ -4,11 +4,11 @@ import { Counter } from './features/counter/Counter';
 import './App.css';
 import './cc.scss';
 import { Active } from './features/item/Active';
-import { ArmorSlot } from './features/item/ArmorSlot';
+import { ArmorSlot } from './features/item/setups/ArmorSlot';
 import { Col, Container, Nav, Navbar, Row } from 'react-bootstrap';
 import { DamageCalculator } from './features/item/DamageCalculator';
-import { EntityContainer } from './features/item/EntityContainer';
-import { SetupContainer } from './features/item/SetupContainer';
+import { EntityContainer } from './features/item/setups/EntityContainer';
+import { SetupContainer } from './features/item/setups/SetupContainer';
 import { DragContainer } from './features/simulator/DragContainer';
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'

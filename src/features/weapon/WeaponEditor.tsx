@@ -1,23 +1,24 @@
 import React, { useState } from "react";
 import { Button, ButtonGroup, Col, Form, Row, Image } from "react-bootstrap";
 import NumericInput from "react-numeric-input";
-import { getDamage, getDamageEquation, getSeconds, getTicks, percentCharge, preset, toString } from "./weapon";
-import { Collapseable, DropInput } from "../item/Parts";
+import { fullCharge, getDamage, getDamageEquation, getSeconds, getTicks, percentCharge, preset, toString } from "./weapon";
+import { Collapseable, DropInput } from "../item/utility/Parts";
 import { defaultWeapon, FIST, makeWeapon, TRIDENT, Weapon, WEAPONS, WEAPON_MATERIALS } from "./weapon";
 import { WeaponDamageGraph } from "./WeaponDamageGraph";
 import { WeaponGraph } from "./WeaponGraph";
-import { ItemBadge } from "../item/EnchantContainer";
-import { ENCHANT_ARRAY, getEnchantment, SHARPNESS } from "../item/enchants";
-import { getEffect, setEffect, STRENGTH, WEAKNESS } from "../item/effects";
-import { range, round } from "../item/Utils";
+import { ItemBadge } from "../item/setups/EnchantContainer";
+import { ENCHANT_ARRAY, getEnchantment, SHARPNESS } from "../item/calculations/enchants";
+import { getEffect, setEffect, STRENGTH, WEAKNESS } from "../item/calculations/effects";
+import { range, round } from "../item/utility/Utils";
 
 
 import heart from '../item/images/half_heart_lg.png';
 import { useAppDispatch } from "../../app/hooks";
 import { selectDamage, setDamage, setDamageTicks, setDamageType } from "../item/activeSlice";
-import { Damage, equals } from "../item/damage";
+import { Damage, equals } from "../item/calculations/damage";
 import { useSelector } from "react-redux";
-import Icon from "../item/Icons";
+import Icon from "../item/utility/Icons";
+import { SyncSave } from "../item/SyncSave";
 
 const _ = require('lodash');
 const nomar = require('nomar');
@@ -31,24 +32,20 @@ export function WeaponEditor() {
         dispatch(setDamage(getDamage(w)));
         dispatch(setDamageTicks(w.ticksSinceLast))
     }
-    const getDamageObj = (w: Weapon): Damage => {
-        return {amount: getDamage(w), ticks: w.ticksSinceLast, type: toString(w)}
-    }
     const c = () => {
         return _.cloneDeep(weapon);
     }
+    const getDamageObj = (w: Weapon): Damage => {
+        return {amount: getDamage(w), ticks: w.ticksSinceLast, type: toString(w)}
+    }
+    
     return (
-        <React.Fragment>
+        <div className={equals(getDamageObj(weapon), globalDamage) ? "active-calculator" : ""}>
         <Row>
             
         <Col xs={12} lg={6} className="text-left">
             <Row className="text-left">
                 <Col>
-                <Button className="text-right" disabled={equals(getDamageObj(weapon), globalDamage)} 
-                onClick={ () => setWeapon(weapon)}
-                >
-                    <Icon val="done" />
-                </Button>
                 <ButtonGroup>
                 <DropInput 
                 selected={weapon.type}
@@ -78,20 +75,28 @@ export function WeaponEditor() {
                 />
                 </Col>
             </Row>
-            <span>Wait 
-            <NumericInput  min={0.05} max={20} step={.05} precision={2} 
-                    value={getSeconds(weapon.ticksSinceLast)}
-                    onChange={(valueAsNumber:(number|null), stringValue:string, el: HTMLInputElement) => {
-                    //Poor documentation
-                        if (valueAsNumber) {
-                            const x = c(); x.ticksSinceLast = valueAsNumber*20; setWeapon(x);
-                        }
-                    }}
-                    format={(num) => num + " sec (" + (getTicks(num||0)) + " ticks, " + 
-                    percentCharge(weapon) + "%)"}
-            />
-             before attack
-            </span>
+            <Row>
+                <Col>
+                <span className="p-1"> Wait 
+                <NumericInput className="align-middle"  min={0.05} max={20} step={.05} precision={3} 
+                        value={getSeconds(weapon.ticksSinceLast)}
+                        onChange={(valueAsNumber:(number|null), stringValue:string, el: HTMLInputElement) => {
+                        //Poor documentation
+                            if (valueAsNumber) {
+                                const x = c(); x.ticksSinceLast = getTicks(valueAsNumber); setWeapon(x);
+                            }
+                        }}
+                        format={(num) => num + " s (" + (getTicks(num||0)) + " ticks, " + 
+                        percentCharge(weapon) + "%)"}
+                />
+                before attack
+                </span>
+                <Button onClick={ () => {
+                    const x = c(); x.ticksSinceLast = round(fullCharge(x)); setWeapon(x);}}>
+                    max
+                </Button>
+                </Col>
+            </Row>
         </Col>
         <Col xs={12} lg={6} className="text-left">
             <ItemBadge 
@@ -128,6 +133,15 @@ export function WeaponEditor() {
         </Col>
         </Row>
         <Row>
+            <Col className="vc">
+                <span className="p-1">DPS: {round(getDamage(weapon) / getSeconds(weapon.ticksSinceLast))}</span>
+                {weapon.ticksSinceLast < 10 ? 
+                <span>⚠️ Damage triggers 0.5 sec immunity</span>
+                : ""}
+            </Col>
+            <Col className="text-right">
+                <SyncSave dmg={getDamageObj(weapon)} />
+            </Col>
         </Row>
         <Row>
             <Col>
@@ -147,7 +161,7 @@ export function WeaponEditor() {
         />
         </Col>
         </Row>
-        </React.Fragment>
+        </div>
     )
 }
 

@@ -2,8 +2,8 @@ import { Col } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { selectDamage, selectEntity } from "../item/activeSlice";
 import { CollapsableGraph } from "../item/DamageGraph";
-import { MELEE } from "../item/damageTypes";
-import { damageEquation, takeDamage } from "../item/maths";
+import { MELEE } from "../item/calculations/damageTypes";
+import { damageEquation, takeDamage } from "../item/utility/maths";
 import { fullChargeDamage, getDamage, getDamageEquation, Weapon } from "./weapon";
 
 export interface WeaponGraphType {

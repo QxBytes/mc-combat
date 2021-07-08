@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Button, ButtonGroup } from "react-bootstrap";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { selectEntity, setEnchant, removeEnchant } from "./activeSlice";
-import { getLeft, PIECE_ARRAY } from "./armor";
-import { ENCHANT_ARRAY, getEnchantment, NONE } from "./enchants";
-import { Entity } from "./entity";
-import Icon from "./Icons";
-import { DropInput } from "./Parts";
-import { range } from "./Utils";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { selectEntity, setEnchant, removeEnchant } from "../activeSlice";
+import { getLeft, PIECE_ARRAY } from "../calculations/armor";
+import { ENCHANT_ARRAY, getEnchantment, NONE } from "../calculations/enchants";
+import { Entity } from "../calculations/entity";
+import Icon from "../utility/Icons";
+import { DropInput } from "../utility/Parts";
+import { range } from "../utility/Utils";
 const nomar = require('nomar');
 
 interface EnchantContainerType {

@@ -1,4 +1,4 @@
-import { Entry, exclusion, getValue, remove, set, shallowCopy } from "./map";
+import { Entry, exclusion, getValue, remove, set, shallowCopy } from "../utility/map";
 
 export interface Enchantment extends Entry<string, number> {
 

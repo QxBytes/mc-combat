@@ -1,5 +1,5 @@
 
-import { Weapon } from "../weapon/weapon";
+import { Weapon } from "../../weapon/weapon";
 import * as d from './damageTypes';
 import * as e from './effects';
 
@@ -29,6 +29,12 @@ export function equals(dmg1: Damage, dmg2: Damage) {
             return true;
     }
     return false;
+}
+export function defaultDamage() {
+    return {amount: 7, type: d.MELEE, ticks: 10}
+}
+export function copy(dmg: Damage) {
+    return {amount: dmg.amount, ticks: dmg.ticks, type: dmg.type}
 }
 /*
 export class Damage implements DamageType {

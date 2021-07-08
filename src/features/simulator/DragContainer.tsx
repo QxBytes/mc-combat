@@ -4,7 +4,7 @@ import update from 'immutability-helper'
 import { useAppDispatch } from '../../app/hooks'
 import { moveDamage, selectDamages } from '../item/activeSlice'
 import { useSelector } from 'react-redux'
-import { DamageItem } from '../item/damage'
+import { DamageItem } from '../item/calculations/damage'
 import { Row, Col } from 'react-bootstrap'
 
 const style = {

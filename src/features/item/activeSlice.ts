@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { stringify } from "querystring";
 import { RootState } from "../../app/store";
-import * as a from "./armor";
-import * as e from "./enchants";
-import * as d from "./damageTypes";
-import * as f from "./effects";
-import { Entity, MAX_SETUPS, removeSetup as removeEntity } from "./entity";
-import { Damage, DamageItem, find } from "./damage";
+import * as a from "./calculations/armor";
+import * as e from "./calculations/enchants";
+import * as d from "./calculations/damageTypes";
+import * as f from "./calculations/effects";
+import { Entity, MAX_SETUPS, removeSetup as removeEntity } from "./calculations/entity";
+import { Damage, DamageItem, find } from "./calculations/damage";
 import { defaultWeapon, Weapon } from "../weapon/weapon";
 
 export interface matchState {
@@ -42,7 +42,7 @@ const initialState : matchState = {
         */
     ],
     damage: {
-        amount: 1,
+        amount: 7,
         type: d.MELEE,
         ticks: 10
     },

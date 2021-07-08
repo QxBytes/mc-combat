@@ -5,7 +5,7 @@ export const EXPLOSION = 'Explosion';
 export const PROJECTILE = 'Projectile';
 export const MAGIC = 'Magic';
 
-export const DAMAGE_ARRAY = [FIRE, MELEE, FALL, EXPLOSION, PROJECTILE, MAGIC];
+export const DAMAGE_ARRAY = [MELEE, FALL, EXPLOSION, FIRE, PROJECTILE, MAGIC];
 
 export function baseDamageType(val: string) {
     for (let item of DAMAGE_ARRAY) {
