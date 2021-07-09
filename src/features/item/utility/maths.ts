@@ -1,10 +1,10 @@
+import functionPlot from "function-plot";
 import { Armor, getSetArmor, getSetEPF, getSetToughness } from "../calculations/armor";
 import { Damage } from "../calculations/damage";
-import { Entity } from "../calculations/entity";
 import * as d from "../calculations/damageTypes";
 import * as e from "../calculations/effects";
-import { getEffect, getEffectLevel } from "../calculations/effects";
-import functionPlot from "function-plot";
+import { getEffectLevel } from "../calculations/effects";
+import { Entity } from "../calculations/entity";
 
 export function bound(value : number, min : number, max: number) {
     if (value < min) {
@@ -72,10 +72,10 @@ export function damageEquation(dmg: Damage, target : Entity, legacy? : boolean) 
     let def = getSetArmor(target.armor);
     let tough = getSetToughness(target.armor);
     if (affectedByArmor(dmg.type)) {
-        return "x * (1 - min(20, max( " + def + "/5, " + def + "- (4* x / (" + tough + "+8)) ))/25) * " 
-        + EPF + " * " + res;
+        return "max(0, x * (1 - min(20, max( " + def + "/5, " + def + "- (4* x / (" + tough + "+8)) ))/25) * " 
+        + EPF + " * " + res + ")";
     } else {
-        return "x * " + EPF + " * " + res;
+        return "max(0, x * " + EPF + " * " + res + ")";
     }
 }
 function damageEquationLegacy(dmg: Damage, target: Entity) : string {
@@ -83,9 +83,9 @@ function damageEquationLegacy(dmg: Damage, target: Entity) : string {
     let res = resistanceFactor(getEffectLevel(target.effects, e.RESISTANCE.key) || 0);
     let def = getSetArmor(target.armor);
     if (affectedByArmor(dmg.type)) {
-        return "x * (1 -  (" + (def * 4)  + ") *"
-        + EPF + " * " + res;
+        return "max(0, x * (1 -  (" + (def * 4)  + ") *"
+        + EPF + " * " + res + ")";
     } else {
-        return "x * " + EPF + " * " + res;
+        return "max(0, x * " + EPF + " * " + res + ")";
     }
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, ButtonGroup } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { selectEntity, setEnchant, removeEnchant } from "../activeSlice";
+import { removeEnchant, selectEntity, setEnchant } from "../activeSlice";
 import { getLeft, PIECE_ARRAY } from "../calculations/armor";
 import { ENCHANT_ARRAY, getEnchantment, NONE } from "../calculations/enchants";
 import { Entity } from "../calculations/entity";
@@ -150,7 +150,7 @@ export function Add(props : AddType) {
         }
         */
        props.validate(name, level, setLevel);
-    }, [level, name]);
+    }, [level, name, props]);
     return (
         (!editing ) ? 
             (

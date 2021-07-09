@@ -1,13 +1,11 @@
 import { Col } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../../app/hooks";
-import { selectEntity, setEffect } from "../activeSlice";
-import { removeEffect } from "../activeSlice";
+import { removeEffect, selectEntity, setEffect } from "../activeSlice";
 import { EFFECTS, ENTITY_EFFECTS, excludeEffect, getEffect } from "../calculations/effects";
-import { Add, ItemBadge } from "./EnchantContainer";
 import { getEnchantment, NONE } from "../calculations/enchants";
-import { Entity } from "../calculations/entity";
 import { range } from "../utility/Utils";
+import { Add, ItemBadge } from "./EnchantContainer";
 
 export interface EffectContainerType {
     entity: number

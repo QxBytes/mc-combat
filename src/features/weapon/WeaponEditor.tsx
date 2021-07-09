@@ -1,27 +1,24 @@
 import React, { useState } from "react";
-import { Button, ButtonGroup, Col, Form, Row, Image } from "react-bootstrap";
+import { Button, ButtonGroup, Col, Form, Row } from "react-bootstrap";
 import NumericInput from "react-numeric-input";
-import { fullCharge, getDamage, getDamageEquation, getSeconds, getTicks, percentCharge, preset, toString } from "./weapon";
-import { Collapseable, DropInput } from "../item/utility/Parts";
-import { defaultWeapon, FIST, makeWeapon, TRIDENT, Weapon, WEAPONS, WEAPON_MATERIALS } from "./weapon";
-import { WeaponDamageGraph } from "./WeaponDamageGraph";
-import { WeaponGraph } from "./WeaponGraph";
-import { ItemBadge } from "../item/setups/EnchantContainer";
-import { ENCHANT_ARRAY, getEnchantment, SHARPNESS } from "../item/calculations/enchants";
-import { getEffect, setEffect, STRENGTH, WEAKNESS } from "../item/calculations/effects";
-import { range, round } from "../item/utility/Utils";
-
-
-import heart from '../item/images/half_heart_lg.png';
+import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../app/hooks";
 import { selectDamage, setDamage, setDamageTicks, setDamageType } from "../item/activeSlice";
 import { Damage, equals } from "../item/calculations/damage";
-import { useSelector } from "react-redux";
-import Icon from "../item/utility/Icons";
+import { getEffect, setEffect, STRENGTH, WEAKNESS } from "../item/calculations/effects";
+import { SHARPNESS } from "../item/calculations/enchants";
+import { ItemBadge } from "../item/setups/EnchantContainer";
 import { SyncSave } from "../item/SyncSave";
+import { Tip } from "../item/utility/Icons";
+import { Collapseable, DropInput } from "../item/utility/Parts";
+import { range, round } from "../item/utility/Utils";
+import { defaultWeapon, FIST, fullCharge, getDamage, getDamageMultiplier, getSeconds, getTicks, MIN_CRITICAL_CHARGE, percentCharge, preset, toString, TRIDENT, Weapon, WEAPONS, WEAPON_MATERIALS } from "./weapon";
+import { WeaponDamageGraph } from "./WeaponDamageGraph";
+import { WeaponGraph } from "./WeaponGraph";
+
+
 
 const _ = require('lodash');
-const nomar = require('nomar');
 export function WeaponEditor() {
     const dispatch = useAppDispatch();
     const globalDamage = useSelector(selectDamage);
@@ -40,7 +37,7 @@ export function WeaponEditor() {
     }
     
     return (
-        <div className={equals(getDamageObj(weapon), globalDamage) ? "active-calculator" : ""}>
+        <div className={equals(getDamageObj(weapon), globalDamage) ? "active-calculator" : "inactive-calculator"}>
         <Row>
             
         <Col xs={12} lg={6} className="text-left">
@@ -66,6 +63,7 @@ export function WeaponEditor() {
                     />
                 }
                 </ButtonGroup>
+                
                 <Form.Check custom inline label={"Attempt Critical"} type="checkbox" name="critical"
                     checked={weapon.critical}
                     id={`critical`}
@@ -73,6 +71,18 @@ export function WeaponEditor() {
                         const x = c(); x.critical = !weapon.critical; setWeapon(x);
                     }}
                 />
+                { 
+                getDamageMultiplier(weapon) < MIN_CRITICAL_CHARGE ? 
+                <>
+                <span id="no-critical">❌ No critical hit</span>
+                <Tip 
+                    target="no-critical"
+                    val="Wait longer between attacks to perform a critical"
+                    pos="top"
+                />
+                </>
+                : ""
+                }
                 </Col>
             </Row>
             <Row>
@@ -123,7 +133,7 @@ export function WeaponEditor() {
                 name={WEAKNESS.key}
                 value={(getEffect(weapon.effects, WEAKNESS.key) || {value:0}).value}
                 getValidValues={ () => {
-                    return (range(1, 4))}}
+                    return (range(1, 2))}}
                 onValueChange={(val) => {
                     const x = c(); setEffect(x.effects, WEAKNESS.key, (val)); setWeapon(x);
                 }}

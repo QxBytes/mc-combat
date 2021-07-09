@@ -1,4 +1,4 @@
-import { Armor, BOOTS, CHESTPLATE, getSetArmor, getSetToughness, HELMET, LEGGINGS, make, NONE } from "./armor";
+import { Armor, BOOTS, CHESTPLATE, HELMET, LEGGINGS, make, NONE } from "./armor";
 import { ABSORPTION, Effect, getEffect, getEffectLevel, HEALTH_BOOST, RESISTANCE } from "./effects";
 const nomar = require('nomar');
 export const MAX_SETUPS = 8;

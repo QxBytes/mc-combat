@@ -1,17 +1,11 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { selectCount, incrementByAmount } from "../counter/counterSlice";
-import { Entity } from "./calculations/entity";
-import * as a from "./calculations/armor";
-import { takeDamage } from "./utility/maths";
-import * as d from "./calculations/damageTypes";
-import * as e from "./calculations/enchants";
+import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { incrementByAmount, selectCount } from "../counter/counterSlice";
 
 export function Active() {
   const count = useAppSelector(selectCount);
   const dispatch = useAppDispatch();
-  const [incrementAmount, setIncrementAmount] = useState('2');
+  const [incrementAmount] = useState('2');
 
   const incrementValue = Number(incrementAmount) || 0;
 

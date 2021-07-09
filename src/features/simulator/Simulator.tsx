@@ -2,15 +2,11 @@ import { useState } from "react";
 import { Form, Table } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { selectDamages, selectEntity } from "../item/activeSlice";
-import { Damage, DamageItem } from "../item/calculations/damage";
+import { DamageItem } from "../item/calculations/damage";
 import { maxHealth, summary } from "../item/calculations/entity";
-import { Tip } from "../item/utility/Icons";
 import { takeDamage } from "../item/utility/maths";
 import { elementwiseAdd, getColor, getDeltaColor, getPresetColor, round } from "../item/utility/Utils";
-import { getDamage, getSeconds, toString, Weapon } from "../weapon/weapon";
-
-const CHANGES = 'Changes';
-const STEPS = 'Steps';
+import { getSeconds } from "../weapon/weapon";
 
 export function Simulator() {
     const entities = useSelector(selectEntity);

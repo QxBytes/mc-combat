@@ -1,15 +1,10 @@
-import { FC, useState, useCallback } from 'react'
-import { Card } from './DamageCard'
-import update from 'immutability-helper'
+import { FC } from 'react'
+import { Col, Row } from 'react-bootstrap'
+import { useSelector } from 'react-redux'
 import { useAppDispatch } from '../../app/hooks'
 import { moveDamage, selectDamages } from '../item/activeSlice'
-import { useSelector } from 'react-redux'
 import { DamageItem } from '../item/calculations/damage'
-import { Row, Col } from 'react-bootstrap'
-
-const style = {
-  width: 400,
-}
+import { Card } from './DamageCard'
 
 export interface Item {
   id: number

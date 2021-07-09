@@ -1,13 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { stringify } from "querystring";
 import { RootState } from "../../app/store";
 import * as a from "./calculations/armor";
-import * as e from "./calculations/enchants";
+import { Damage, DamageItem, find } from "./calculations/damage";
 import * as d from "./calculations/damageTypes";
 import * as f from "./calculations/effects";
-import { Entity, MAX_SETUPS, removeSetup as removeEntity } from "./calculations/entity";
-import { Damage, DamageItem, find } from "./calculations/damage";
-import { defaultWeapon, Weapon } from "../weapon/weapon";
+import * as e from "./calculations/enchants";
+import { Entity, removeSetup as removeEntity } from "./calculations/entity";
 
 export interface matchState {
     setups: Entity[],

@@ -1,15 +1,14 @@
-import functionPlot from "function-plot";
 import React, { useState } from "react";
-import { Row, Col, ButtonGroup, Button } from "react-bootstrap";
+import { Button, ButtonGroup, Col, Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../../app/hooks";
 import { addSetup, removeSetup, selectEntity } from "../activeSlice";
 import { getSetArmor, getSetToughness } from "../calculations/armor";
 import { Entity, getDefaultSetup, maxHealth, maxSetups, summary } from "../calculations/entity";
-import { EntityContainer } from "./EntityContainer";
 import Icon from "../utility/Icons";
 import { ArmorBar, Collapseable, HealthBar, ToughnessBar } from "../utility/Parts";
 import { getPresetColor } from "../utility/Utils";
+import { EntityContainer } from "./EntityContainer";
 const Scroll   = require('react-scroll');
 const Element  = Scroll.Element;
 const _ = require('lodash');

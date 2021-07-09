@@ -1,17 +1,17 @@
 import { useState } from "react";
-import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { selectEntity, selectDamage, setDamageType } from "./activeSlice";
+import { Col, Form, Row, Table } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { selectDamage, selectEntity } from "./activeSlice";
 import { getSetEPF } from "./calculations/armor";
 import { Damage } from "./calculations/damage";
-import { Entity } from "./calculations/entity";
-import { takeDamage } from "./utility/maths";
-import { getColor, getPresetColor, round } from "./utility/Utils";
 import * as d from './calculations/damageTypes';
-import { Col, Form, Row, Table } from "react-bootstrap";
-import functionPlot from "function-plot";
 import { DAMAGE_ARRAY } from "./calculations/damageTypes";
+import { Entity } from "./calculations/entity";
+import { Tip } from "./utility/Icons";
+import { takeDamage } from "./utility/maths";
 import { HalfHeart } from "./utility/Parts";
-import { useSelector } from "react-redux";
+import { getColor, getPresetColor, round } from "./utility/Utils";
 
 const TAKEN = "Damage Taken";
 const RESISTANCE = "% Resistance";
@@ -38,7 +38,7 @@ export function DamageSummaryTable() {
                     <tr>
                         {
                         DAMAGE_ARRAY.map( (item) => 
-                            <DamageHeader type={item} />)
+                            <DamageHeader id={"header-" + item} type={item} />)
                         }
                     </tr>
                 </thead>
@@ -49,6 +49,12 @@ export function DamageSummaryTable() {
                         })
                     }
                 </tbody>
+                <Tip target={"header-" + d.MELEE} val={"ex: mobs, players, lava, cactus"} pos="top" />
+                <Tip target={"header-" + d.FALL} val={"ex: falling off a cliff"} pos="top" />
+                <Tip target={"header-" + d.EXPLOSION} val={"ex: tnt, creeper, crossbow with damaging firework"} pos="top" />
+                <Tip target={"header-" + d.FIRE} val={"ex: burning while on fire"} pos="top" />
+                <Tip target={"header-" + d.PROJECTILE} val={"ex: fireballs, arrows, thrown trident, shulker bullets"} pos="top" />
+                <Tip target={"header-" + d.MAGIC} val={"ex: instant damage, poison"} pos="top" />
             </Table>
             <Form className="text-left p-1">
                 <div key={"table-settings"}>
@@ -70,12 +76,12 @@ export function DamageSummaryTable() {
     );
 }
 interface DamageHeaderType {
-    type: string
+    type: string,
+    id: string
 }
 export function DamageHeader(props: DamageHeaderType)  {
-    const [hover, setHover] = useState(false);
+    //const [hover] = useState(false);
     const damage : Damage = useAppSelector(selectDamage);
-    const dispatch = useAppDispatch();
     return (
         
         <th 
@@ -86,8 +92,8 @@ export function DamageHeader(props: DamageHeaderType)  {
             Just remove the {} and you should be fine
             In between tags, however, you need {}
             */
-        
-        className={hover || damage.type.includes(props.type) ? "highlighted fade-transition" : "fade-transition"}
+        id={props.id}
+        className={damage.type.includes(props.type) ? "highlighted fade-transition" : "fade-transition"}
         
         >
             {props.type}

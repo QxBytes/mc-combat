@@ -85,6 +85,11 @@ tr {
 }
 .active-calculator {
     border-left: 3px solid $accent;
+    transition: .2s all ease-in
+}
+.inactive-calculator {
+    border-left: 3px solid transparent;
+    transition: .2s all ease-in
 }
 
 

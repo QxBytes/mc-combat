@@ -1,8 +1,7 @@
-import { Item } from "./item";
-import * as e from './enchants';
 import * as d from './damageTypes';
-import { Enchantment, hasEnchantment, getEnchantment } from "./enchants";
-import { stringify } from "querystring";
+import * as e from './enchants';
+import { Enchantment, getEnchantment, hasEnchantment } from "./enchants";
+import { Item } from "./item";
 
 export const LEATHER = 'Leather';
 export const CHAINMAIL = 'Chainmail';
@@ -158,6 +157,13 @@ export function getSetToughness(set : Armor[]) : number {
         total += item.toughness;
     });
     return total;
+}
+export function invalidEnchants(piece: Armor) : boolean {
+    let limit = 2;
+    if (hasEnchantment(piece.enchantments, e.FEATHER_FALLING.key)) {
+        limit += 1;
+    }
+    return piece.enchantments.length >= limit;
 }
 /*
 export class Armor implements Item {

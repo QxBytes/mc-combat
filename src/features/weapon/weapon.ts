@@ -1,9 +1,6 @@
-import { Item } from "../item/calculations/item";
-import { bound } from "../item/utility/maths";
-import * as e from "../item/calculations/enchants";
-import { DIAMOND, IRON, GOLDEN, NETHERITE, NONE } from "../item/calculations/armor";
-import { Effect, getEffectLevel, makeEffect, setEffect, STRENGTH, WEAKNESS } from "../item/calculations/effects";
 import functionPlot from "function-plot";
+import { DIAMOND, GOLDEN, IRON, NETHERITE, NONE } from "../item/calculations/armor";
+import { Effect, getEffectLevel, setEffect, STRENGTH, WEAKNESS } from "../item/calculations/effects";
 import { round } from "../item/utility/Utils";
 const _ = require('lodash');
 const nomar = require('nomar');
@@ -185,7 +182,7 @@ export function getStrengthBonus(w: Weapon) {
 export function getWeaknessBonus(w: Weapon) {
     return -(4 * (getEffectLevel(w.effects, WEAKNESS.key) || 0));
 }
-
+export const MIN_CRITICAL_CHARGE= .848;
 export function getCriticalMultiplier(w : Weapon) : number {
     return functionPlot.$eval.builtIn(
         {fn: getCriticalEquation(w)}, 'fn', {x:w.ticksSinceLast});
@@ -195,7 +192,8 @@ export function getCriticalEquation(w : Weapon) : string {
     //Negative = No critical allowed
     // 0 or +1 /2 --> [0,.5] --> [1, 1.5]
     if (w.critical) {
-        return "(max(0, sign(" + getDamageMultiplierEquation(w) + "- .848))/2 + 1)";
+        return "(max(0, sign(" + getDamageMultiplierEquation(w) + "- " + 
+        MIN_CRITICAL_CHARGE + "))/2 + 1)";
     }
     return "1";
 }
@@ -209,13 +207,19 @@ export function getDamage(w : Weapon): number {
 }
 export function getDamageEquation(w : Weapon): string {
     let multiplier = getDamageMultiplierEquation(w);
-    let eq =  "(" + w.damage + "*(" + multiplier + ")+" + getStrengthBonus(w) + "+" + getWeaknessBonus(w)+
-     ") *" + getCriticalEquation(w) + "+" + getEnchantEquation(w);
+    /*
+    let eq =  "max(0, (" + w.damage + "*(" + multiplier + ")+" + 
+    getStrengthBonus(w) + "+" + getWeaknessBonus(w)+
+     ") *" + getCriticalEquation(w) + "+" + getEnchantEquation(w) + ")";
+     */
+     let eq =  "max(0, (" + w.damage + "+" + 
+     getStrengthBonus(w) + "+" + getWeaknessBonus(w)+
+      ") *(" + multiplier + ") *" + getCriticalEquation(w) + "+" + getEnchantEquation(w) + ")";
     //console.log("Damage vs time: " + eq);
      return eq;
 }
 export function getTicks(seconds: number) {
-    return seconds * 20;
+    return Math.round(seconds * 20);
 }
 export function getSeconds(ticks: number) {
     return ticks / 20;

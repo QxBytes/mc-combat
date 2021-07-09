@@ -1,4 +1,4 @@
-import { ButtonGroup, Button } from "react-bootstrap";
+import { Button, ButtonGroup, Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { saveDamage, selectDamage, setDamage, setDamageTicks, setDamageType } from "./activeSlice";
 import { Damage, equals } from "./calculations/damage";
@@ -7,7 +7,8 @@ import { HalfHeart } from "./utility/Parts";
 import { round } from "./utility/Utils";
 
 interface SyncSaveType {
-    dmg: Damage
+    dmg: Damage,
+    label?: string
 }
 export function SyncSave(props: SyncSaveType) {
     const dispatch = useDispatch();
@@ -50,5 +51,22 @@ export function SyncSave(props: SyncSaveType) {
             </Button>
         </ButtonGroup>
         </>
+    );
+}
+export function SyncSaveRow(props: SyncSaveType) {
+    return (
+        <Row>
+            <Col md={6} lg={8}>
+            </Col>
+            <SyncSaveColumn dmg={props.dmg} label={props.label} />
+        </Row>
+    );
+}
+export function SyncSaveColumn(props: SyncSaveType) {
+    return (
+        <Col md={6} lg={4} className="text-right">
+                <span className="align-middle">{props.label}</span>
+                <SyncSave dmg={props.dmg}/>
+        </Col>
     );
 }

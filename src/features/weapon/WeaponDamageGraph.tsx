@@ -1,6 +1,4 @@
 import { Col } from "react-bootstrap";
-import { useSelector } from "react-redux";
-import { selectDamage } from "../item/activeSlice";
 import { CollapsableGraph } from "../item/DamageGraph";
 import { fullChargeDamage, getDamageEquation, Weapon } from "./weapon";
 
@@ -8,7 +6,6 @@ export interface WeaponDamageGraphType {
     weapon: Weapon
 }
 export function WeaponDamageGraph(props: WeaponDamageGraphType) {
-    const damage = useSelector(selectDamage);
     const getFunctions = () => {
         let data = [];
         let attackDamageEquation = getDamageEquation(props.weapon);

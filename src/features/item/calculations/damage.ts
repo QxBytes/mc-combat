@@ -1,7 +1,5 @@
 
-import { Weapon } from "../../weapon/weapon";
 import * as d from './damageTypes';
-import * as e from './effects';
 
 export interface Damage {
     amount: number,

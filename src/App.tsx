@@ -21,7 +21,7 @@ function App() {
       <Container fluid className="main-container">
         <Navbar bg="danger" expand="lg">
           <Nav className="mr-auto">
-            Ok
+            Minecraft Combat Simulator
           </Nav>
         </Navbar>
         <Row>

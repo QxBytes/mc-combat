@@ -1,38 +1,39 @@
 import React, { useState } from "react";
-import { Button, Col, Collapse, Dropdown, DropdownButton, Image } from "react-bootstrap";
-import Icon from "./Icons";
-
-import no_heart from '../images/no_heart.png';
-import half_heart from '../images/half_heart.png';
-import full_heart from '../images/full_heart.png';
-
-import half_heart_lg from '../images/half_heart_lg.png';
-
-import no_armor from '../images/no_armor.png';
-import half_armor from '../images/half_armor.png';
-import full_armor from '../images/full_armor.png';
-import { Tooltip } from "reactstrap";
-import { Placement } from "react-bootstrap/esm/Overlay";
-import { useAppDispatch } from "../../../app/hooks";
+import { Button, Collapse, Dropdown, DropdownButton, Image } from "react-bootstrap";
 import { setDamage, setDamageTicks, setDamageType } from "../activeSlice";
 import { Damage } from "../calculations/damage";
+import full_armor from '../images/full_armor.png';
+import full_heart from '../images/full_heart.png';
+import half_armor from '../images/half_armor.png';
+import half_heart from '../images/half_heart.png';
+import half_heart_lg from '../images/half_heart_lg.png';
+import no_armor from '../images/no_armor.png';
+import Icon from "./Icons";
 
 
-export function sync(dispatch: any, dmg: Damage, setter: (d: Damage) => void) {
+
+
+
+export function sync(dispatch: any, dmg: Damage, setter?: (d: Damage) => void) {
+    if (setter) {
+        setter(dmg);
+    }
     dispatch(setDamageTicks(dmg.ticks));
     dispatch(setDamage(dmg.amount));
     dispatch(setDamageType(dmg.type));
-    setter(dmg);
+    
 }
+
 export interface DropInputType {
     selected: string,
     inputs: string[],
+    className?: string,
     onDropClicked: (item : string) => void
 }
 export function DropInput(props: DropInputType) {
 
     return (
-        <DropdownButton title={props.selected}>
+        <DropdownButton className={props.className} title={props.selected}>
         {
             props.inputs.map( (item) => 
                 <Dropdown.Item onClick={(e : any) => {

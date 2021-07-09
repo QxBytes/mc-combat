@@ -1,14 +1,14 @@
+import update from "immutability-helper";
 import { useState } from "react";
-import { Row, Col } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import NumericInput from "react-numeric-input";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../../app/hooks";
-import { selectDamage, setDamageTicks } from "../activeSlice";
-import { defaultDamage, equals } from "../calculations/damage";
+import { selectDamage } from "../activeSlice";
+import { equals } from "../calculations/damage";
 import { FALL } from "../calculations/damageTypes";
-import { sync } from "../utility/Parts"
-import update from "immutability-helper";
 import { SyncSave } from "../SyncSave";
+import { sync } from "../utility/Parts";
 
 export function Fall() {
     const dispatch = useAppDispatch();
@@ -24,7 +24,7 @@ export function Fall() {
     }
     return (
         <div className={equals(localDamage, globalDamage) || equals(minFallDamage(), globalDamage)
-            ? "active-calculator" : ""}>
+            ? "active-calculator" : "inactive-calculator"}>
             <Row>
                 <Col md={6} lg={8}>
                 <span>Fall Height: </span>

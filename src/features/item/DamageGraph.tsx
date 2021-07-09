@@ -1,10 +1,7 @@
-import { timeStamp } from "console";
 import functionPlot from "function-plot";
 import { FunctionPlotAnnotation, FunctionPlotOptions } from "function-plot/dist/types";
-import React from "react";
-import { useEffect, useLayoutEffect, useState } from "react";
-import { Button, ButtonGroup, Col, Collapse, Row } from "react-bootstrap";
-import { propTypes } from "react-bootstrap/esm/Image";
+import React, { useEffect, useLayoutEffect, useState } from "react";
+import { Button, Col, Collapse, Row } from "react-bootstrap";
 import { useAppSelector } from "../../app/hooks";
 import { selectDamage, selectEntity } from "./activeSlice";
 import { Damage } from "./calculations/damage";

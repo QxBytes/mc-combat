@@ -1,15 +1,14 @@
-import { FC, useRef } from 'react'
-import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd'
-
 import { XYCoord } from 'dnd-core'
+import { FC, useRef } from 'react'
 import { Button, ButtonGroup, Col, Form, Row } from 'react-bootstrap'
+import { DropTargetMonitor, useDrag, useDrop } from 'react-dnd'
 import { useAppDispatch } from '../../app/hooks'
-import { Damage } from '../item/calculations/damage'
-import { removeSetup } from '../item/calculations/entity'
-import Icon from '../item/utility/Icons'
 import { addDamageTimes, removeDamage, saveDamage, toggleDamage } from '../item/activeSlice'
+import { Damage } from '../item/calculations/damage'
+import Icon from '../item/utility/Icons'
 import { HalfHeart } from '../item/utility/Parts'
 import { round } from '../item/utility/Utils'
+
 const _ = require('lodash');
 
 const style = {
