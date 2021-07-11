@@ -5,14 +5,14 @@ import RangeSlider from 'react-bootstrap-range-slider';
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 import { useAppSelector } from "../../app/hooks";
 import { WeaponEditor } from "../weapon/WeaponEditor";
-import { selectDamage } from "./activeSlice";
-import { Damage } from "./calculations/damage";
+import { selectDamage } from "../activeSlice";
+import { Damage } from "../calculations/damage";
 import { DamageGraph } from "./DamageGraph";
 import { DamageSummaryTable } from "./DamageSummary";
-import { Explosion } from "./explosion/Explosion";
-import { Fall } from "./fall/Fall";
-import { GeneralCalculator } from "./GeneralCalculator";
-import { Collapseable } from "./utility/Parts";
+import { Explosion } from "../explosion/Explosion";
+import { Fall } from "../fall/Fall";
+import { GeneralCalculator } from "../general/GeneralCalculator";
+import { Collapseable } from "../utility/Parts";
 
 
 
@@ -57,7 +57,7 @@ export function DamageCalculator(props : DamageCalculatorType) {
             />
 
             <Collapseable 
-            
+            defaultOpen
             title={"Weapon damage calculator"}
             inner={(
                 <WeaponEditor />
@@ -83,7 +83,7 @@ export function DamageCalculator(props : DamageCalculatorType) {
 
             <Collapseable
             defaultOpen
-            title={"Specified Damage vs. Setups"}
+            title={damage.type + " vs. Setups"}
             className="w-100"
             inner={
                     <DamageSummaryTable />

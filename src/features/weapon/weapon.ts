@@ -1,7 +1,8 @@
 import functionPlot from "function-plot";
-import { DIAMOND, GOLDEN, IRON, NETHERITE, NONE } from "../item/calculations/armor";
-import { Effect, getEffectLevel, setEffect, STRENGTH, WEAKNESS } from "../item/calculations/effects";
-import { round } from "../item/utility/Utils";
+import { DIAMOND, GOLDEN, IRON, NETHERITE, NONE } from "../calculations/armor";
+import { Effect, getEffectLevel, setEffect, STRENGTH, WEAKNESS } from "../calculations/effects";
+import { round } from "../utility/Utils";
+
 const _ = require('lodash');
 const nomar = require('nomar');
 //cooldown T = 20 / attackSpeed
@@ -123,23 +124,7 @@ function indexInto(map: Map<string, number[]>, key: string, material: string) {
     return map.get(key)![0];
 }
 export function getEnchantModifier(w: Weapon) : number {
-    /*
-    if (w.type === AXE || w.type === SWORD) {
-        let val = w.sharpness || 0;
-        if(val) {
-            if (val === 1) {
-                val = 1;
-            } else {
-                val = (val - 1) * 0.5 + 1;
-            }
-        }
-        //enchantment penalty
-        let T = 20 / w.attackSpeed;
-        let multiplier = bound((w.ticksSinceLast+0.5) / T, 0, 1);
-        return val * multiplier;
-    }
-    return 0;
-    */
+
     return functionPlot.$eval.builtIn(
         {fn: getEnchantEquation(w)}, 'fn', {x:w.ticksSinceLast});
 }
@@ -252,40 +237,3 @@ export function ticksToFullCharge(w: Weapon) {
 export function percentCharge(w: Weapon) {
     return round(Math.min(100, w.ticksSinceLast*100/ticksToFullCharge(w)));
 }
-/*
-export class MeleeWeapon implements Weapon {
-    constructor (
-        public name: string,
-        public damage : number,
-        public attackSpeed : number,
-        public ticksSinceLast : number,
-        public enchantments : Map<string, number>
-    ) {
-
-    }
-    getDamage() {
-        let multiplier = this.getDamageMultiplier();
-        return this.damage * multiplier;
-    }
-    getEnchantDamage() {
-        return this.getEnchantModifier();
-    }
-    private getDamageMultiplier() : number {
-        let T = 20 / this.attackSpeed;
-        let multiplier = 0.2 + ((this.ticksSinceLast + 0.5) / T)**2 * 0.8;
-        multiplier = bound(multiplier, .2, 1);
-        return multiplier;
-    }
-    private getEnchantModifier() : number {
-        let val = this.enchantments.get(e.SHARPNESS) || 0;
-        if(val) {
-            if (val === 1) {
-                val = 1;
-            } else {
-                val = (val - 1) * 0.5 + 1;
-            }
-        }
-        return val;
-    }
-}
-*/

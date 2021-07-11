@@ -1,6 +1,7 @@
-import * as a from '../item/calculations/armor';
-import { Entity } from '../item/calculations/entity';
-import { takeDamage } from '../item/utility/maths';
+import * as a from '../calculations/armor';
+import { Entity } from '../calculations/entity';
+import { takeDamage } from '../utility/maths';
+
 import * as w from './weapon';
 
 describe('weapon damage calculator', () => {
@@ -9,6 +10,7 @@ describe('weapon damage calculator', () => {
     const weapon3 = w.makeWeapon(w.TRIDENT, a.DIAMOND, w.getTicks(.05), false, 5, 0, 0);
     const weapon4 = w.makeWeapon(w.SWORD, w.WOODEN, 30, false, 0, 0, 0);
     const weapon5 = w.makeWeapon(w.SWORD, a.NETHERITE, 10, false, 5, 0, 0);
+    const weapon6 = w.makeWeapon(w.SHOVEL, a.NETHERITE, w.getTicks(.5), false, 1, 2, 1);
     
     const entity1: Entity = {
         armor: [
@@ -40,5 +42,8 @@ describe('weapon damage calculator', () => {
         expect(w.getDamageMultiplier(weapon3)).toBeCloseTo(.2054);
         expect(w.getEnchantModifier(weapon3)).toBeCloseTo(0);
         expect(w.getDamage(weapon3)).toBeCloseTo(1.8486);
+    });
+    it ('should return the correct damage with weakness and strength', () => {
+        expect(w.getDamage(weapon6)).toBeCloseTo(3.574);
     });
 });

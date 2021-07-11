@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, ButtonGroup } from "react-bootstrap";
-import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { removeEnchant, selectEntity, setEnchant } from "../activeSlice";
 import { getLeft, PIECE_ARRAY } from "../calculations/armor";
 import { ENCHANT_ARRAY, getEnchantment, NONE } from "../calculations/enchants";
@@ -82,21 +82,15 @@ export function ItemBadge(props : ItemBadgeType) {
                 selected={nomar(props.value)} 
                 onDropClicked={(val) => {
                     props.onValueChange(nomar(val));
-                    /*
-                    dispatch(
-                        setEnchant(
-                            {entity: props.entity, name: props.enchant.key, level: nomar(val), slot: props.slot}))
-                            */
                 }}
                 inputs={
                     nomar(props.getValidValues())
-                    //nomar(range(1,getEnchantment(ENCHANT_ARRAY, props.enchant.key)+1))
+                    
                 }
             />
             <Button onClick={(e) => {
                 props.onDelete();
-                //dispatch(
-                //removeEnchant({entity: props.entity, name:props.enchant.key, slot: props.slot}))
+                
             }}>
                 {/*&#10006;*/}
                 <Icon val="close" />
@@ -118,8 +112,6 @@ interface AddType {
 }
 
 export function Add(props : AddType) {
-//    const entity : Entity = useAppSelector(selectEntity)[props.entity];
-//    const dispatch = useAppDispatch();
     const [editing, setEditing] = useState(false);
     const [name, setName] = useState("None");
     const [level, setLevel] = useState(1);
@@ -135,26 +127,15 @@ export function Add(props : AddType) {
         return false;
     }
     const reset = () => {
-        /*
-        setName(NONE.key);
-        setLevel(1);
-        */
        setName(props.defaultName);
        setLevel(props.defaultValue);
     }
     useEffect( () => {
-        //validate inputs
-        /*
-        if (level > getEnchantment(ENCHANT_ARRAY, enchant)) {
-            setLevel(getEnchantment(ENCHANT_ARRAY, enchant));
-        }
-        */
        props.validate(name, level, setLevel);
     }, [level, name, props]);
     return (
         (!editing ) ? 
             (
-                //getLeft(PIECE_ARRAY[props.slot], entity.armor[props.slot].enchantments).length 
                 props.getValid().length > 1)
             ? 
             (<Button onClick={() => {reset(); setEditing(true);} }>
@@ -176,7 +157,6 @@ export function Add(props : AddType) {
                         setName(val)
                     } 
                     inputs={
-                        //getLeft(PIECE_ARRAY[props.slot], entity.armor[props.slot].enchantments)
                         props.getValid()
                     }
                 />
@@ -187,14 +167,11 @@ export function Add(props : AddType) {
                     } 
                     inputs={
                         nomar(
-                            //range(1,getEnchantment(ENCHANT_ARRAY, enchant)+1)
                             props.getValidValues(name)
                         )
                     }
                 />
                 <Button autoFocus onClick={(e) => {
-                        //dispatch(setEnchant(
-                        //{entity: props.entity, name: enchant, level: level, slot: props.slot}));
                         props.onSave(name, level);
                         setEditing(false);
                     }}>

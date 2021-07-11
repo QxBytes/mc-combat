@@ -3,13 +3,13 @@ import { FunctionPlotAnnotation, FunctionPlotOptions } from "function-plot/dist/
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { Button, Col, Collapse, Row } from "react-bootstrap";
 import { useAppSelector } from "../../app/hooks";
-import { selectDamage, selectEntity } from "./activeSlice";
-import { Damage } from "./calculations/damage";
-import { baseDamageType } from "./calculations/damageTypes";
-import { Entity, MAX_SETUPS } from "./calculations/entity";
-import Icon from "./utility/Icons";
-import { damageEquation } from "./utility/maths";
-import { range } from "./utility/Utils";
+import { selectDamage, selectEntity } from "../activeSlice";
+import { Damage } from "../calculations/damage";
+import { baseDamageType } from "../calculations/damageTypes";
+import { Entity, MAX_SETUPS } from "../calculations/entity";
+import Icon from "../utility/Icons";
+import { damageEquation } from "../utility/maths";
+import { range } from "../utility/Utils";
 
 
 //https://stackoverflow.com/questions/19014250/rerender-view-on-browser-resize-with-react
@@ -70,7 +70,6 @@ export function CollapsableGraph(props: CollapsableGraphType) {
         for (let i = props.data.length ; i <= MAX_SETUPS ; i++) {
             options.data.push({fn: "-999999",  range:[0,0]});
         }
-        //console.log("Data: " + options.data.length);
         functionPlot(options)
     }
     useEffect(refresh);

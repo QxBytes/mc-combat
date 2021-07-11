@@ -5,12 +5,12 @@ import NumericInput from "react-numeric-input";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../app/hooks";
 import { getSeconds, getTicks } from "../weapon/weapon";
-import { selectDamage } from "./activeSlice";
-import { copy, defaultDamage, equals } from "./calculations/damage";
-import { DAMAGE_ARRAY } from "./calculations/damageTypes";
-import { SyncSave } from "./SyncSave";
-import EditInPlace from "./utility/EditInPlace";
-import { DropInput, HalfHeart, sync } from "./utility/Parts";
+import { selectDamage } from "../activeSlice";
+import { copy, defaultDamage, equals } from "../calculations/damage";
+import { DAMAGE_ARRAY } from "../calculations/damageTypes";
+import { SyncSave } from "../calculator/SyncSave";
+import EditInPlace from "../utility/EditInPlace";
+import { DropInput, HalfHeart, sync } from "../utility/Parts";
 
 export function GeneralCalculator() {
     const dispatch = useAppDispatch();

@@ -84,11 +84,15 @@ tr {
     padding-right: 10px;
 }
 .active-calculator {
+    @extend .smooth-transition;
     border-left: 3px solid $accent;
-    transition: .2s all ease-in
 }
 .inactive-calculator {
+    @extend .smooth-transition;
     border-left: 3px solid transparent;
+    
+}
+.smooth-transition {
     transition: .2s all ease-in
 }
 
@@ -140,6 +144,9 @@ tr {
 
 
 .h-simulator {
+    max-height: 87vh;
+}
+.h-simulator-container {
     height: 87vh;
 }
 .overflow-scroll {

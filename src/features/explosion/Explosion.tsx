@@ -3,18 +3,18 @@ import { useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import NumericInput from "react-numeric-input";
 import { useSelector } from "react-redux";
-import { useAppDispatch } from "../../../app/hooks";
+import { useAppDispatch } from "../../app/hooks";
 import { selectDamage } from "../activeSlice";
 import { equals } from "../calculations/damage";
 import { EXPLOSION } from "../calculations/damageTypes";
-import { SyncSaveRow } from "../SyncSave";
+import { SyncSaveRow } from "../calculator/SyncSave";
 import { DropInput, sync } from "../utility/Parts";
 
 export function Explosion() {
     const dispatch = useAppDispatch();
     const globalDamage = useSelector(selectDamage);
-    const [localDamage, setDamage] = useState( {amount: 57, type: EXPLOSION, ticks: 10} )
-    const [power, setPower] = useState(4);
+    const [localDamage, setDamage] = useState( {amount: 71, type: EXPLOSION, ticks: 10} )
+    const [power, setPower] = useState(5);
     const [distance, setDistance] = useState(0);
     const [exposure, setExposure] = useState(1);
     const EASY = 'Easy (x 0.5)';
@@ -23,11 +23,11 @@ export function Explosion() {
     const [difficulty, setDifficulty] = useState(NORMAL);
 
     const EXPLOSION_TYPES = [
-        "7 Wither Explosion", "6 End Crystal", "6 Charged Creeper",
-        "5 Bed Explosion", "5 Respawn Anchor Explosion", "4 TNT",
+        "7 Wither Spawn", "6 End Crystal", "6 Charged Creeper",
+        "5 Bed", "5 Respawn Anchor", "4 TNT",
         "3 Creeper", "1 Ghast Fireball", "1 Wither Skull", "0 Custom"
     ];
-    const [type, setType] = useState("4 TNT");
+    const [type, setType] = useState("5 Bed");
 
     const explosionDamage = (power: number, distance: number, exposure: number, difficulty: string) : number => {
         
@@ -39,10 +39,16 @@ export function Explosion() {
         if (difficulty === HARD) multiplier = 1.5;
         return Math.floor( (impact * impact + impact) * 7 * power * multiplier + 1);
     }
+    const summary = (power: number, distance: number, exposure: number, difficulty: string, type: string) => {
+        return power + " " + type.split(" ").slice(1).join(" ") + " " + EXPLOSION + " · " + 
+            distance + " blocks away · " + (exposure*100) + "% exposure · " + difficulty;
+    }
     useEffect( () => {
         setDamage(
             update(localDamage, 
-                {amount: {$set: explosionDamage(power, distance, exposure, difficulty)}}));
+                {amount: {$set: explosionDamage(power, distance, exposure, difficulty)},
+                 type: {$set: summary(power, distance, exposure, difficulty, type)}
+                }));
         sync(dispatch, localDamage);
     }, [localDamage, power, distance, exposure, difficulty, type, dispatch]);
     return (

@@ -1,20 +1,14 @@
 import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
+import { Col, Container, Nav, Navbar, Row } from 'react-bootstrap';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import './App.css';
 import './cc.scss';
-import { Active } from './features/item/Active';
-import { ArmorSlot } from './features/item/setups/ArmorSlot';
-import { Col, Container, Nav, Navbar, Row } from 'react-bootstrap';
-import { DamageCalculator } from './features/item/DamageCalculator';
-import { EntityContainer } from './features/item/setups/EntityContainer';
-import { SetupContainer } from './features/item/setups/SetupContainer';
+import { DamageCalculator } from './features/calculator/DamageCalculator';
+import { SetupContainer } from './features/setups/SetupContainer';
 import { DragContainer } from './features/simulator/DragContainer';
-import { DndProvider } from 'react-dnd'
-import { HTML5Backend } from 'react-dnd-html5-backend'
 import { Simulator } from './features/simulator/Simulator';
 import { SimulatorHeader } from './features/simulator/SimulatorHeader';
-
 function App() {
   return (
     <div className="App">

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "../../app/store";
+import { RootState } from "../app/store";
 import * as a from "./calculations/armor";
 import { Damage, DamageItem, find } from "./calculations/damage";
 import * as d from "./calculations/damageTypes";
@@ -25,19 +25,6 @@ const initialState : matchState = {
         effects: [], 
         family: 'player' 
         },
-        /*
-        {
-            armor: [
-                a.make(a.GOLDEN, a.HELMET, [{key: "fire protection", value: 3}]),
-                a.make(a.GOLDEN, a.CHESTPLATE, [{key: "blast protection", value: 2}, e.copy(e.PROJECTILE_PROTECTION)]),
-                a.make(a.GOLDEN, a.LEGGINGS, [{key: "projectile protection", value: 1}]),
-                a.make(a.GOLDEN, a.BOOTS, [e.copy(e.PROTECTION), e.copy(e.FEATHER_FALLING),
-                  e.copy(e.BLAST_PROTECTION), e.copy(e.PROJECTILE_PROTECTION), e.copy(e.FIRE_PROTECTION)])
-              ], 
-            effects: [], 
-            family: 'player' 
-        }
-        */
     ],
     damage: {
         amount: 7,

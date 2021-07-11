@@ -1,17 +1,17 @@
 import { useState } from "react";
 import { Col, Form, Row, Table } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { selectDamage, selectEntity } from "./activeSlice";
-import { getSetEPF } from "./calculations/armor";
-import { Damage } from "./calculations/damage";
-import * as d from './calculations/damageTypes';
-import { DAMAGE_ARRAY } from "./calculations/damageTypes";
-import { Entity } from "./calculations/entity";
-import { Tip } from "./utility/Icons";
-import { takeDamage } from "./utility/maths";
-import { HalfHeart } from "./utility/Parts";
-import { getColor, getPresetColor, round } from "./utility/Utils";
+import { useAppSelector } from "../../app/hooks";
+import { selectDamage, selectEntity } from "../activeSlice";
+import { getSetEPF } from "../calculations/armor";
+import { Damage } from "../calculations/damage";
+import * as d from '../calculations/damageTypes';
+import { DAMAGE_ARRAY } from "../calculations/damageTypes";
+import { Entity } from "../calculations/entity";
+import { Tip } from "../utility/Icons";
+import { takeDamage } from "../utility/maths";
+import { HalfHeart } from "../utility/Parts";
+import { getColor, getPresetColor, round } from "../utility/Utils";
 
 const TAKEN = "Damage Taken";
 const RESISTANCE = "% Resistance";

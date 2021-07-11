@@ -3,11 +3,11 @@ import { FC, useRef } from 'react'
 import { Button, ButtonGroup, Col, Form, Row } from 'react-bootstrap'
 import { DropTargetMonitor, useDrag, useDrop } from 'react-dnd'
 import { useAppDispatch } from '../../app/hooks'
-import { addDamageTimes, removeDamage, saveDamage, toggleDamage } from '../item/activeSlice'
-import { Damage } from '../item/calculations/damage'
-import Icon from '../item/utility/Icons'
-import { HalfHeart } from '../item/utility/Parts'
-import { round } from '../item/utility/Utils'
+import { addDamageTimes, removeDamage, saveDamage, toggleDamage } from '../activeSlice'
+import { Damage } from '../calculations/damage'
+import Icon from '../utility/Icons'
+import { HalfHeart } from '../utility/Parts'
+import { round } from '../utility/Utils'
 
 const _ = require('lodash');
 
@@ -33,7 +33,7 @@ interface DragItem {
   id: string
   type: string
 }
-
+/* A working example yay! */
 export const Card: FC<CardProps> = ({ id, visible, times, damage, index, moveCard }) => {
   const dispatch = useAppDispatch();
 

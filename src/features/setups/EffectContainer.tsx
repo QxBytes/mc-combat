@@ -1,8 +1,8 @@
 import { Col } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { useAppDispatch } from "../../../app/hooks";
+import { useAppDispatch } from "../../app/hooks";
 import { removeEffect, selectEntity, setEffect } from "../activeSlice";
-import { EFFECTS, ENTITY_EFFECTS, excludeEffect, getEffect } from "../calculations/effects";
+import { EFFECTS, ENTITY_EFFECTS, excludeEffect, getEffect, Effect } from "../calculations/effects";
 import { getEnchantment, NONE } from "../calculations/enchants";
 import { range } from "../utility/Utils";
 import { Add, ItemBadge } from "./EnchantContainer";
@@ -16,7 +16,7 @@ export function EffectContainer(props: EffectContainerType) {
     return (
         <Col>
         {
-            entity.effects.map( (item) => {
+            entity.effects.map( (item: Effect) => {
             return (
                 <ItemBadge
                     name={item.key}

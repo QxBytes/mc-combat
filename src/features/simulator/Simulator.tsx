@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Form, Table } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { selectDamages, selectEntity } from "../item/activeSlice";
-import { DamageItem } from "../item/calculations/damage";
-import { maxHealth, summary } from "../item/calculations/entity";
-import { takeDamage } from "../item/utility/maths";
-import { elementwiseAdd, getColor, getDeltaColor, getPresetColor, round } from "../item/utility/Utils";
+import { selectDamages, selectEntity } from "../activeSlice";
+import { DamageItem } from "../calculations/damage";
+import { Entity, maxHealth, summary } from "../calculations/entity";
+import { takeDamage } from "../utility/maths";
+import { elementwiseAdd, getColor, getDeltaColor, getPresetColor, round } from "../utility/Utils";
 import { getSeconds } from "../weapon/weapon";
 
 export function Simulator() {
@@ -47,7 +47,7 @@ export function Simulator() {
             <th>
             Time
             </th>
-            {entities.map( (item, index) => {
+            {entities.map( (item: Entity, index: number) => {
                 return (
                     <>
                     
@@ -65,15 +65,15 @@ export function Simulator() {
         );
     }
     const renderBody = () => {
-        let hp = entities.map((item) => maxHealth(item));
+        let hp = entities.map((item: Entity) => maxHealth(item));
         let time = 0;
-        let maxHp = entities.map((item) => maxHealth(item));
+        let maxHp = entities.map((item: Entity) => maxHealth(item));
         const renderDamages = () => {
             let initial = (
                 <SimulatorRow
                     deltaTime={0}
                     newTime={time}
-                    deltaHp={entities.map( (item) => 0)}
+                    deltaHp={entities.map( (item: any) => 0)}
                     newHp={hp}
                     maxHp={maxHp}
                     index={-1}
@@ -83,7 +83,7 @@ export function Simulator() {
                     showResults={true}
                 />
             );
-            let rows = damages.map( (damageItem: DamageItem, index) => {
+            let rows = damages.map( (damageItem: DamageItem, index: number) => {
                 if (damageItem.visible === false) {
                     return "";
                 }
@@ -93,7 +93,7 @@ export function Simulator() {
 
                     //update the values one step forward
                     time += damage.ticks;
-                    let deltaHp = entities.map( (entity) => {
+                    let deltaHp = entities.map( (entity: Entity) => {
                         return -takeDamage(damage, entity);
                     });
                     hp = elementwiseAdd(hp, deltaHp);
@@ -138,7 +138,7 @@ export function Simulator() {
         <div className="container-bottom">
             {renderSettings()}
         </div>
-        <div className="container-bottom overflow-scroll h-simulator">
+        <div className="container-bottom overflow-scroll h-simulator h-simulator-container">
             
         <Table className="simulator-table text-left">
             <thead>

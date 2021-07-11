@@ -51,7 +51,7 @@ export function takeDamage(dmg : Damage, target : Entity, legacy? : boolean) {
     let type = dmg.type;
     //console.log("Damage type: " + type);
     //console.log("Raw damage: " + atk);
-    //HEY ATK IS AT THE FRONT!
+    //ATK IS AT THE FRONT!
     let afterArmor = atk * armorFactor(atk, type, target.armor);
     //console.log("After armor: " + afterArmor);
     let afterEPF = afterArmor * EPFFactor(type, target.armor);

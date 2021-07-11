@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, ButtonGroup, Col, Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { useAppDispatch } from "../../../app/hooks";
+import { useAppDispatch } from "../../app/hooks";
 import { addSetup, removeSetup, selectEntity } from "../activeSlice";
 import { getSetArmor, getSetToughness } from "../calculations/armor";
 import { Entity, getDefaultSetup, maxHealth, maxSetups, summary } from "../calculations/entity";

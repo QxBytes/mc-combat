@@ -1,10 +1,10 @@
 import { Button, ButtonGroup, Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { saveDamage, selectDamage, setDamage, setDamageTicks, setDamageType } from "./activeSlice";
-import { Damage, equals } from "./calculations/damage";
-import Icon from "./utility/Icons";
-import { HalfHeart } from "./utility/Parts";
-import { round } from "./utility/Utils";
+import { saveDamage, selectDamage, setDamage, setDamageTicks, setDamageType } from "../activeSlice";
+import { Damage, equals } from "../calculations/damage";
+import Icon from "../utility/Icons";
+import { HalfHeart } from "../utility/Parts";
+import { round } from "../utility/Utils";
 
 interface SyncSaveType {
     dmg: Damage,

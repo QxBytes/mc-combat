@@ -1,6 +1,7 @@
 
+import { Entry, set, get, getValue, remove, exclusion } from "../utility/map";
 import { NONE } from "./enchants";
-import { Entry, exclusion, get, getValue, remove, set } from "../utility/map";
+
 
 export const RESISTANCE = {key: 'resistance', value: 4};
 export const HEALTH_BOOST = {key: 'health boost', value: 4};

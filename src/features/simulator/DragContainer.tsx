@@ -2,8 +2,8 @@ import { FC } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 import { useAppDispatch } from '../../app/hooks'
-import { moveDamage, selectDamages } from '../item/activeSlice'
-import { DamageItem } from '../item/calculations/damage'
+import { moveDamage, selectDamages } from '../activeSlice'
+import { DamageItem } from '../calculations/damage'
 import { Card } from './DamageCard'
 
 export interface Item {
@@ -19,17 +19,7 @@ export const DragContainer: FC = () => {
     const moveCard = 
       (dragIndex: number, hoverIndex: number) => {
         dispatch(moveDamage({from:dragIndex, to:hoverIndex}));
-        /*
-        const dragCard = cards[dragIndex]
-        setCards(
-          update(cards, {
-            $splice: [
-              [dragIndex, 1],
-              [hoverIndex, 0, dragCard],
-            ],
-          }),
-        )
-        */
+        
     }
     
 
@@ -55,7 +45,7 @@ export const DragContainer: FC = () => {
                     <h5 className="text-left bottom-border p-1">Drag to reorder</h5>
                 </Col>
             </Row>
-          {damages.map((card, i) => renderCard(card, i))}
+          {damages.map((card: DamageItem, i: number) => renderCard(card, i))}
         </div>
       </>
     )

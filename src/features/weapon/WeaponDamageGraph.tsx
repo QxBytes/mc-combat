@@ -1,5 +1,6 @@
 import { Col } from "react-bootstrap";
-import { CollapsableGraph } from "../item/DamageGraph";
+import { CollapsableGraph } from "../calculator/DamageGraph";
+
 import { fullChargeDamage, getDamageEquation, Weapon } from "./weapon";
 
 export interface WeaponDamageGraphType {

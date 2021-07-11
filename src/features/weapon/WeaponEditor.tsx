@@ -3,16 +3,16 @@ import { Button, ButtonGroup, Col, Form, Row } from "react-bootstrap";
 import NumericInput from "react-numeric-input";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../app/hooks";
-import { selectDamage, setDamage, setDamageTicks, setDamageType } from "../item/activeSlice";
-import { Damage, equals } from "../item/calculations/damage";
-import { getEffect, setEffect, STRENGTH, WEAKNESS } from "../item/calculations/effects";
-import { SHARPNESS } from "../item/calculations/enchants";
-import { ItemBadge } from "../item/setups/EnchantContainer";
-import { SyncSave } from "../item/SyncSave";
-import { Tip } from "../item/utility/Icons";
-import { Collapseable, DropInput } from "../item/utility/Parts";
-import { range, round } from "../item/utility/Utils";
-import { defaultWeapon, FIST, fullCharge, getDamage, getDamageMultiplier, getSeconds, getTicks, MIN_CRITICAL_CHARGE, percentCharge, preset, toString, TRIDENT, Weapon, WEAPONS, WEAPON_MATERIALS } from "./weapon";
+import { selectDamage, setDamageType, setDamage, setDamageTicks } from "../activeSlice";
+import { Damage, equals } from "../calculations/damage";
+import { getEffect, setEffect, STRENGTH, WEAKNESS } from "../calculations/effects";
+import { SHARPNESS } from "../calculations/enchants";
+import { SyncSave } from "../calculator/SyncSave";
+import { ItemBadge } from "../setups/EnchantContainer";
+import { Tip } from "../utility/Icons";
+import { DropInput, Collapseable } from "../utility/Parts";
+import { round, range } from "../utility/Utils";
+import { AXE, defaultWeapon, FIST, fullCharge, getDamage, getDamageMultiplier, getSeconds, getTicks, MIN_CRITICAL_CHARGE, percentCharge, preset, SWORD, toString, TRIDENT, Weapon, WEAPONS, WEAPON_MATERIALS } from "./weapon";
 import { WeaponDamageGraph } from "./WeaponDamageGraph";
 import { WeaponGraph } from "./WeaponGraph";
 
@@ -109,6 +109,9 @@ export function WeaponEditor() {
             </Row>
         </Col>
         <Col xs={12} lg={6} className="text-left">
+            { 
+            weapon.type === SWORD ||
+            weapon.type === AXE ?
             <ItemBadge 
                 name={SHARPNESS.key}
                 value={weapon.sharpness}
@@ -118,7 +121,8 @@ export function WeaponEditor() {
                     const x = c(); x.sharpness = (val); setWeapon(x);
                 }}
                 onDelete={() => {const x = c(); x.sharpness = (0); setWeapon(x);}}
-            />
+            /> : ""
+            }
             <ItemBadge 
                 name={STRENGTH.key}
                 value={(getEffect(weapon.effects, STRENGTH.key) || {value:0}).value}
