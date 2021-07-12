@@ -1,6 +1,19 @@
 $fg-1: rgb(28,28,28);
 $accent: rgb(163, 226, 255);
+$light: rgb(245, 245, 255);
 
+
+@font-face {
+    font-family: 'upheaval';
+    src: local('upheaval'), url(./fonts/upheavtt.ttf) format('truetype');
+}
+.main-header {
+    font-family: upheaval, serif;
+    color: $light;
+}
+h3, .armor-title {
+    font-family: upheaval, serif;
+}
 
 button.btn-primary {
     color: $fg-1;
@@ -134,6 +147,9 @@ tr {
 }
 .no-wrap {
     white-space: nowrap;
+}
+.muted {
+    opacity: .5;
 }
 
 .annotations {

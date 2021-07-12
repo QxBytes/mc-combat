@@ -42,7 +42,12 @@ export const DragContainer: FC = () => {
         <div className="container-bottom overflow-scroll">
             <Row noGutters>
                 <Col>
-                    <h5 className="text-left bottom-border p-1">Drag to reorder</h5>
+                  { damages.length > 0 ?
+                    <h5 className="text-left bottom-border p-1">Drag to reorder</h5> :
+                    <h5 className="text-left p-1 muted">
+                      Click "Add to simulator" in one of the calculators above to get started.
+                    </h5>
+                  }
                 </Col>
             </Row>
           {damages.map((card: DamageItem, i: number) => renderCard(card, i))}

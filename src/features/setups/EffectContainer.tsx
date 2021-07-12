@@ -15,6 +15,7 @@ export function EffectContainer(props: EffectContainerType) {
     const entity = useSelector(selectEntity)[props.entity];
     return (
         <Col>
+        <span className="armor-title">Effects</span>
         {
             entity.effects.map( (item: Effect) => {
             return (

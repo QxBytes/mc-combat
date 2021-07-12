@@ -32,36 +32,6 @@ const initialState : matchState = {
         ticks: 10
     },
     damages: [
-        {
-            dmg: {
-                type: "Melee",
-                amount: 7,
-                ticks: 10
-            },
-            id: 0,
-            visible: true,
-            times: 1
-        },
-        {
-            dmg: {
-                type: "Melee 2",
-                amount: 3,
-                ticks: 10
-            },
-            id: 1,
-            visible: true,
-            times: 1
-        },
-        {
-            dmg: {
-                type: "Melee 3",
-                amount: 9,
-                ticks: 10
-            },
-            id: 2,
-            visible: true,
-            times: 1
-        },
     ],
     id: 99
 }

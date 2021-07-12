@@ -26,7 +26,7 @@ export function ArmorSlot(props : ArmorSlotType) {
 
         <Row className="container-bottom">
             <Col sm={3} className="min-width-1">
-            <strong className="border-bottom">{PIECE_ARRAY[props.slot]}</strong>
+            <span className="border-bottom armor-title">{PIECE_ARRAY[props.slot]}</span>
 
             <DropInput 
                 selected={getFormatted(entity.armor[props.slot].type)}

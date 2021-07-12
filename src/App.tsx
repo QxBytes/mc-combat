@@ -14,7 +14,7 @@ function App() {
     <div className="App">
       <Container fluid className="main-container">
         <Navbar bg="danger" expand="lg">
-          <Nav className="mr-auto">
+          <Nav className="mr-auto main-header">
             Minecraft Combat Simulator
           </Nav>
         </Navbar>

@@ -18,7 +18,7 @@ export function SimulatorHeader() {
                 scroller.scrollTo('damage-link', {
                     duration: 500,
                     smooth: true})
-            }}>Jump to Damage Editor</Button>
+            }}>Jump to Damage Calculators</Button>
             
             </Col>
             </Row>
