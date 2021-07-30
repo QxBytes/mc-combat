@@ -94,7 +94,7 @@ export function Collapseable(props: CollapseableType) {
             <Collapse in={
                     isOpen()
                 }>
-                <div>{inner!}</div>
+                <div className="pl-2 pr-2">{inner!}</div>
             </Collapse>
         </React.Fragment>
     );
@@ -159,5 +159,5 @@ export function DynamicBar(props: DynamicBarType) {
             );
         }
     }
-    return <span>{elements}</span>;
+    return <span className="no-wrap">{elements}</span>;
 }

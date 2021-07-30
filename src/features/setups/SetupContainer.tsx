@@ -93,7 +93,7 @@ export function SetupContainer() {
                         <Col>
                         {
                         !maxSetups(entities) ?
-                        <Button  onClick={() => dispatch(addSetup(getDefaultSetup()))}>
+                        <Button className="pr-2" onClick={() => dispatch(addSetup(getDefaultSetup()))}>
                             <Icon  val="add" /> New Setup
                         </Button> : ""
                         }

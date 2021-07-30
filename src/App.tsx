@@ -13,8 +13,8 @@ function App() {
   return (
     <div className="App">
       <Container fluid className="main-container">
-        <Navbar bg="danger" expand="lg">
-          <Nav className="mr-auto main-header">
+        <Navbar bg="danger" expand="lg" className="main-header">
+          <Nav className="mr-auto">
             Minecraft Combat Simulator
           </Nav>
         </Navbar>

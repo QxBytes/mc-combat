@@ -1,15 +1,20 @@
 $fg-1: rgb(28,28,28);
 $accent: rgb(163, 226, 255);
 $light: rgb(245, 245, 255);
-
+$navheight: 40px;
 
 @font-face {
     font-family: 'upheaval';
     src: local('upheaval'), url(./fonts/upheavtt.ttf) format('truetype');
 }
-.main-header {
+.navbar.main-header {
     font-family: upheaval, serif;
     color: $light;
+    top: 0;
+    position: fixed;
+    z-index: 990;
+    height: $navheight;
+    width: 100%;
 }
 h3, .armor-title {
     font-family: upheaval, serif;
@@ -73,7 +78,9 @@ tr {
 }
 
 .container-fluid.main-container {
-    
+    padding-top: $navheight;
+    padding-left: 0px;
+    padding-right: 0px;
     overflow-x: hidden;
     overflow-y: hidden;
 }

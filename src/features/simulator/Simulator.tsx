@@ -186,7 +186,7 @@ export function SimulatorRow(props: SimulatorRowType) {
                     {renderName()}
                 </td>
                 <td>
-                    +{getSeconds(props.deltaTime)} sec
+                    +{round(getSeconds(props.deltaTime))} sec
                 </td>
                 {
                 props.deltaHp.map( (num, index) => {
@@ -206,7 +206,7 @@ export function SimulatorRow(props: SimulatorRowType) {
                     {!props.showChanges ? renderName() : ""}
                 </td>
                 <td>
-                    {getSeconds(props.newTime)} sec
+                    {round(getSeconds(props.newTime))} sec
                 </td>
                 {
                 props.newHp.map( (num, index) => {

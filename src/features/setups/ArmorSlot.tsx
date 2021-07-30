@@ -24,7 +24,7 @@ export function ArmorSlot(props : ArmorSlotType) {
     return (
         <React.Fragment>
 
-        <Row className="container-bottom">
+        <Row className="">
             <Col sm={3} className="min-width-1">
             <span className="border-bottom armor-title">{PIECE_ARRAY[props.slot]}</span>
 

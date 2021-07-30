@@ -65,6 +65,7 @@ export function WeaponEditor() {
                 </ButtonGroup>
                 
                 <Form.Check custom inline label={"Attempt Critical"} type="checkbox" name="critical"
+                    
                     checked={weapon.critical}
                     id={`critical`}
                     onChange={ (e) => {
@@ -74,7 +75,7 @@ export function WeaponEditor() {
                 { 
                 getDamageMultiplier(weapon) < MIN_CRITICAL_CHARGE ? 
                 <>
-                <span id="no-critical">❌ No critical hit</span>
+                <span id="no-critical" className="no-wrap">❌ No critical hit</span>
                 <Tip 
                     target="no-critical"
                     val="Wait longer between attacks to perform a critical"
@@ -148,9 +149,9 @@ export function WeaponEditor() {
         </Row>
         <Row>
             <Col className="vc">
-                <span className="p-1">DPS: {round(getDamage(weapon) / getSeconds(weapon.ticksSinceLast))}</span>
+                <span className="p-1 no-wrap">DPS: {round(getDamage(weapon) / getSeconds(weapon.ticksSinceLast))}</span>
                 {weapon.ticksSinceLast < 10 ? 
-                <span>⚠️ Damage triggers 0.5 sec immunity</span>
+                <span className="no-wrap">⚠️ Damage triggers 0.5 sec immunity</span>
                 : ""}
             </Col>
             <Col className="text-right">

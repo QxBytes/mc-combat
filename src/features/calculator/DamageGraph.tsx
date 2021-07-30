@@ -39,7 +39,7 @@ interface CollapsableGraphType {
 }
 export function CollapsableGraph(props: CollapsableGraphType) {
     const [width, height] = useWindowSize();
-    const [toggle, setToggle] = useState(true);
+    const [toggle, setToggle] = useState(false);
     
     const options : FunctionPlotOptions = {
         target: "#" + props.target,
@@ -75,15 +75,17 @@ export function CollapsableGraph(props: CollapsableGraphType) {
     useEffect(refresh);
     return (
         <Row noGutters>
-            { props.hidden ? "" :
+            { !props.hidden ? "" :
                 <Button 
                     className="collapse-btn pr-2"
-                    onClick={ () => {setToggle(!toggle); refresh()} }
+                    onClick={ () => {
+                        setToggle(!toggle); refresh();
+                    } }
                 >
                     {
                         toggle ? 
-                        <Icon val="expand_less"/> :
-                        <Icon val="expand_more"/>
+                        <Icon val="expand_more"/> :
+                        <Icon val="chevron_right"/>
                     }
                     { props.title }
                 </Button>
